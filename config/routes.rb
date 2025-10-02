@@ -67,6 +67,37 @@ Rails.application.routes.draw do
     delete 'obs/disconnect', to: 'obs#disconnect', as: :obs_disconnect
   end
 
+  # API ROUTES
+  # Discord Bot API endpoints
+  namespace :api do
+    namespace :v1 do
+      # User endpoints
+      get 'users/discord/:discord_id', to: 'users#show_by_discord_id'
+      post 'users', to: 'users#create'
+
+      # Loyalty points endpoints
+      get 'users/:user_id/loyalty_points', to: 'loyalty_points#show'
+      post 'users/:user_id/loyalty_points/add', to: 'loyalty_points#add'
+      post 'users/:user_id/loyalty_points/spend', to: 'loyalty_points#spend'
+      get 'loyalty_points/leaderboard', to: 'loyalty_points#leaderboard'
+
+      # Achievement endpoints
+      get 'achievements', to: 'achievements#index'
+      get 'users/:user_id/achievements', to: 'achievements#user_achievements'
+      post 'users/:user_id/achievements', to: 'achievements#award'
+
+      # VC Queue endpoints
+      get 'vc_queue', to: 'vc_queue#index'
+      post 'vc_queue/join', to: 'vc_queue#join'
+      post 'vc_queue/leave/:user_id', to: 'vc_queue#leave'
+      post 'vc_queue/next', to: 'vc_queue#next_in_queue'
+
+      # Mini-games endpoints
+      post 'mini_games/record', to: 'mini_games#record'
+      get 'users/:user_id/mini_games/stats', to: 'mini_games#stats'
+    end
+  end
+
   # HEALTH CHECK ROUTE
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.

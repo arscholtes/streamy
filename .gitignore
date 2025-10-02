@@ -70,3 +70,10 @@ yarn-debug.log*
 
 # StreamHub-specific ignores
 STREAMHUB_MASTER_PLAN.md
+
+# Discord bot
+discord_bot/.env
+discord_bot/*.log
+discord_bot/__pycache__/
+discord_bot/**/__pycache__/
+discord_bot/**/*.pyc

@@ -1410,3 +1410,104 @@ FOREIGN KEY ("user_id")
   [1m[36mActiveRecord::SchemaMigration Create (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20251002101251') RETURNING "version" /*application='RubymineTestProject1'*/[0m
   [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RubymineTestProject1'*/[0m
 Migrating to CreateLoyaltyTransactions (20251002101305)
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='RubymineTestProject1'*/[0m
+Reverting CreateVcQueueEntries (20251002101251)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RubymineTestProject1'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mDROP INDEX "index_vc_queue_on_status_priority_joined" /*application='RubymineTestProject1'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mDROP INDEX "index_vc_queue_entries_on_status" /*application='RubymineTestProject1'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mDROP INDEX "index_vc_queue_entries_on_discord_user_id" /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "vc_queue_entries" /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Destroy (0.0ms)[0m  [1m[31mDELETE FROM "schema_migrations" WHERE "schema_migrations"."version" = '20251002101251' /*application='RubymineTestProject1'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RubymineTestProject1'*/[0m
+Reverting CreateUserAchievements (20251002101250)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RubymineTestProject1'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mDROP INDEX "index_user_achievements_on_earned_at" /*application='RubymineTestProject1'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mDROP INDEX "index_user_achievements_on_user_id_and_achievement_id" /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "user_achievements" /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Destroy (0.0ms)[0m  [1m[31mDELETE FROM "schema_migrations" WHERE "schema_migrations"."version" = '20251002101250' /*application='RubymineTestProject1'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RubymineTestProject1'*/[0m
+Reverting CreateAchievements (20251002101249)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RubymineTestProject1'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mDROP INDEX "index_achievements_on_category" /*application='RubymineTestProject1'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mDROP INDEX "index_achievements_on_name" /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "achievements" /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Destroy (0.0ms)[0m  [1m[31mDELETE FROM "schema_migrations" WHERE "schema_migrations"."version" = '20251002101249' /*application='RubymineTestProject1'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RubymineTestProject1'*/[0m
+Reverting CreateLoyaltyPoints (20251002101248)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE "loyalty_points" /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Destroy (0.0ms)[0m  [1m[31mDELETE FROM "schema_migrations" WHERE "schema_migrations"."version" = '20251002101248' /*application='RubymineTestProject1'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.0ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='RubymineTestProject1'*/[0m
+Migrating to CreateLoyaltyPoints (20251002101248)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "loyalty_points" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "points" integer DEFAULT 0 NOT NULL, "level" integer DEFAULT 1 NOT NULL, "total_earned" integer DEFAULT 0 NOT NULL, "total_spent" integer DEFAULT 0 NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_935d276743"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+) /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_loyalty_points_on_user_id" ON "loyalty_points" ("user_id") /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20251002101248') RETURNING "version" /*application='RubymineTestProject1'*/[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RubymineTestProject1'*/[0m
+Migrating to CreateAchievements (20251002101249)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "achievements" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar NOT NULL, "description" text NOT NULL, "icon" varchar, "category" varchar NOT NULL, "points_reward" integer DEFAULT 0 NOT NULL, "requirement_type" varchar NOT NULL, "requirement_value" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_achievements_on_name" ON "achievements" ("name") /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_achievements_on_category" ON "achievements" ("category") /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20251002101249') RETURNING "version" /*application='RubymineTestProject1'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RubymineTestProject1'*/[0m
+Migrating to CreateUserAchievements (20251002101250)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "user_achievements" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "achievement_id" integer NOT NULL, "earned_at" datetime(6), "progress" integer DEFAULT 0 NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_4efde02858"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+, CONSTRAINT "fk_rails_c44f5b3b25"
+FOREIGN KEY ("achievement_id")
+  REFERENCES "achievements" ("id")
+) /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_user_achievements_on_user_id" ON "user_achievements" ("user_id") /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_user_achievements_on_achievement_id" ON "user_achievements" ("achievement_id") /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_user_achievements_on_user_id_and_achievement_id" ON "user_achievements" ("user_id", "achievement_id") /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_user_achievements_on_earned_at" ON "user_achievements" ("earned_at") /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20251002101250') RETURNING "version" /*application='RubymineTestProject1'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RubymineTestProject1'*/[0m
+Migrating to CreateVcQueueEntries (20251002101251)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "vc_queue_entries" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "discord_user_id" varchar NOT NULL, "priority" integer DEFAULT 0 NOT NULL, "position" integer NOT NULL, "status" varchar DEFAULT 'waiting' NOT NULL, "joined_at" datetime(6) NOT NULL, "left_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_54dd4d1ff5"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+) /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_vc_queue_entries_on_user_id" ON "vc_queue_entries" ("user_id") /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_vc_queue_entries_on_discord_user_id" ON "vc_queue_entries" ("discord_user_id") /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_vc_queue_entries_on_status" ON "vc_queue_entries" ("status") /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_vc_queue_on_status_priority_joined" ON "vc_queue_entries" ("status", "priority", "joined_at") /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20251002101251') RETURNING "version" /*application='RubymineTestProject1'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RubymineTestProject1'*/[0m
+Migrating to CreateLoyaltyTransactions (20251002101305)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "loyalty_transactions" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "transaction_type" varchar NOT NULL, "amount" integer NOT NULL, "description" text, "metadata" json DEFAULT '{}', "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_0e1b477b1e"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+) /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_loyalty_transactions_on_user_id" ON "loyalty_transactions" ("user_id") /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_loyalty_transactions_on_transaction_type" ON "loyalty_transactions" ("transaction_type") /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_loyalty_transactions_on_created_at" ON "loyalty_transactions" ("created_at") /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20251002101305') RETURNING "version" /*application='RubymineTestProject1'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RubymineTestProject1'*/[0m
+Migrating to CreateMiniGameSessions (20251002101306)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "mini_game_sessions" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "game_type" varchar NOT NULL, "bet_amount" integer NOT NULL, "result" varchar NOT NULL, "winnings" integer DEFAULT 0 NOT NULL, "metadata" json DEFAULT '{}', "played_at" datetime(6) NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_c64ece2973"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+) /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_mini_game_sessions_on_user_id" ON "mini_game_sessions" ("user_id") /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_mini_game_sessions_on_game_type" ON "mini_game_sessions" ("game_type") /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_mini_game_sessions_on_played_at" ON "mini_game_sessions" ("played_at") /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_mini_game_sessions_on_user_id_and_played_at" ON "mini_game_sessions" ("user_id", "played_at") /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20251002101306') RETURNING "version" /*application='RubymineTestProject1'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='RubymineTestProject1'*/[0m
