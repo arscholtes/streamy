@@ -1,16 +1,4 @@
 <style>
-  :root {
-    --bg-primary: #0A0E27;
-    --accent-purple: #8B5CF6;
-    --accent-blue: #3B82F6;
-  }
-
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  }
-
   #hero {
     min-height: 100vh;
     display: flex;
@@ -19,45 +7,23 @@
     align-items: center;
     text-align: center;
     background: linear-gradient(135deg, var(--bg-primary) 0%, #1a1f3a 100%);
-    color: white;
-    padding: 2rem;
+    padding: 4rem 2rem;
   }
 
   #hero h1 {
-    font-size: 48px;
+    font-size: 3.5rem;
     font-weight: 700;
-    margin-bottom: 2rem;
-    background: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-blue) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
   }
 
-  #hero button {
-    padding: 1rem 2.5rem;
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: white;
-    background: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-blue) 100%);
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+  #hero p {
+    font-size: 1.25rem;
+    color: var(--text-muted);
+    margin-bottom: 3rem;
+    max-width: 600px;
   }
 
-  #hero button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 25px rgba(139, 92, 246, 0.6);
-  }
-
-  @media (max-width: 768px) {
-    #hero h1 {
-      font-size: 32px;
-    }
-  }
-
-  /* Features Section Styles */
   #features {
     padding: 5rem 2rem;
     background: linear-gradient(135deg, #1a1f3a 0%, var(--bg-primary) 100%);
@@ -71,34 +37,6 @@
     margin: 0 auto;
   }
 
-  .feature-card {
-    background: rgba(139, 92, 246, 0.05);
-    border: 1px solid rgba(139, 92, 246, 0.2);
-    border-radius: 16px;
-    padding: 2rem;
-    text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    color: white;
-  }
-
-  .feature-icon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-  }
-
-  .feature-title {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    color: white;
-  }
-
-  .feature-description {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: rgba(255, 255, 255, 0.8);
-  }
-
   @media (max-width: 1024px) {
     .features-grid {
       grid-template-columns: repeat(2, 1fr);
@@ -109,41 +47,24 @@
     .features-grid {
       grid-template-columns: 1fr;
     }
+    #hero h1 {
+      font-size: 2.5rem;
+    }
   }
 
-  /* Testimonials Section Styles */
   #testimonials {
     padding: 5rem 2rem;
     background: linear-gradient(135deg, var(--bg-primary) 0%, #1a1f3a 100%);
-    position: relative;
   }
 
   .carousel-container {
     max-width: 800px;
     margin: 0 auto;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .carousel-track {
-    display: flex;
-    transition: transform 0.5s ease-in-out;
   }
 
   .testimonial-card {
-    min-width: 100%;
     padding: 3rem 2rem;
-    background: rgba(139, 92, 246, 0.05);
-    border: 1px solid rgba(139, 92, 246, 0.2);
-    border-radius: 16px;
     text-align: center;
-    color: white;
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
-  }
-
-  .testimonial-card.active {
-    opacity: 1;
   }
 
   .testimonial-quote {
@@ -151,6 +72,7 @@
     font-style: italic;
     margin-bottom: 1.5rem;
     line-height: 1.8;
+    color: var(--text-secondary);
   }
 
   .testimonial-author {
@@ -161,7 +83,7 @@
 
   .testimonial-role {
     font-size: 1rem;
-    color: rgba(255, 255, 255, 0.7);
+    color: var(--text-muted);
   }
 
   .carousel-controls {
@@ -170,94 +92,116 @@
     gap: 1rem;
     margin-top: 2rem;
   }
-
-  .carousel-btn-prev, .carousel-btn-next {
-    padding: 0.75rem 1.5rem;
-    background: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-blue) 100%);
-    border: none;
-    border-radius: 50px;
-    color: white;
-    cursor: pointer;
-    font-weight: 600;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
-  }
-
-  .carousel-btn-prev:hover, .carousel-btn-next:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 25px rgba(139, 92, 246, 0.6);
-  }
 </style>
 
 <main>
   <!-- Hero Section -->
-  <section id="hero" data-controller="fade-in">
-    <h1>Building strong brands through technology</h1>
-    <button>Get Started</button>
+  <section id="hero" class="fade-in">
+    <h1 class="gradient-text">
+      The Next Generation<br>Streaming Platform
+    </h1>
+    <p>
+      Stream with deep gaming integration, advanced community tools, and cross-platform automation. Built for creators who want more.
+    </p>
+    <div class="d-flex gap-3">
+      <%= link_to "Get Started Free", signup_path, class: "btn-gradient-primary" %>
+      <%= link_to "Learn More", "#features", class: "btn-outline-gradient" %>
+    </div>
   </section>
 
   <!-- Features Section -->
   <section id="features">
-    <div class="features-grid">
-      <div class="feature-card" data-controller="feature-card">
-        <div class="feature-icon">💻</div>
-        <h3 class="feature-title">Custom Software Development</h3>
-        <p class="feature-description">Tailored solutions designed to meet your unique business needs and drive growth.</p>
+    <div class="text-center mb-5">
+      <h2 class="display-4 mb-3">
+        <span class="gradient-text">Powerful Features</span>
+      </h2>
+      <p class="text-muted fs-5">Everything you need to build your streaming empire</p>
+    </div>
+
+    <div class="features-grid fade-in-delay-1">
+      <div class="glass-card">
+        <div class="stat-card-icon">🎮</div>
+        <h3 class="feature-title">Gaming Integration</h3>
+        <p class="feature-description">Connect Steam, Battle.net, Riot Games, and more. Auto-update your stream with real-time game stats and ranks.</p>
       </div>
 
-      <div class="feature-card" data-controller="feature-card">
-        <div class="feature-icon">📱</div>
-        <h3 class="feature-title">Mobile App Development</h3>
-        <p class="feature-description">Native and cross-platform mobile applications that deliver exceptional user experiences.</p>
+      <div class="glass-card">
+        <div class="stat-card-icon">🤖</div>
+        <h3 class="feature-title">Advanced Discord Bot</h3>
+        <p class="feature-description">100+ commands, VC queues, loyalty points, giveaways, and mini-games. Build an engaged community.</p>
       </div>
 
-      <div class="feature-card" data-controller="feature-card">
-        <div class="feature-icon">🤖</div>
-        <h3 class="feature-title">AI-Powered Solutions</h3>
-        <p class="feature-description">Leverage cutting-edge AI technology to automate processes and gain valuable insights.</p>
+      <div class="glass-card">
+        <div class="stat-card-icon">📱</div>
+        <h3 class="feature-title">Social Automation</h3>
+        <p class="feature-description">Auto-post to Twitter, TikTok, Instagram, and YouTube. One-click clip sharing across all platforms.</p>
       </div>
 
-      <div class="feature-card" data-controller="feature-card">
-        <div class="feature-icon">☁️</div>
-        <h3 class="feature-title">Cloud Integration Services</h3>
-        <p class="feature-description">Seamlessly integrate cloud services to enhance scalability and reliability.</p>
+      <div class="glass-card">
+        <div class="stat-card-icon">💎</div>
+        <h3 class="feature-title">Monetization Tools</h3>
+        <p class="feature-description">Multiple revenue streams with subscriptions, donations, Patreon integration, and affiliate programs.</p>
       </div>
     </div>
   </section>
 
   <!-- Testimonials Section -->
-  <section id="testimonials" data-controller="carousel">
-    <div class="carousel-container">
+  <section id="testimonials" class="fade-in-delay-2">
+    <div class="text-center mb-5">
+      <h2 class="display-4 mb-3">
+        <span class="gradient-text">Loved by Streamers</span>
+      </h2>
+      <p class="text-muted fs-5">See what creators are saying about StreamHub</p>
+    </div>
+
+    <div class="carousel-container" data-controller="carousel">
       <div class="carousel-track">
-        <div class="testimonial-card active" data-carousel-target="card">
-          <p class="testimonial-quote">"C0deMine transformed our business with their innovative solutions. Their team's expertise and dedication exceeded our expectations."</p>
-          <p class="testimonial-author">Sarah Johnson</p>
-          <p class="testimonial-role">CEO, TechStart Inc.</p>
+        <div class="glass-card testimonial-card active" data-carousel-target="card">
+          <p class="testimonial-quote">"StreamHub's game integration is incredible. My viewers love seeing my rank update in real-time. Plus the Discord bot has taken my community to the next level!"</p>
+          <p class="testimonial-author gradient-text">Alex "ProGamer" Chen</p>
+          <p class="testimonial-role">Valorant Streamer • 50K Followers</p>
         </div>
 
-        <div class="testimonial-card" data-carousel-target="card">
-          <p class="testimonial-quote">"Working with C0deMine was a game-changer. They delivered a robust platform that scaled with our growth seamlessly."</p>
-          <p class="testimonial-author">Michael Chen</p>
-          <p class="testimonial-role">CTO, DataFlow Systems</p>
+        <div class="glass-card testimonial-card" data-carousel-target="card">
+          <p class="testimonial-quote">"The social media automation saves me hours every week. Clips go straight to TikTok and Twitter with one click. Game changer for content creators."</p>
+          <p class="testimonial-author gradient-text">Sarah "StreamQueen" Martinez</p>
+          <p class="testimonial-role">Variety Streamer • 100K Followers</p>
         </div>
 
-        <div class="testimonial-card" data-carousel-target="card">
-          <p class="testimonial-quote">"The AI-powered solution from C0deMine helped us automate processes and increase efficiency by 300%. Highly recommended!"</p>
-          <p class="testimonial-author">Emma Williams</p>
-          <p class="testimonial-role">Product Manager, AutoScale</p>
+        <div class="glass-card testimonial-card" data-carousel-target="card">
+          <p class="testimonial-quote">"I switched from Twitch and never looked back. The monetization tools and 48 platform integrations make StreamHub the complete package for serious streamers."</p>
+          <p class="testimonial-author gradient-text">Mike "TheGrinder" Johnson</p>
+          <p class="testimonial-role">WoW Streamer • Partner</p>
         </div>
 
-        <div class="testimonial-card" data-carousel-target="card">
-          <p class="testimonial-quote">"Outstanding service and technical excellence. C0deMine's mobile app exceeded all our requirements and delighted our users."</p>
-          <p class="testimonial-author">David Rodriguez</p>
-          <p class="testimonial-role">Founder, MobileFirst</p>
+        <div class="glass-card testimonial-card" data-carousel-target="card">
+          <p class="testimonial-quote">"As a League streamer, showing my match history and champion mastery automatically on my profile is awesome. My engagement has doubled since joining StreamHub."</p>
+          <p class="testimonial-author gradient-text">Emma "MidLaneGG" Wilson</p>
+          <p class="testimonial-role">League of Legends Streamer • 75K Followers</p>
         </div>
       </div>
 
       <div class="carousel-controls">
-        <button class="carousel-btn-prev" data-action="click->carousel#prev">Previous</button>
-        <button class="carousel-btn-next" data-action="click->carousel#next">Next</button>
+        <button class="btn-gradient-secondary carousel-btn-prev" data-action="click->carousel#prev">
+          <i class="bi bi-arrow-left"></i> Previous
+        </button>
+        <button class="btn-gradient-secondary carousel-btn-next" data-action="click->carousel#next">
+          Next <i class="bi bi-arrow-right"></i>
+        </button>
       </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="text-center py-5 my-5">
+    <div class="container">
+      <h2 class="display-3 mb-4">
+        <span class="gradient-text">Ready to Level Up?</span>
+      </h2>
+      <p class="fs-5 text-muted mb-4">
+        Join thousands of streamers building their community on StreamHub
+      </p>
+      <%= link_to "Start Streaming Free", signup_path, class: "btn-gradient-primary btn-lg" %>
     </div>
   </section>
 </main>

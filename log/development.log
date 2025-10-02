@@ -1124,3 +1124,289 @@ Completed 200 OK in 17ms (Views: 0.7ms | ActiveRecord: 0.1ms (2 queries, 0 cache
 
 
   [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='RubymineTestProject1'*/[0m
+Migrating to CreateIntegrationPrivacySettings (20251002061012)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.7ms)[0m  [1m[35mCREATE TABLE "integration_privacy_settings" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "integration_type" varchar NOT NULL, "integration_id" integer NOT NULL, "user_id" integer NOT NULL, "settings" json DEFAULT '{}' NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_384322586e"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+) /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_privacy_on_integration" ON "integration_privacy_settings" ("integration_type", "integration_id") /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_integration_privacy_settings_on_user_id" ON "integration_privacy_settings" ("user_id") /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_privacy_unique_integration" ON "integration_privacy_settings" ("integration_type", "integration_id") /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20251002061012') RETURNING "version" /*application='RubymineTestProject1'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='RubymineTestProject1'*/[0m
+Started GET "/" for 127.0.0.1 at 2025-10-02 05:49:08 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='RubymineTestProject1'*/[0m
+  
+ActiveRecord::PendingMigrationError (
+
+Migrations are pending. To resolve this issue, run:
+
+        bin/rails db:migrate
+
+You have 1 pending migration:
+
+db/migrate/20251002094713_create_steam_accounts.rb
+
+
+):
+  
+activerecord (8.0.3) lib/active_record/migration.rb:742:in `check_pending_migrations'
+activerecord (8.0.3) lib/active_record/migration.rb:659:in `block (2 levels) in call'
+activesupport (8.0.3) lib/active_support/file_update_checker.rb:85:in `execute'
+activerecord (8.0.3) lib/active_record/migration.rb:664:in `block in call'
+activerecord (8.0.3) lib/active_record/migration.rb:656:in `synchronize'
+activerecord (8.0.3) lib/active_record/migration.rb:656:in `call'
+actionpack (8.0.3) lib/action_dispatch/middleware/callbacks.rb:31:in `block in call'
+activesupport (8.0.3) lib/active_support/callbacks.rb:100:in `run_callbacks'
+actionpack (8.0.3) lib/action_dispatch/middleware/callbacks.rb:30:in `call'
+actionpack (8.0.3) lib/action_dispatch/middleware/executor.rb:16:in `call'
+actionpack (8.0.3) lib/action_dispatch/middleware/actionable_exceptions.rb:18:in `call'
+actionpack (8.0.3) lib/action_dispatch/middleware/debug_exceptions.rb:31:in `call'
+web-console (4.2.1) lib/web_console/middleware.rb:132:in `call_app'
+web-console (4.2.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `catch'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `call'
+actionpack (8.0.3) lib/action_dispatch/middleware/show_exceptions.rb:32:in `call'
+railties (8.0.3) lib/rails/rack/logger.rb:41:in `call_app'
+railties (8.0.3) lib/rails/rack/logger.rb:29:in `call'
+actionpack (8.0.3) lib/action_dispatch/middleware/remote_ip.rb:96:in `call'
+actionpack (8.0.3) lib/action_dispatch/middleware/request_id.rb:34:in `call'
+rack (3.2.1) lib/rack/method_override.rb:28:in `call'
+rack (3.2.1) lib/rack/runtime.rb:24:in `call'
+actionpack (8.0.3) lib/action_dispatch/middleware/server_timing.rb:61:in `block in call'
+actionpack (8.0.3) lib/action_dispatch/middleware/server_timing.rb:26:in `collect_events'
+actionpack (8.0.3) lib/action_dispatch/middleware/server_timing.rb:60:in `call'
+actionpack (8.0.3) lib/action_dispatch/middleware/executor.rb:16:in `call'
+propshaft (1.3.1) lib/propshaft/server.rb:37:in `call'
+actionpack (8.0.3) lib/action_dispatch/middleware/static.rb:27:in `call'
+rack (3.2.1) lib/rack/sendfile.rb:114:in `call'
+actionpack (8.0.3) lib/action_dispatch/middleware/host_authorization.rb:143:in `call'
+railties (8.0.3) lib/rails/engine.rb:535:in `call'
+puma (7.0.4) lib/puma/configuration.rb:299:in `call'
+puma (7.0.4) lib/puma/request.rb:101:in `block in handle_request'
+puma (7.0.4) lib/puma/thread_pool.rb:346:in `with_force_shutdown'
+puma (7.0.4) lib/puma/request.rb:100:in `handle_request'
+puma (7.0.4) lib/puma/server.rb:506:in `process_client'
+puma (7.0.4) lib/puma/server.rb:265:in `block in run'
+puma (7.0.4) lib/puma/thread_pool.rb:173:in `block in spawn_thread'
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='RubymineTestProject1'*/[0m
+Migrating to CreateSteamAccounts (20251002094713)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "steam_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "steam_id" varchar, "persona_name" varchar, "profile_url" varchar, "avatar_url" varchar, "real_name" varchar, "country_code" varchar, "state_code" varchar, "visibility" integer, "time_created" integer, "last_logoff" integer, "level" integer, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_1e8f3d8ac0"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+) /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_steam_accounts_on_user_id" ON "steam_accounts" ("user_id") /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_steam_accounts_on_steam_id" ON "steam_accounts" ("steam_id") /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20251002094713') RETURNING "version" /*application='RubymineTestProject1'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='RubymineTestProject1'*/[0m
+Started GET "/" for 127.0.0.1 at 2025-10-02 05:49:52 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='RubymineTestProject1'*/[0m
+Processing by DashboardController#index as HTML
+Redirected to http://127.0.0.1:3000/login
+Filter chain halted as :require_login rendered or redirected
+Completed 302 Found in 23ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/login" for 127.0.0.1 at 2025-10-02 05:49:52 -0400
+Processing by SessionsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering sessions/new.html.erb within layouts/application
+  Rendered sessions/new.html.erb within layouts/application (Duration: 1.4ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 13.1ms | GC: 6.0ms)
+Completed 200 OK in 28ms (Views: 14.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 6.0ms)
+
+
+Started POST "/session" for 127.0.0.1 at 2025-10-02 05:50:14 -0400
+Processing by SessionsController#create as TURBO_STREAM
+  Parameters: {"authenticity_token"=>"[FILTERED]", "session"=>{"username"=>"alex.scholtes.test", "password"=>"[FILTERED]"}, "commit"=>"Log In"}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."username" = 'alex.scholtes.test' LIMIT 1 /*action='create',application='RubymineTestProject1',controller='sessions'*/[0m
+  ↳ app/controllers/sessions_controller.rb:25:in `create'
+  [1m[36mUser Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = 'alex.scholtes.test' LIMIT 1 /*action='create',application='RubymineTestProject1',controller='sessions'*/[0m
+  ↳ app/controllers/sessions_controller.rb:26:in `create'
+  Rendering layout layouts/application.html.erb
+  Rendering sessions/new.html.erb within layouts/application
+  Rendered sessions/new.html.erb within layouts/application (Duration: 0.5ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.7ms | GC: 0.1ms)
+Completed 200 OK in 33ms (Views: 2.5ms | ActiveRecord: 1.0ms (2 queries, 0 cached) | GC: 4.7ms)
+
+
+Started POST "/session" for 127.0.0.1 at 2025-10-02 05:50:16 -0400
+Processing by SessionsController#create as TURBO_STREAM
+  Parameters: {"authenticity_token"=>"[FILTERED]", "session"=>{"username"=>"alex.scholtes.test", "password"=>"[FILTERED]"}, "commit"=>"Log In"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."username" = 'alex.scholtes.test' LIMIT 1 /*action='create',application='RubymineTestProject1',controller='sessions'*/[0m
+  ↳ app/controllers/sessions_controller.rb:25:in `create'
+  [1m[36mUser Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = 'alex.scholtes.test' LIMIT 1 /*action='create',application='RubymineTestProject1',controller='sessions'*/[0m
+  ↳ app/controllers/sessions_controller.rb:26:in `create'
+  Rendering layout layouts/application.html.erb
+  Rendering sessions/new.html.erb within layouts/application
+  Rendered sessions/new.html.erb within layouts/application (Duration: 0.3ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 0.6ms | GC: 0.0ms)
+Completed 200 OK in 20ms (Views: 0.8ms | ActiveRecord: 0.1ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/session" for 127.0.0.1 at 2025-10-02 05:50:21 -0400
+Processing by SessionsController#create as TURBO_STREAM
+  Parameters: {"authenticity_token"=>"[FILTERED]", "session"=>{"username"=>"Alex.scholtes.test", "password"=>"[FILTERED]"}, "commit"=>"Log In"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."username" = 'alex.scholtes.test' LIMIT 1 /*action='create',application='RubymineTestProject1',controller='sessions'*/[0m
+  ↳ app/controllers/sessions_controller.rb:25:in `create'
+  [1m[36mUser Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = 'alex.scholtes.test' LIMIT 1 /*action='create',application='RubymineTestProject1',controller='sessions'*/[0m
+  ↳ app/controllers/sessions_controller.rb:26:in `create'
+  Rendering layout layouts/application.html.erb
+  Rendering sessions/new.html.erb within layouts/application
+  Rendered sessions/new.html.erb within layouts/application (Duration: 0.3ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 0.6ms | GC: 0.0ms)
+Completed 200 OK in 18ms (Views: 0.8ms | ActiveRecord: 0.1ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/session" for 127.0.0.1 at 2025-10-02 05:50:22 -0400
+Processing by SessionsController#create as TURBO_STREAM
+  Parameters: {"authenticity_token"=>"[FILTERED]", "session"=>{"username"=>"Alex.scholtes.test", "password"=>"[FILTERED]"}, "commit"=>"Log In"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."username" = 'alex.scholtes.test' LIMIT 1 /*action='create',application='RubymineTestProject1',controller='sessions'*/[0m
+  ↳ app/controllers/sessions_controller.rb:25:in `create'
+  [1m[36mUser Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = 'alex.scholtes.test' LIMIT 1 /*action='create',application='RubymineTestProject1',controller='sessions'*/[0m
+  ↳ app/controllers/sessions_controller.rb:26:in `create'
+  Rendering layout layouts/application.html.erb
+  Rendering sessions/new.html.erb within layouts/application
+  Rendered sessions/new.html.erb within layouts/application (Duration: 0.3ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 0.6ms | GC: 0.0ms)
+Completed 200 OK in 17ms (Views: 0.8ms | ActiveRecord: 0.1ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2025-10-02 05:50:34 -0400
+  
+NoMethodError (undefined method `integration_routes' for an instance of ActionDispatch::Routing::Mapper):
+  
+config/routes.rb:57:in `block (2 levels) in <main>'
+config/routes.rb:56:in `block in <main>'
+config/routes.rb:5:in `<main>'
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='RubymineTestProject1'*/[0m
+Migrating to CreateDiscordAccounts (20251002095402)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE TABLE "discord_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "discord_id" varchar, "username" varchar, "discriminator" varchar, "avatar_url" varchar, "email" varchar, "verified" boolean, "locale" varchar, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_75e145b9e9"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+) /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_discord_accounts_on_user_id" ON "discord_accounts" ("user_id") /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_discord_accounts_on_discord_id" ON "discord_accounts" ("discord_id") /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20251002095402') RETURNING "version" /*application='RubymineTestProject1'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='RubymineTestProject1'*/[0m
+Migrating to CreateBattlenetAccounts (20251002095644)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "battlenet_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "battletag" varchar, "region" varchar, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_7236d533e6"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+) /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_battlenet_accounts_on_user_id" ON "battlenet_accounts" ("user_id") /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_battlenet_accounts_on_battletag" ON "battlenet_accounts" ("battletag") /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20251002095644') RETURNING "version" /*application='RubymineTestProject1'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RubymineTestProject1'*/[0m
+Migrating to CreateRiotAccounts (20251002095656)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "riot_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "puuid" varchar, "game_name" varchar, "tag_line" varchar, "region" varchar, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_835df9f32e"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+) /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_riot_accounts_on_user_id" ON "riot_accounts" ("user_id") /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_riot_accounts_on_puuid" ON "riot_accounts" ("puuid") /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20251002095656') RETURNING "version" /*application='RubymineTestProject1'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RubymineTestProject1'*/[0m
+Migrating to CreateTwitterAccounts (20251002095706)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "twitter_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "twitter_id" varchar, "username" varchar, "name" varchar, "profile_image_url" varchar, "followers_count" integer, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_287de1faaf"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+) /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_twitter_accounts_on_user_id" ON "twitter_accounts" ("user_id") /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_twitter_accounts_on_twitter_id" ON "twitter_accounts" ("twitter_id") /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20251002095706') RETURNING "version" /*application='RubymineTestProject1'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RubymineTestProject1'*/[0m
+Migrating to CreateYoutubeAccounts (20251002095707)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "youtube_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "youtube_id" varchar, "channel_title" varchar, "channel_url" varchar, "subscriber_count" integer, "video_count" integer, "thumbnail_url" varchar, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_d69f838b8f"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+) /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_youtube_accounts_on_user_id" ON "youtube_accounts" ("user_id") /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_youtube_accounts_on_youtube_id" ON "youtube_accounts" ("youtube_id") /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20251002095707') RETURNING "version" /*application='RubymineTestProject1'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RubymineTestProject1'*/[0m
+Migrating to CreateStripeAccounts (20251002095718)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "stripe_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "stripe_id" varchar, "email" varchar, "account_type" varchar, "charges_enabled" boolean, "payouts_enabled" boolean, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_764fb7bcbe"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+) /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_stripe_accounts_on_user_id" ON "stripe_accounts" ("user_id") /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_stripe_accounts_on_stripe_id" ON "stripe_accounts" ("stripe_id") /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20251002095718') RETURNING "version" /*application='RubymineTestProject1'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RubymineTestProject1'*/[0m
+Migrating to CreateObsConnections (20251002095719)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "obs_connections" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "obs_version" varchar, "platform" varchar, "ip_address" varchar, "last_connected_at" datetime(6), "access_token" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_6a505a03a8"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+) /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_obs_connections_on_user_id" ON "obs_connections" ("user_id") /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20251002095719') RETURNING "version" /*application='RubymineTestProject1'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='RubymineTestProject1'*/[0m
+Migrating to CreateLoyaltyPoints (20251002101248)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "loyalty_points" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "points" integer DEFAULT 0 NOT NULL, "level" integer DEFAULT 1 NOT NULL, "total_earned" integer DEFAULT 0 NOT NULL, "total_spent" integer DEFAULT 0 NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_935d276743"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+) /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_loyalty_points_on_user_id" ON "loyalty_points" ("user_id") /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20251002101248') RETURNING "version" /*application='RubymineTestProject1'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RubymineTestProject1'*/[0m
+Migrating to CreateAchievements (20251002101249)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "achievements" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar NOT NULL, "description" text NOT NULL, "icon" varchar, "category" varchar NOT NULL, "points_reward" integer DEFAULT 0 NOT NULL, "requirement_type" varchar NOT NULL, "requirement_value" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_achievements_on_name" ON "achievements" ("name") /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_achievements_on_category" ON "achievements" ("category") /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20251002101249') RETURNING "version" /*application='RubymineTestProject1'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RubymineTestProject1'*/[0m
+Migrating to CreateUserAchievements (20251002101250)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "user_achievements" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "achievement_id" integer NOT NULL, "earned_at" datetime(6), "progress" integer DEFAULT 0 NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_4efde02858"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+, CONSTRAINT "fk_rails_c44f5b3b25"
+FOREIGN KEY ("achievement_id")
+  REFERENCES "achievements" ("id")
+) /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_user_achievements_on_user_id" ON "user_achievements" ("user_id") /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_user_achievements_on_achievement_id" ON "user_achievements" ("achievement_id") /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_user_achievements_on_user_id_and_achievement_id" ON "user_achievements" ("user_id", "achievement_id") /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_user_achievements_on_earned_at" ON "user_achievements" ("earned_at") /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20251002101250') RETURNING "version" /*application='RubymineTestProject1'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RubymineTestProject1'*/[0m
+Migrating to CreateVcQueueEntries (20251002101251)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "vc_queue_entries" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "discord_user_id" varchar NOT NULL, "priority" integer DEFAULT 0 NOT NULL, "position" integer NOT NULL, "status" varchar DEFAULT 'waiting' NOT NULL, "joined_at" datetime(6) NOT NULL, "left_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_54dd4d1ff5"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+) /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_vc_queue_entries_on_user_id" ON "vc_queue_entries" ("user_id") /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_vc_queue_entries_on_discord_user_id" ON "vc_queue_entries" ("discord_user_id") /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_vc_queue_entries_on_status" ON "vc_queue_entries" ("status") /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_vc_queue_on_status_priority_joined" ON "vc_queue_entries" ("status", "priority", "joined_at") /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20251002101251') RETURNING "version" /*application='RubymineTestProject1'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RubymineTestProject1'*/[0m
+Migrating to CreateLoyaltyTransactions (20251002101305)

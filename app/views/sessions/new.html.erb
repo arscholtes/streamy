@@ -8,67 +8,52 @@
 
 <div class="container">
   <div class="row justify-content-center mt-5">
-    <div class="col-md-6">
-      <%# Card component for styling the login form %>
-      <div class="card shadow">
-        <div class="card-header text-center bg-primary text-white">
-          <h2><i class="bi bi-box-arrow-in-right"></i> Login to Your Account</h2>
+    <div class="col-md-6 col-lg-5 fade-in">
+      <%# Glass card for the login form %>
+      <div class="glass-card" style="box-shadow: var(--glow-purple);">
+        <div class="text-center mb-4">
+          <h2 class="gradient-text"><i class="bi bi-box-arrow-in-right"></i> Login to Your Account</h2>
+          <p style="color: var(--text-muted); margin-top: 0.5rem;">Welcome back to StreamHub</p>
         </div>
-        <div class="card-body">
-          <%# Flash messages are now handled in the layout %>
-          <%# form_with is a Rails form helper %>
-          <%# url: session_path - submits to POST /session %>
-          <%# scope: :session - nests params under params[:session] %>
-          <%# local: true - disables Turbo/AJAX (submits normally) %>
-          <%# Learn more: https://guides.rubyonrails.org/form_helpers.html %>
-          <%= form_with url: session_path, scope: :session, local: true do |form| %>
 
-            <%# Username/Email field %>
-            <div class="mb-3">
-              <%# form.label creates a <label> element %>
-              <%= form.label :username, "Username or Email", class: "form-label" %>
+        <%# form_with is a Rails form helper %>
+        <%# url: session_path - submits to POST /session %>
+        <%# scope: :session - nests params under params[:session] %>
+        <%# local: true - disables Turbo/AJAX (submits normally) %>
+        <%= form_with url: session_path, scope: :session, local: true do |form| %>
 
-              <%# form.text_field creates an <input type="text"> element %>
-              <%# class: adds Bootstrap styling %>
-              <%# placeholder: shows hint text inside the input %>
-              <%# required: makes the field required (HTML5 validation) %>
-              <%= form.text_field :username,
-                class: "form-control",
-                placeholder: "Enter your username or email",
-                required: true,
-                autocomplete: "username" %>
-            </div>
-
-            <%# Password field %>
-            <div class="mb-3">
-              <%= form.label :password, "Password", class: "form-label" %>
-
-              <%# form.password_field creates an <input type="password"> element %>
-              <%# This hides the password as the user types %>
-              <%= form.password_field :password,
-                class: "form-control",
-                placeholder: "Enter your password",
-                required: true,
-                autocomplete: "current-password" %>
-            </div>
-
-            <%# Submit button %>
-            <div class="d-grid">
-              <%# form.submit creates a submit button %>
-              <%# "Log In" is the button text %>
-              <%= form.submit "Log In", class: "btn btn-primary btn-block" %>
-            </div>
-          <% end %>
-
-          <%# Link to signup page %>
-          <div class="mt-3 text-center">
-            <p>
-              Don't have an account?
-              <%# link_to creates a hyperlink %>
-              <%# signup_path is the route helper for /signup %>
-              <%= link_to "Sign up here", signup_path %>
-            </p>
+          <%# Username/Email field %>
+          <div class="mb-4">
+            <%= form.label :username, "Username or Email", class: "form-label", style: "color: var(--text-secondary);" %>
+            <%= form.text_field :username,
+              class: "form-control-dark",
+              placeholder: "Enter your username or email",
+              required: true,
+              autocomplete: "username" %>
           </div>
+
+          <%# Password field %>
+          <div class="mb-4">
+            <%= form.label :password, "Password", class: "form-label", style: "color: var(--text-secondary);" %>
+            <%= form.password_field :password,
+              class: "form-control-dark",
+              placeholder: "Enter your password",
+              required: true,
+              autocomplete: "current-password" %>
+          </div>
+
+          <%# Submit button %>
+          <div class="d-grid mb-4">
+            <%= form.submit "Log In", class: "btn-gradient-primary" %>
+          </div>
+        <% end %>
+
+        <%# Link to signup page %>
+        <div class="text-center">
+          <p style="color: var(--text-muted);">
+            Don't have an account?
+            <%= link_to "Sign up here", signup_path, class: "gradient-text", style: "text-decoration: none; font-weight: 600;" %>
+          </p>
         </div>
       </div>
     </div>

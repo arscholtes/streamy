@@ -7,138 +7,112 @@
 
 <div class="container">
   <div class="row justify-content-center mt-5">
-    <div class="col-md-6">
-      <%# Card component for styling the signup form %>
-      <div class="card shadow">
-        <div class="card-header text-center bg-success text-white">
-          <h2><i class="bi bi-person-plus"></i> Create Your Account</h2>
+    <div class="col-md-6 col-lg-5 fade-in">
+      <%# Glass card for the signup form %>
+      <div class="glass-card" style="box-shadow: var(--glow-purple);">
+        <div class="text-center mb-4">
+          <h2 class="gradient-text"><i class="bi bi-person-plus"></i> Create Your Account</h2>
+          <p style="color: var(--text-muted); margin-top: 0.5rem;">Join StreamHub and start streaming</p>
         </div>
-        <div class="card-body">
-          <%# form_with is a Rails form helper %>
-          <%# model: @user - binds form to the User object %>
-          <%# url: registration_path - submits to POST /registration %>
-          <%# local: true - disables Turbo/AJAX (submits normally) %>
-          <%# Learn more: https://guides.rubyonrails.org/form_helpers.html %>
-          <%= form_with model: @user, url: registration_path, local: true do |form| %>
+        <%# form_with is a Rails form helper %>
+        <%# model: @user - binds form to the User object %>
+        <%# url: registration_path - submits to POST /registration %>
+        <%# local: true - disables Turbo/AJAX (submits normally) %>
+        <%= form_with model: @user, url: registration_path, local: true do |form| %>
 
-            <%# Display validation errors if present %>
-            <%# @user.errors.any? returns true if there are validation errors %>
-            <% if @user.errors.any? %>
-              <%# Bootstrap alert component for error messages %>
-              <div class="alert alert-danger" role="alert">
-                <h5 class="alert-heading">
-                  <%= pluralize(@user.errors.count, "error") %> prohibited this account from being saved:
-                </h5>
-                <ul class="mb-0">
-                  <%# Loop through all error messages %>
-                  <% @user.errors.full_messages.each do |message| %>
-                    <li><%= message %></li>
-                  <% end %>
-                </ul>
-              </div>
-            <% end %>
-
-            <%# Username field %>
-            <div class="mb-3">
-              <%# form.label creates a <label> element %>
-              <%= form.label :username, "Username", class: "form-label" %>
-
-              <%# form.text_field creates an <input type="text"> element %>
-              <%# It's automatically bound to @user.username %>
-              <%= form.text_field :username,
-                class: "form-control #{'is-invalid' if @user.errors[:username].any?}",
-                placeholder: "Choose a unique username",
-                required: true,
-                autofocus: true,
-                autocomplete: "username" %>
-
-              <%# Display field-specific error messages %>
-              <% if @user.errors[:username].any? %>
-                <div class="invalid-feedback d-block">
-                  <%= @user.errors[:username].join(", ") %>
-                </div>
-              <% end %>
-
-              <%# Help text %>
-              <div class="form-text">
-                3-50 characters. Letters, numbers, and underscores only.
-              </div>
-            </div>
-
-            <%# Email field %>
-            <div class="mb-3">
-              <%= form.label :email, "Email Address", class: "form-label" %>
-
-              <%# form.email_field creates an <input type="email"> element %>
-              <%# HTML5 will validate email format in the browser %>
-              <%= form.email_field :email,
-                class: "form-control #{'is-invalid' if @user.errors[:email].any?}",
-                placeholder: "Enter your email address",
-                required: true,
-                autocomplete: "email" %>
-
-              <% if @user.errors[:email].any? %>
-                <div class="invalid-feedback d-block">
-                  <%= @user.errors[:email].join(", ") %>
-                </div>
-              <% end %>
-            </div>
-
-            <%# Password field %>
-            <div class="mb-3">
-              <%= form.label :password, "Password", class: "form-label" %>
-
-              <%# form.password_field creates an <input type="password"> element %>
-              <%= form.password_field :password,
-                class: "form-control #{'is-invalid' if @user.errors[:password].any?}",
-                placeholder: "Choose a strong password",
-                required: true,
-                autocomplete: "new-password" %>
-
-              <% if @user.errors[:password].any? %>
-                <div class="invalid-feedback d-block">
-                  <%= @user.errors[:password].join(", ") %>
-                </div>
-              <% end %>
-
-              <%# Help text %>
-              <div class="form-text">
-                Minimum 6 characters.
-              </div>
-            </div>
-
-            <%# Password confirmation field %>
-            <div class="mb-3">
-              <%= form.label :password_confirmation, "Confirm Password", class: "form-label" %>
-
-              <%# User must type password again to confirm %>
-              <%= form.password_field :password_confirmation,
-                class: "form-control #{'is-invalid' if @user.errors[:password_confirmation].any?}",
-                placeholder: "Re-enter your password",
-                required: true,
-                autocomplete: "new-password" %>
-
-              <% if @user.errors[:password_confirmation].any? %>
-                <div class="invalid-feedback d-block">
-                  <%= @user.errors[:password_confirmation].join(", ") %>
-                </div>
-              <% end %>
-            </div>
-
-            <%# Submit button %>
-            <div class="d-grid">
-              <%# form.submit creates a submit button %>
-              <%= form.submit "Create Account", class: "btn btn-success btn-lg" %>
+          <%# Display validation errors if present %>
+          <% if @user.errors.any? %>
+            <div style="background: rgba(239, 68, 68, 0.15); border: 1px solid var(--accent-red); border-radius: var(--radius-md); padding: 1rem; margin-bottom: 1.5rem;">
+              <h5 style="color: var(--accent-red); margin-bottom: 0.75rem;">
+                <%= pluralize(@user.errors.count, "error") %> prohibited this account from being saved:
+              </h5>
+              <ul class="mb-0" style="color: var(--text-secondary);">
+                <% @user.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
             </div>
           <% end %>
 
-          <%# Link to login page %>
-          <div class="mt-3 text-center">
-            <p>
-              Already have an account?
-              <%= link_to "Log in here", login_path %>
-            </p>
+          <%# Username field %>
+          <div class="mb-4">
+            <%= form.label :username, "Username", class: "form-label", style: "color: var(--text-secondary);" %>
+            <%= form.text_field :username,
+              class: "form-control-dark #{'is-invalid' if @user.errors[:username].any?}",
+              placeholder: "Choose a unique username",
+              required: true,
+              autofocus: true,
+              autocomplete: "username" %>
+            <% if @user.errors[:username].any? %>
+              <div class="invalid-feedback d-block">
+                <%= @user.errors[:username].join(", ") %>
+              </div>
+            <% end %>
+            <div class="form-text" style="color: var(--text-muted);">
+              3-50 characters. Letters, numbers, and underscores only.
+            </div>
           </div>
+
+          <%# Email field %>
+          <div class="mb-4">
+            <%= form.label :email, "Email Address", class: "form-label", style: "color: var(--text-secondary);" %>
+            <%= form.email_field :email,
+              class: "form-control-dark #{'is-invalid' if @user.errors[:email].any?}",
+              placeholder: "Enter your email address",
+              required: true,
+              autocomplete: "email" %>
+            <% if @user.errors[:email].any? %>
+              <div class="invalid-feedback d-block">
+                <%= @user.errors[:email].join(", ") %>
+              </div>
+            <% end %>
+          </div>
+
+          <%# Password field %>
+          <div class="mb-4">
+            <%= form.label :password, "Password", class: "form-label", style: "color: var(--text-secondary);" %>
+            <%= form.password_field :password,
+              class: "form-control-dark #{'is-invalid' if @user.errors[:password].any?}",
+              placeholder: "Choose a strong password",
+              required: true,
+              autocomplete: "new-password" %>
+            <% if @user.errors[:password].any? %>
+              <div class="invalid-feedback d-block">
+                <%= @user.errors[:password].join(", ") %>
+              </div>
+            <% end %>
+            <div class="form-text" style="color: var(--text-muted);">
+              Minimum 6 characters.
+            </div>
+          </div>
+
+          <%# Password confirmation field %>
+          <div class="mb-4">
+            <%= form.label :password_confirmation, "Confirm Password", class: "form-label", style: "color: var(--text-secondary);" %>
+            <%= form.password_field :password_confirmation,
+              class: "form-control-dark #{'is-invalid' if @user.errors[:password_confirmation].any?}",
+              placeholder: "Re-enter your password",
+              required: true,
+              autocomplete: "new-password" %>
+            <% if @user.errors[:password_confirmation].any? %>
+              <div class="invalid-feedback d-block">
+                <%= @user.errors[:password_confirmation].join(", ") %>
+              </div>
+            <% end %>
+          </div>
+
+          <%# Submit button %>
+          <div class="d-grid mb-4">
+            <%= form.submit "Create Account", class: "btn-gradient-primary" %>
+          </div>
+        <% end %>
+
+        <%# Link to login page %>
+        <div class="text-center">
+          <p style="color: var(--text-muted);">
+            Already have an account?
+            <%= link_to "Log in here", login_path, class: "gradient-text", style: "text-decoration: none; font-weight: 600;" %>
+          </p>
         </div>
       </div>
     </div>

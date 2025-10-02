@@ -1,0 +1,144 @@
+<%# app/views/integrations/steam/privacy_settings.html.erb %>
+<%# Steam privacy settings configuration page %>
+
+<% content_for :title, "Steam Privacy Settings" %>
+
+<div class="container mt-4 fade-in">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="glass-card">
+        <h2 class="gradient-text mb-4">
+          <i class="bi bi-steam"></i> Steam Privacy Settings
+        </h2>
+
+        <div class="mb-4" style="background: rgba(59, 130, 246, 0.15); border: 1px solid var(--accent-blue); border-radius: var(--radius-md); padding: 1rem;">
+          <i class="bi bi-info-circle" style="color: var(--accent-blue);"></i>
+          <strong style="color: var(--accent-blue);">Privacy First</strong>
+          <p class="mb-0" style="color: var(--text-secondary); margin-top: 0.5rem;">
+            Choose what information from your Steam account you want to display on your StreamHub profile.
+            All settings default to private for your security.
+          </p>
+        </div>
+
+        <%= form_with url: integrations_steam_privacy_settings_path, method: :post, local: true do |form| %>
+          <%# Profile Section %>
+          <div class="mb-4">
+            <h4 style="color: var(--text-primary); margin-bottom: 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 0.5rem;">
+              Profile Information
+            </h4>
+            <% @settings_schema[:profile].each do |setting| %>
+              <div class="form-check mb-3">
+                <%= check_box_tag(
+                  "privacy_settings[#{setting[:key]}]",
+                  true,
+                  @privacy_setting.show?(setting[:key]) || setting[:default],
+                  class: 'form-check-input',
+                  id: "privacy_#{setting[:key]}"
+                ) %>
+                <%= label_tag(
+                  "privacy_#{setting[:key]}",
+                  setting[:label],
+                  class: 'form-check-label',
+                  style: 'color: var(--text-secondary);'
+                ) %>
+              </div>
+            <% end %>
+          </div>
+
+          <%# Games Section %>
+          <div class="mb-4">
+            <h4 style="color: var(--text-primary); margin-bottom: 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 0.5rem;">
+              Games & Achievements
+            </h4>
+            <% @settings_schema[:games].each do |setting| %>
+              <div class="form-check mb-3">
+                <%= check_box_tag(
+                  "privacy_settings[#{setting[:key]}]",
+                  true,
+                  @privacy_setting.show?(setting[:key]) || setting[:default],
+                  class: 'form-check-input',
+                  id: "privacy_#{setting[:key]}"
+                ) %>
+                <%= label_tag(
+                  "privacy_#{setting[:key]}",
+                  setting[:label],
+                  class: 'form-check-label',
+                  style: 'color: var(--text-secondary);'
+                ) %>
+              </div>
+            <% end %>
+          </div>
+
+          <%# Activity Section %>
+          <div class="mb-4">
+            <h4 style="color: var(--text-primary); margin-bottom: 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 0.5rem;">
+              Activity & Status
+            </h4>
+            <% @settings_schema[:activity].each do |setting| %>
+              <div class="form-check mb-3">
+                <%= check_box_tag(
+                  "privacy_settings[#{setting[:key]}]",
+                  true,
+                  @privacy_setting.show?(setting[:key]) || setting[:default],
+                  class: 'form-check-input',
+                  id: "privacy_#{setting[:key]}"
+                ) %>
+                <%= label_tag(
+                  "privacy_#{setting[:key]}",
+                  setting[:label],
+                  class: 'form-check-label',
+                  style: 'color: var(--text-secondary);'
+                ) %>
+              </div>
+            <% end %>
+          </div>
+
+          <div class="d-flex gap-3 mt-4">
+            <%= form.submit 'Save Privacy Settings', class: 'btn-gradient-primary' %>
+            <%= link_to 'Cancel', settings_path, class: 'btn-outline-gradient' %>
+          </div>
+        <% end %>
+      </div>
+
+      <%# Account Info Card %>
+      <div class="glass-card mt-4">
+        <h5 class="mb-3 gradient-text">
+          <i class="bi bi-person-circle"></i> Connected Steam Account
+        </h5>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <% if @integration_account.avatar_url.present? %>
+            <%= image_tag @integration_account.avatar_url,
+              style: "width: 64px; height: 64px; border-radius: var(--radius-md); border: 2px solid rgba(139, 92, 246, 0.5);" %>
+          <% end %>
+          <div>
+            <p style="margin-bottom: 0.5rem;"><strong style="color: var(--text-primary);"><%= @integration_account.persona_name %></strong></p>
+            <p class="mb-0" style="color: var(--text-muted); font-size: 0.875rem;">
+              Steam ID: <%= @integration_account.steam_id %>
+            </p>
+            <% if @integration_account.level.present? %>
+              <p class="mb-0" style="color: var(--text-muted); font-size: 0.875rem;">
+                Level: <%= @integration_account.level %>
+              </p>
+            <% end %>
+          </div>
+        </div>
+
+        <hr style="border-color: rgba(255, 255, 255, 0.1); margin: 1.5rem 0;">
+
+        <div class="d-flex gap-3">
+          <%= button_to 'Sync Now',
+            integrations_steam_sync_path,
+            method: :post,
+            class: 'btn-gradient-secondary',
+            data: { confirm: 'Sync your Steam data now?' } %>
+          <%= button_to 'Disconnect Steam',
+            integrations_steam_disconnect_path,
+            method: :delete,
+            class: 'btn-outline-gradient',
+            data: { confirm: 'Are you sure you want to disconnect your Steam account?' },
+            style: 'border-color: var(--accent-red); color: var(--accent-red);' %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

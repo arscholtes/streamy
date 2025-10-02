@@ -4,224 +4,229 @@
 
 <% content_for :title, "Dashboard" %>
 
-<div class="container-fluid mt-4">
+<div class="container-fluid mt-4 fade-in">
   <%# Welcome Header %>
   <div class="row mb-4">
     <div class="col-md-12">
       <h1 class="display-4">
         <i class="bi bi-speedometer2"></i>
-        Welcome back, <strong><%= current_user.username %></strong>!
+        Welcome back, <strong class="gradient-text"><%= current_user.username %></strong>!
       </h1>
-      <p class="lead text-muted">
+      <p class="lead" style="color: var(--text-muted);">
         Here's an overview of your streaming account
       </p>
     </div>
   </div>
 
   <%# Statistics Cards %>
-  <div class="row mb-4">
+  <div class="row mb-4 fade-in-delay-1">
     <%# Total Streams Card %>
     <div class="col-md-3 mb-3">
-      <div class="card shadow-sm">
-        <div class="card-body text-center">
-          <i class="bi bi-broadcast display-4 text-primary"></i>
-          <h3 class="mt-3"><%= @total_streams %></h3>
-          <p class="text-muted mb-0">Total Streams</p>
-        </div>
+      <div class="stat-card">
+        <div class="stat-card-icon">🎬</div>
+        <div class="stat-card-value"><%= @total_streams %></div>
+        <div class="stat-card-label">Total Streams</div>
       </div>
     </div>
 
     <%# Active Streams Card %>
     <div class="col-md-3 mb-3">
-      <div class="card shadow-sm">
-        <div class="card-body text-center">
-          <i class="bi bi-circle-fill display-4 text-danger"></i>
-          <h3 class="mt-3"><%= @active_streams %></h3>
-          <p class="text-muted mb-0">Live Now</p>
+      <div class="stat-card">
+        <div class="stat-card-icon">🔴</div>
+        <div class="stat-card-value"><%= @active_streams %></div>
+        <div class="stat-card-label">
+          <% if @active_streams > 0 %>
+            <span class="badge-live">
+              <i class="bi bi-circle-fill"></i> LIVE NOW
+            </span>
+          <% else %>
+            <span class="badge-offline">Offline</span>
+          <% end %>
         </div>
       </div>
     </div>
 
     <%# Subscription Tier Card %>
     <div class="col-md-3 mb-3">
-      <div class="card shadow-sm">
-        <div class="card-body text-center">
-          <i class="bi bi-trophy display-4 text-warning"></i>
-          <h3 class="mt-3 text-capitalize"><%= @subscription %></h3>
-          <p class="text-muted mb-0">Subscription</p>
+      <div class="stat-card">
+        <div class="stat-card-icon">
           <% if @subscription == "free" %>
-            <a href="<%= settings_path %>#billing" class="btn btn-sm btn-outline-primary mt-2">
-              <i class="bi bi-arrow-up-circle"></i> Upgrade
-            </a>
+            ⭐
+          <% else %>
+            💎
           <% end %>
         </div>
+        <div class="stat-card-value text-capitalize"><%= @subscription %></div>
+        <div class="stat-card-label">
+          <% if @subscription == "free" %>
+            Subscription
+          <% else %>
+            <span class="badge-pro">PRO</span>
+          <% end %>
+        </div>
+        <% if @subscription == "free" %>
+          <a href="<%= settings_path %>#billing" class="btn-gradient-primary btn-sm mt-3" style="font-size: 0.875rem; padding: 0.5rem 1rem;">
+            <i class="bi bi-arrow-up-circle"></i> Upgrade
+          </a>
+        <% end %>
       </div>
     </div>
 
     <%# Stream Key Card %>
     <div class="col-md-3 mb-3">
-      <div class="card shadow-sm">
-        <div class="card-body text-center">
-          <i class="bi bi-key display-4 text-success"></i>
-          <h5 class="mt-3">Stream Key</h5>
-          <p class="text-muted mb-0">For OBS Setup</p>
-          <button class="btn btn-sm btn-outline-success mt-2" data-bs-toggle="modal" data-bs-target="#streamKeyModal">
-            <i class="bi bi-eye"></i> View Key
-          </button>
-        </div>
+      <div class="stat-card">
+        <div class="stat-card-icon">🔑</div>
+        <div class="stat-card-label" style="margin-top: 1rem; font-size: 1rem;">Stream Key</div>
+        <p class="stat-card-label">For OBS Setup</p>
+        <button class="btn-gradient-secondary btn-sm mt-2" style="font-size: 0.875rem; padding: 0.5rem 1rem;" data-bs-toggle="modal" data-bs-target="#streamKeyModal">
+          <i class="bi bi-eye"></i> View Key
+        </button>
       </div>
     </div>
   </div>
 
   <%# Main Content Row %>
-  <div class="row">
+  <div class="row fade-in-delay-2">
     <%# Stream Information Column %>
     <div class="col-md-8 mb-4">
-      <div class="card shadow">
-        <div class="card-header bg-primary text-white">
-          <h3 class="mb-0">
-            <i class="bi bi-camera-video"></i>
-            Your Stream
-          </h3>
-        </div>
-        <div class="card-body">
-          <div class="row">
-            <div class="col-md-8">
-              <h3><%= @stream.title %></h3>
-              <p class="text-muted">
-                <span class="badge <%= @stream.status == 'live' ? 'bg-danger' : 'bg-secondary' %>">
-                  <i class="bi <%= @stream.status == 'live' ? 'bi-circle-fill' : 'bi-circle' %>"></i>
-                  <%= @stream.status.upcase %>
-                </span>
-              </p>
-
-              <div class="mt-3">
-                <h5>RTMP URL:</h5>
-                <div class="input-group mb-2">
-                  <input type="text" class="form-control" value="rtmp://localhost:1935/live" readonly>
-                  <button class="btn btn-outline-secondary" type="button" onclick="navigator.clipboard.writeText('rtmp://localhost:1935/live')">
-                    <i class="bi bi-clipboard"></i> Copy
-                  </button>
-                </div>
-
-                <h5 class="mt-3">Stream Key:</h5>
-                <div class="input-group">
-                  <input type="password" class="form-control" value="<%= current_user.stream_key %>" id="streamKeyInput" readonly>
-                  <button class="btn btn-outline-secondary" type="button" onclick="toggleStreamKey()">
-                    <i class="bi bi-eye" id="eyeIcon"></i>
-                  </button>
-                  <button class="btn btn-outline-secondary" type="button" onclick="navigator.clipboard.writeText('<%= current_user.stream_key %>')">
-                    <i class="bi bi-clipboard"></i> Copy
-                  </button>
-                </div>
-                <small class="text-muted">Never share your stream key with anyone!</small>
-              </div>
-            </div>
-
-            <div class="col-md-4 text-center">
+      <div class="glass-card">
+        <h3 class="mb-4">
+          <i class="bi bi-camera-video gradient-text"></i>
+          <span class="gradient-text">Your Stream</span>
+        </h3>
+        <div class="row">
+          <div class="col-md-8">
+            <h4 class="mb-3"><%= @stream.title %></h4>
+            <p class="mb-4">
               <% if @stream.status == 'live' %>
-                <div class="alert alert-danger">
-                  <i class="bi bi-broadcast-pin display-3"></i>
-                  <h5 class="mt-2">You're LIVE!</h5>
-                </div>
+                <span class="badge-live">
+                  <i class="bi bi-circle-fill"></i> LIVE
+                </span>
               <% else %>
-                <div class="alert alert-secondary">
-                  <i class="bi bi-camera-video-off display-3"></i>
-                  <h5 class="mt-2">Offline</h5>
-                  <p class="mb-0">Start streaming with OBS</p>
-                </div>
+                <span class="badge-offline">
+                  <i class="bi bi-circle"></i> OFFLINE
+                </span>
               <% end %>
+            </p>
+
+            <div class="mt-3">
+              <h5 style="color: var(--text-secondary); margin-bottom: 0.75rem;">RTMP URL:</h5>
+              <div class="input-group mb-3">
+                <input type="text" class="form-control-dark" value="rtmp://localhost:1935/live" readonly style="background: rgba(26, 31, 58, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); color: var(--text-primary);">
+                <button class="btn-outline-gradient" type="button" onclick="navigator.clipboard.writeText('rtmp://localhost:1935/live')" style="padding: 0.75rem 1.5rem;">
+                  <i class="bi bi-clipboard"></i> Copy
+                </button>
+              </div>
+
+              <h5 class="mt-4" style="color: var(--text-secondary); margin-bottom: 0.75rem;">Stream Key:</h5>
+              <div class="input-group mb-2">
+                <input type="password" class="form-control-dark" value="<%= current_user.stream_key %>" id="streamKeyInput" readonly style="background: rgba(26, 31, 58, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); color: var(--text-primary);">
+                <button class="btn-outline-gradient" type="button" onclick="toggleStreamKey()" style="padding: 0.75rem 1.5rem;">
+                  <i class="bi bi-eye" id="eyeIcon"></i>
+                </button>
+                <button class="btn-outline-gradient" type="button" onclick="navigator.clipboard.writeText('<%= current_user.stream_key %>')" style="padding: 0.75rem 1.5rem;">
+                  <i class="bi bi-clipboard"></i> Copy
+                </button>
+              </div>
+              <small style="color: var(--text-muted);">Never share your stream key with anyone!</small>
             </div>
           </div>
 
-          <hr>
-
-          <div class="d-flex gap-2">
-            <%= link_to edit_stream_path(@stream), class: "btn btn-primary" do %>
-              <i class="bi bi-pencil"></i> Edit Stream
-            <% end %>
-            <%= link_to streams_path, class: "btn btn-outline-secondary" do %>
-              <i class="bi bi-list"></i> All Streams
+          <div class="col-md-4 text-center">
+            <% if @stream.status == 'live' %>
+              <div style="background: rgba(239, 68, 68, 0.15); border: 1px solid var(--accent-red); border-radius: var(--radius-lg); padding: 2rem; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);">
+                <i class="bi bi-broadcast-pin display-3" style="color: var(--accent-red);"></i>
+                <h5 class="mt-3" style="color: var(--accent-red);">You're LIVE!</h5>
+              </div>
+            <% else %>
+              <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-lg); padding: 2rem;">
+                <i class="bi bi-camera-video-off display-3" style="color: var(--text-muted);"></i>
+                <h5 class="mt-3" style="color: var(--text-secondary);">Offline</h5>
+                <p class="mb-0" style="color: var(--text-muted);">Start streaming with OBS</p>
+              </div>
             <% end %>
           </div>
+        </div>
+
+        <hr style="border-color: rgba(255, 255, 255, 0.1); margin: 2rem 0;">
+
+        <div class="d-flex gap-3">
+          <%= link_to edit_stream_path(@stream), class: "btn-gradient-primary" do %>
+            <i class="bi bi-pencil"></i> Edit Stream
+          <% end %>
+          <%= link_to streams_path, class: "btn-outline-gradient" do %>
+            <i class="bi bi-list"></i> All Streams
+          <% end %>
         </div>
       </div>
     </div>
 
     <%# Quick Actions Column %>
     <div class="col-md-4 mb-4">
-      <div class="card shadow">
-        <div class="card-header bg-success text-white">
-          <h4 class="mb-0">
-            <i class="bi bi-lightning-charge"></i>
-            Quick Actions
-          </h4>
+      <div class="glass-card">
+        <h4 class="mb-4">
+          <i class="bi bi-lightning-charge gradient-text"></i>
+          <span class="gradient-text">Quick Actions</span>
+        </h4>
+        <div class="d-grid gap-3">
+          <%= link_to settings_path, class: "btn-gradient-primary" do %>
+            <i class="bi bi-gear"></i> Settings
+          <% end %>
+
+          <button class="btn-gradient-secondary" data-bs-toggle="modal" data-bs-target="#obsGuideModal">
+            <i class="bi bi-info-circle"></i> OBS Setup Guide
+          </button>
+
+          <%= link_to "https://obsproject.com/download", target: "_blank", class: "btn-outline-gradient" do %>
+            <i class="bi bi-download"></i> Download OBS
+          <% end %>
         </div>
-        <div class="card-body">
-          <div class="d-grid gap-2">
-            <%= link_to settings_path, class: "btn btn-outline-primary btn-lg" do %>
-              <i class="bi bi-gear"></i> Settings
-            <% end %>
 
-            <button class="btn btn-outline-info btn-lg" data-bs-toggle="modal" data-bs-target="#obsGuideModal">
-              <i class="bi bi-info-circle"></i> OBS Setup Guide
-            </button>
+        <hr style="border-color: rgba(255, 255, 255, 0.1); margin: 2rem 0;">
 
-            <%= link_to "https://obsproject.com/download", target: "_blank", class: "btn btn-outline-secondary btn-lg" do %>
-              <i class="bi bi-download"></i> Download OBS
-            <% end %>
+        <h5 class="mb-3" style="color: var(--text-secondary);">Recent Activity</h5>
+        <div style="background: rgba(255, 255, 255, 0.03); border-radius: var(--radius-md); padding: 1rem;">
+          <div class="mb-3 pb-3" style="border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+            <small style="color: var(--text-muted);">
+              <i class="bi bi-clock"></i>
+              Account created <%= time_ago_in_words(current_user.created_at) %> ago
+            </small>
           </div>
-
-          <hr>
-
-          <h5 class="mb-3">Recent Activity</h5>
-          <div class="list-group list-group-flush">
-            <div class="list-group-item">
-              <small class="text-muted">
-                <i class="bi bi-clock"></i>
-                Account created <%= time_ago_in_words(current_user.created_at) %> ago
-              </small>
-            </div>
-            <div class="list-group-item">
-              <small class="text-muted">
-                <i class="bi bi-camera-video"></i>
-                Stream status: <%= @stream.status %>
-              </small>
-            </div>
+          <div>
+            <small style="color: var(--text-muted);">
+              <i class="bi bi-camera-video"></i>
+              Stream status: <span class="text-capitalize"><%= @stream.status %></span>
+            </small>
           </div>
         </div>
       </div>
 
       <%# Subscription Info %>
-      <div class="card shadow mt-3">
-        <div class="card-header bg-warning text-dark">
-          <h5 class="mb-0">
-            <i class="bi bi-credit-card"></i>
-            Subscription
-          </h5>
-        </div>
-        <div class="card-body">
-          <h4 class="text-capitalize"><%= @subscription %> Plan</h4>
-          <% if @subscription == "free" %>
-            <p class="text-muted mb-3">
-              Upgrade to unlock premium features:
-            </p>
-            <ul class="list-unstyled">
-              <li><i class="bi bi-check-circle text-success"></i> Higher bitrate</li>
-              <li><i class="bi bi-check-circle text-success"></i> Custom branding</li>
-              <li><i class="bi bi-check-circle text-success"></i> Priority support</li>
-              <li><i class="bi bi-check-circle text-success"></i> Analytics dashboard</li>
-            </ul>
-            <%= link_to settings_path(anchor: "billing"), class: "btn btn-warning w-100" do %>
-              <i class="bi bi-arrow-up-circle"></i> Upgrade Now
-            <% end %>
-          <% else %>
-            <p class="text-success">
-              <i class="bi bi-check-circle-fill"></i>
-              You have access to all premium features!
-            </p>
+      <div class="glass-card mt-3" style="border: 1px solid <%= @subscription == 'free' ? 'rgba(245, 158, 11, 0.3)' : 'rgba(139, 92, 246, 0.5)' %>;">
+        <h5 class="mb-3">
+          <i class="bi bi-credit-card gradient-text"></i>
+          <span class="gradient-text">Subscription</span>
+        </h5>
+        <h4 class="text-capitalize mb-3" style="color: var(--text-primary);"><%= @subscription %> Plan</h4>
+        <% if @subscription == "free" %>
+          <p style="color: var(--text-muted); margin-bottom: 1rem;">
+            Upgrade to unlock premium features:
+          </p>
+          <ul class="list-unstyled mb-4">
+            <li class="mb-2"><i class="bi bi-check-circle" style="color: var(--accent-green);"></i> Higher bitrate</li>
+            <li class="mb-2"><i class="bi bi-check-circle" style="color: var(--accent-green);"></i> Custom branding</li>
+            <li class="mb-2"><i class="bi bi-check-circle" style="color: var(--accent-green);"></i> Priority support</li>
+            <li class="mb-2"><i class="bi bi-check-circle" style="color: var(--accent-green);"></i> Analytics dashboard</li>
+          </ul>
+          <%= link_to settings_path(anchor: "billing"), class: "btn-gradient-primary w-100" do %>
+            <i class="bi bi-arrow-up-circle"></i> Upgrade Now
           <% end %>
-        </div>
+        <% else %>
+          <p style="color: var(--accent-green);">
+            <i class="bi bi-check-circle-fill"></i>
+            You have access to all premium features!
+          </p>
+        <% end %>
       </div>
     </div>
   </div>
@@ -230,21 +235,22 @@
 <%# Stream Key Modal %>
 <div class="modal fade" id="streamKeyModal" tabindex="-1">
   <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">
+    <div class="modal-content" style="background: var(--bg-secondary); border: 1px solid rgba(255, 255, 255, 0.1);">
+      <div class="modal-header" style="border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+        <h5 class="modal-title gradient-text">
           <i class="bi bi-key"></i> Your Stream Key
         </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
-        <div class="alert alert-warning">
-          <i class="bi bi-exclamation-triangle"></i>
-          <strong>Keep this secret!</strong> Never share your stream key publicly.
+        <div style="background: rgba(245, 158, 11, 0.15); border: 1px solid var(--accent-yellow); border-radius: var(--radius-md); padding: 1rem; margin-bottom: 1.5rem;">
+          <i class="bi bi-exclamation-triangle" style="color: var(--accent-yellow);"></i>
+          <strong style="color: var(--accent-yellow);">Keep this secret!</strong>
+          <span style="color: var(--text-secondary);">Never share your stream key publicly.</span>
         </div>
         <div class="input-group">
-          <input type="text" class="form-control" value="<%= current_user.stream_key %>" readonly>
-          <button class="btn btn-primary" onclick="navigator.clipboard.writeText('<%= current_user.stream_key %>')">
+          <input type="text" class="form-control-dark" value="<%= current_user.stream_key %>" readonly style="background: rgba(26, 31, 58, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); color: var(--text-primary);">
+          <button class="btn-gradient-primary" onclick="navigator.clipboard.writeText('<%= current_user.stream_key %>')">
             <i class="bi bi-clipboard"></i> Copy
           </button>
         </div>
@@ -256,28 +262,32 @@
 <%# OBS Guide Modal %>
 <div class="modal fade" id="obsGuideModal" tabindex="-1">
   <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">
+    <div class="modal-content" style="background: var(--bg-secondary); border: 1px solid rgba(255, 255, 255, 0.1);">
+      <div class="modal-header" style="border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+        <h5 class="modal-title gradient-text">
           <i class="bi bi-info-circle"></i> OBS Setup Guide
         </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
-        <h5>1. Download OBS Studio</h5>
-        <p>Download from <a href="https://obsproject.com/download" target="_blank">obsproject.com</a></p>
+        <h5 style="color: var(--text-primary); margin-bottom: 1rem;">1. Download OBS Studio</h5>
+        <p style="color: var(--text-secondary); margin-bottom: 2rem;">
+          Download from <a href="https://obsproject.com/download" target="_blank" class="gradient-text" style="text-decoration: none;">obsproject.com</a>
+        </p>
 
-        <h5>2. Configure Stream Settings</h5>
-        <ol>
+        <h5 style="color: var(--text-primary); margin-bottom: 1rem;">2. Configure Stream Settings</h5>
+        <ol style="color: var(--text-secondary); margin-bottom: 2rem;">
           <li>Open OBS Studio</li>
-          <li>Go to <strong>Settings → Stream</strong></li>
-          <li>Select <strong>Custom</strong> as the service</li>
-          <li>Enter Server: <code>rtmp://localhost:1935/live</code></li>
-          <li>Enter Stream Key: <code><%= current_user.stream_key %></code></li>
+          <li>Go to <strong style="color: var(--text-primary);">Settings → Stream</strong></li>
+          <li>Select <strong style="color: var(--text-primary);">Custom</strong> as the service</li>
+          <li>Enter Server: <code style="background: rgba(255, 255, 255, 0.1); padding: 0.25rem 0.5rem; border-radius: 4px; color: var(--accent-purple);">rtmp://localhost:1935/live</code></li>
+          <li>Enter Stream Key: <code style="background: rgba(255, 255, 255, 0.1); padding: 0.25rem 0.5rem; border-radius: 4px; color: var(--accent-purple);"><%= current_user.stream_key %></code></li>
         </ol>
 
-        <h5>3. Start Streaming</h5>
-        <p>Click <strong>Start Streaming</strong> in OBS and you'll be live!</p>
+        <h5 style="color: var(--text-primary); margin-bottom: 1rem;">3. Start Streaming</h5>
+        <p style="color: var(--text-secondary);">
+          Click <strong style="color: var(--text-primary);">Start Streaming</strong> in OBS and you'll be live!
+        </p>
       </div>
     </div>
   </div>

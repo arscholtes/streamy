@@ -12,6 +12,24 @@ class User < ApplicationRecord
   # This prevents orphaned records in the database
   has_many :streams, dependent: :destroy
 
+  # Integration associations
+  has_one :steam_account, dependent: :destroy
+  has_one :discord_account, dependent: :destroy
+  has_one :battlenet_account, dependent: :destroy
+  has_one :riot_account, dependent: :destroy
+  has_one :twitter_account, dependent: :destroy
+  has_one :youtube_account, dependent: :destroy
+  has_one :stripe_account, dependent: :destroy
+  has_one :obs_connection, dependent: :destroy
+
+  # Discord bot associations
+  has_one :loyalty_point, dependent: :destroy
+  has_many :loyalty_transactions, dependent: :destroy
+  has_many :user_achievements, dependent: :destroy
+  has_many :achievements, through: :user_achievements
+  has_many :vc_queue_entries, dependent: :destroy
+  has_many :mini_game_sessions, dependent: :destroy
+
   # CALLBACKS
   # Methods that run automatically at specific points in an object's lifecycle
   # Learn more: https://guides.rubyonrails.org/active_record_callbacks.html

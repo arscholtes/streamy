@@ -39,15 +39,18 @@
 
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "design_system", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
+  <body class="bg-dark-primary">
     <%# Navigation bar - shown on all pages %>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark">
       <div class="container-fluid">
         <%# Brand/logo - links to home page %>
-        <%= link_to "StreamHub", root_path, class: "navbar-brand" %>
+        <%= link_to root_path, class: "navbar-brand" do %>
+          <span class="gradient-text fw-bold fs-4">StreamHub</span>
+        <% end %>
 
         <%# Mobile menu toggle button %>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -62,23 +65,21 @@
             <% if session[:user_id] %>
               <%# Links shown when logged in %>
               <li class="nav-item">
-                <%= link_to "Dashboard", "#", class: "nav-link" %>
+                <%= link_to "Dashboard", dashboard_path, class: "nav-link nav-link-gradient" %>
               </li>
               <li class="nav-item">
-                <%= link_to "My Stream", "#", class: "nav-link" %>
+                <%= link_to "Settings", settings_path, class: "nav-link nav-link-gradient" %>
               </li>
               <li class="nav-item">
-                <%# logout_path uses DELETE method (RESTful convention) %>
-                <%# data-turbo-method tells Turbo to use DELETE instead of GET %>
-                <%= link_to "Logout", logout_path, data: { turbo_method: :delete }, class: "nav-link" %>
+                <%= link_to "Logout", logout_path, data: { turbo_method: :delete }, class: "nav-link nav-link-gradient" %>
               </li>
             <% else %>
               <%# Links shown when logged out %>
               <li class="nav-item">
-                <%= link_to "Login", login_path, class: "nav-link" %>
+                <%= link_to "Login", login_path, class: "nav-link nav-link-gradient" %>
               </li>
               <li class="nav-item">
-                <%= link_to "Sign Up", signup_path, class: "nav-link" %>
+                <%= link_to "Sign Up", signup_path, class: "btn btn-gradient-primary ms-2" %>
               </li>
             <% end %>
           </ul>

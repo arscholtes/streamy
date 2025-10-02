@@ -51,6 +51,22 @@ Rails.application.routes.draw do
   # Routes for managing user streams
   resources :streams, only: [ :index, :show, :edit, :update ]
 
+  # INTEGRATION ROUTES
+  # Routes for third-party integrations (Steam, Discord, etc.)
+  namespace :integrations do
+    integration_routes :steam, controller: 'steam'
+    integration_routes :discord, controller: 'discord'
+    integration_routes :battlenet, controller: 'battlenet'
+    integration_routes :riot, controller: 'riot'
+    integration_routes :twitter, controller: 'twitter'
+    integration_routes :youtube, controller: 'youtube'
+    integration_routes :stripe, controller: 'stripe'
+    # OBS uses WebSocket connection, different routing
+    get 'obs/setup', to: 'obs#setup', as: :obs_setup
+    post 'obs/connect', to: 'obs#connect', as: :obs_connect
+    delete 'obs/disconnect', to: 'obs#disconnect', as: :obs_disconnect
+  end
+
   # HEALTH CHECK ROUTE
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
