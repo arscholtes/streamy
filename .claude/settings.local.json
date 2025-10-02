@@ -6,7 +6,9 @@
       "Bash(bin/rails test:*)",
       "Bash(bin/rails generate:*)",
       "Bash(bin/rails:*)",
-      "Read(//Users/alexscholtes/Developer/Rubymine_Projects/**)"
+      "Read(//Users/alexscholtes/Developer/Rubymine_Projects/**)",
+      "Bash(bundle exec rspec:*)",
+      "WebSearch"
     ],
     "deny": [],
     "ask": []

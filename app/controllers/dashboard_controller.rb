@@ -31,6 +31,10 @@ class DashboardController < ApplicationController
     # Get subscription tier info for billing section
     @subscription = current_user.subscription_tier
 
+    # Check integration connection status
+    @steam_connected = current_user.steam_account.present?
+    @discord_connected = current_user.discord_account.present?
+
     # This renders app/views/dashboard/index.html.erb
   end
 end

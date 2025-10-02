@@ -1,0 +1,20 @@
+<%# Chat Message Partial %>
+<div id="<%= dom_id(message) %>" style="padding: 0.75rem 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: background-color var(--transition-base);" class="chat-message" data-message-id="<%= message.id %>">
+  <div style="display: flex; align-items: start; gap: 0.75rem;">
+    <%# User Avatar %>
+    <div style="width: 32px; height: 32px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.875rem; flex-shrink: 0;">
+      <%= message.user.username[0].upcase %>
+    </div>
+
+    <%# Message Content %>
+    <div style="flex: 1; min-width: 0;">
+      <div style="display: flex; align-items: baseline; gap: 0.5rem; margin-bottom: 0.25rem;">
+        <span style="font-weight: 600; color: var(--text-primary); font-size: 0.875rem;"><%= message.user.username %></span>
+        <span style="font-size: 0.75rem; color: var(--text-muted);"><%= time_ago_in_words(message.created_at) %> ago</span>
+      </div>
+      <p style="margin: 0; color: var(--text-secondary); font-size: 0.875rem; word-wrap: break-word; line-height: 1.4;">
+        <%= message.content %>
+      </p>
+    </div>
+  </div>
+</div>

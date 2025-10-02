@@ -1,0 +1,114 @@
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold mb-8">My Subscription</h1>
+
+  <div class="max-w-3xl mx-auto">
+    <div class="bg-white shadow-md rounded-lg p-6 mb-6">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-2xl font-bold"><%= @subscription.plan.titleize %> Plan</h2>
+        <span class="px-3 py-1 rounded-full text-sm font-semibold
+          <%= @subscription.active? ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' %>">
+          <%= @subscription.status.titleize %>
+        </span>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-4 mb-6">
+        <div>
+          <p class="text-sm text-gray-600">Current Period</p>
+          <p class="font-semibold">
+            <%= @subscription.current_period_start&.strftime('%b %d, %Y') %> -
+            <%= @subscription.current_period_end&.strftime('%b %d, %Y') %>
+          </p>
+        </div>
+
+        <div>
+          <p class="text-sm text-gray-600">Amount</p>
+          <p class="font-semibold text-2xl">
+            $<%= '%.2f' % (@subscription.plan_price / 100.0) %>/month
+          </p>
+        </div>
+      </div>
+
+      <% if @subscription.cancel_at_period_end %>
+        <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded mb-4">
+          Your subscription will be canceled on <%= @subscription.current_period_end&.strftime('%B %d, %Y') %>
+        </div>
+
+        <%= button_to "Reactivate Subscription",
+            reactivate_subscription_path,
+            method: :post,
+            class: "bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" %>
+      <% elsif @subscription.active? %>
+        <div class="flex gap-4">
+          <%= button_to "Cancel Subscription",
+              cancel_subscription_path,
+              method: :delete,
+              data: { confirm: "Are you sure you want to cancel your subscription?" },
+              class: "bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" %>
+
+          <%= link_to "Manage Billing",
+              portal_subscription_path,
+              class: "bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-block" %>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Change Plan -->
+    <% if @subscription.active? && !@subscription.cancel_at_period_end %>
+      <div class="bg-white shadow-md rounded-lg p-6 mb-6">
+        <h3 class="text-xl font-bold mb-4">Change Plan</h3>
+        <div class="grid md:grid-cols-2 gap-4">
+          <% Subscription::PLANS.each do |plan_key, plan| %>
+            <% next if plan_key == 'free' || plan_key == @subscription.plan %>
+            <div class="border rounded p-4">
+              <h4 class="font-bold text-lg"><%= plan[:name] %></h4>
+              <p class="text-2xl font-bold my-2">
+                $<%= '%.2f' % (plan[:price] / 100.0) %>/month
+              </p>
+              <%= form_with url: change_plan_subscription_path, method: :post do |f| %>
+                <%= f.hidden_field :plan, value: plan_key %>
+                <%= f.submit "Switch to #{plan[:name]}",
+                    class: "bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full cursor-pointer" %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- Payment History -->
+    <div class="bg-white shadow-md rounded-lg p-6">
+      <h3 class="text-xl font-bold mb-4">Recent Payments</h3>
+      <% if @payments.any? %>
+        <div class="overflow-x-auto">
+          <table class="min-w-full">
+            <thead>
+              <tr class="border-b">
+                <th class="text-left py-2">Date</th>
+                <th class="text-left py-2">Amount</th>
+                <th class="text-left py-2">Type</th>
+                <th class="text-left py-2">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @payments.each do |payment| %>
+                <tr class="border-b">
+                  <td class="py-2"><%= payment.created_at.strftime('%b %d, %Y') %></td>
+                  <td class="py-2">$<%= '%.2f' % (payment.amount_cents / 100.0) %></td>
+                  <td class="py-2"><%= payment.payment_type.titleize %></td>
+                  <td class="py-2">
+                    <span class="px-2 py-1 rounded text-xs font-semibold
+                      <%= payment.succeeded? ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' %>">
+                      <%= payment.status.titleize %>
+                    </span>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% else %>
+        <p class="text-gray-600">No payments yet</p>
+      <% end %>
+    </div>
+  </div>
+</div>

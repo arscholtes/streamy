@@ -1,6 +1,7 @@
 """
 Moderation Commands Cog
 Admin and moderation commands with auto-moderation
+Integrates with Rails API for data persistence
 """
 import discord
 from discord.ext import commands, tasks
@@ -13,6 +14,7 @@ from utils.helpers import (
     create_info_embed, format_duration
 )
 from utils.redis_client import redis_client
+from utils.moderation_api import moderation_api
 
 logger = logging.getLogger(__name__)
 
@@ -56,21 +58,19 @@ class Moderation(commands.Cog):
             ))
             return
 
-        # Store warning in Redis
-        warning_key = f"warnings:{ctx.guild.id}:{member.id}"
-        warnings = redis_client.get(warning_key) or []
+        # Store warning in Rails API
+        warning_result = await moderation_api.warn_user(
+            discord_id=str(member.id),
+            moderator_discord_id=str(ctx.author.id),
+            guild_id=str(ctx.guild.id),
+            reason=reason
+        )
 
-        warning_data = {
-            'reason': reason,
-            'moderator': str(ctx.author.id),
-            'timestamp': datetime.utcnow().isoformat(),
-            'guild_id': str(ctx.guild.id)
-        }
+        if not warning_result:
+            await ctx.send(embed=create_error_embed("Error", "Failed to create warning. Please try again."))
+            return
 
-        warnings.append(warning_data)
-        redis_client.set(warning_key, warnings, ttl=2592000)  # 30 days
-
-        warning_count = len(warnings)
+        warning_count = warning_result.get('total_warnings', 1)
         self.warning_cache[member.id] = warning_count
 
         embed = create_embed(
@@ -115,10 +115,14 @@ class Moderation(commands.Cog):
         """
         target = member or ctx.author
 
-        warning_key = f"warnings:{ctx.guild.id}:{target.id}"
-        warnings = redis_client.get(warning_key) or []
+        # Fetch warnings from Rails API
+        warning_data = await moderation_api.get_warnings(
+            discord_id=str(target.id),
+            guild_id=str(ctx.guild.id),
+            limit=10
+        )
 
-        if not warnings:
+        if not warning_data or warning_data.get('total_warnings', 0) == 0:
             embed = create_info_embed(
                 "No Warnings",
                 f"{target.mention} has no warnings on record."
@@ -126,23 +130,26 @@ class Moderation(commands.Cog):
             await ctx.send(embed=embed)
             return
 
+        warnings = warning_data.get('warnings', [])
+        total_warnings = warning_data.get('total_warnings', len(warnings))
+
         embed = create_embed(
             f"⚠️ Warnings for {target.name}",
-            f"Total warnings: **{len(warnings)}**",
+            f"Total warnings: **{total_warnings}**",
             color=discord.Color.orange()
         )
 
-        for i, warning in enumerate(warnings[-5:], 1):  # Show last 5
-            timestamp = datetime.fromisoformat(warning['timestamp'])
+        for i, warning in enumerate(warnings[:5], 1):  # Show first 5
+            warned_at = warning.get('warned_at')
             try:
-                moderator = ctx.guild.get_member(int(warning['moderator']))
-                mod_name = moderator.mention if moderator else f"ID: {warning['moderator']}"
+                moderator = ctx.guild.get_member(int(warning.get('moderator_discord_id')))
+                mod_name = moderator.mention if moderator else f"ID: {warning.get('moderator_discord_id')}"
             except:
                 mod_name = "Unknown"
 
             embed.add_field(
-                name=f"Warning #{len(warnings) - 5 + i}",
-                value=f"**Reason:** {warning['reason']}\n**By:** {mod_name}\n**Date:** <t:{int(timestamp.timestamp())}:R>",
+                name=f"Warning #{i}",
+                value=f"**Reason:** {warning.get('reason', 'No reason')}\n**By:** {mod_name}",
                 inline=False
             )
 
@@ -156,8 +163,16 @@ class Moderation(commands.Cog):
         Clear all warnings for a user
         Usage: !clearwarnings @user
         """
-        warning_key = f"warnings:{ctx.guild.id}:{member.id}"
-        redis_client.delete(warning_key)
+        # Clear warnings via Rails API
+        success = await moderation_api.clear_warnings(
+            discord_id=str(member.id),
+            moderator_discord_id=str(ctx.author.id),
+            guild_id=str(ctx.guild.id)
+        )
+
+        if not success:
+            await ctx.send(embed=create_error_embed("Error", "Failed to clear warnings. Please try again."))
+            return
 
         if member.id in self.warning_cache:
             del self.warning_cache[member.id]
@@ -234,17 +249,23 @@ class Moderation(commands.Cog):
             ))
             return
 
-        # Apply mute
+        # Store mute data in Rails API
+        mute_result = await moderation_api.mute_user(
+            discord_id=str(member.id),
+            moderator_discord_id=str(ctx.author.id),
+            guild_id=str(ctx.guild.id),
+            duration_minutes=duration,
+            reason=reason
+        )
+
+        if not mute_result:
+            await ctx.send(embed=create_error_embed("Error", "Failed to create mute record. Please try again."))
+            return
+
+        # Apply mute role in Discord
         await member.add_roles(muted_role, reason=f"Muted by {ctx.author}: {reason or 'No reason'}")
 
-        # Store mute data
         end_time = datetime.utcnow() + timedelta(minutes=duration)
-        mute_key = f"mute:{ctx.guild.id}:{member.id}"
-        redis_client.set(mute_key, {
-            'end_time': end_time.isoformat(),
-            'moderator': str(ctx.author.id),
-            'reason': reason or "No reason provided"
-        }, ttl=duration * 60)
 
         embed = create_embed(
             "🔇 User Muted",
@@ -292,11 +313,20 @@ class Moderation(commands.Cog):
             ))
             return
 
-        await member.remove_roles(muted_role, reason=f"Unmuted by {ctx.author}")
+        # Remove mute from Rails API
+        success = await moderation_api.unmute_user(
+            discord_id=str(member.id),
+            moderator_discord_id=str(ctx.author.id),
+            guild_id=str(ctx.guild.id),
+            reason="Manual unmute"
+        )
 
-        # Remove from Redis
-        mute_key = f"mute:{ctx.guild.id}:{member.id}"
-        redis_client.delete(mute_key)
+        if not success:
+            await ctx.send(embed=create_error_embed("Error", "Failed to unmute user. Please try again."))
+            return
+
+        # Remove mute role from Discord
+        await member.remove_roles(muted_role, reason=f"Unmuted by {ctx.author}")
 
         embed = create_success_embed(
             "User Unmuted",

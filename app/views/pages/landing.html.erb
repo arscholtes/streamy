@@ -1,207 +1,365 @@
-<style>
-  #hero {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    background: linear-gradient(135deg, var(--bg-primary) 0%, #1a1f3a 100%);
-    padding: 4rem 2rem;
-  }
+<%# app/views/pages/landing.html.erb %>
+<%# StreamHub Landing Page - C0deMine Inspired Design %>
 
-  #hero h1 {
-    font-size: 3.5rem;
-    font-weight: 700;
-    margin-bottom: 1.5rem;
-    line-height: 1.2;
-  }
+<div data-controller="scroll-reveal">
+  <%# HERO SECTION %>
+  <section class="hero-section">
+    <%# Floating gradient blobs for depth %>
+    <div class="gradient-blob blob-1"></div>
+    <div class="gradient-blob blob-2"></div>
 
-  #hero p {
-    font-size: 1.25rem;
-    color: var(--text-muted);
-    margin-bottom: 3rem;
-    max-width: 600px;
-  }
-
-  #features {
-    padding: 5rem 2rem;
-    background: linear-gradient(135deg, #1a1f3a 0%, var(--bg-primary) 100%);
-  }
-
-  .features-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  @media (max-width: 1024px) {
-    .features-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media (max-width: 640px) {
-    .features-grid {
-      grid-template-columns: 1fr;
-    }
-    #hero h1 {
-      font-size: 2.5rem;
-    }
-  }
-
-  #testimonials {
-    padding: 5rem 2rem;
-    background: linear-gradient(135deg, var(--bg-primary) 0%, #1a1f3a 100%);
-  }
-
-  .carousel-container {
-    max-width: 800px;
-    margin: 0 auto;
-  }
-
-  .testimonial-card {
-    padding: 3rem 2rem;
-    text-align: center;
-  }
-
-  .testimonial-quote {
-    font-size: 1.25rem;
-    font-style: italic;
-    margin-bottom: 1.5rem;
-    line-height: 1.8;
-    color: var(--text-secondary);
-  }
-
-  .testimonial-author {
-    font-size: 1.125rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-  }
-
-  .testimonial-role {
-    font-size: 1rem;
-    color: var(--text-muted);
-  }
-
-  .carousel-controls {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-top: 2rem;
-  }
-</style>
-
-<main>
-  <!-- Hero Section -->
-  <section id="hero" class="fade-in">
-    <h1 class="gradient-text">
-      The Next Generation<br>Streaming Platform
-    </h1>
-    <p>
-      Stream with deep gaming integration, advanced community tools, and cross-platform automation. Built for creators who want more.
-    </p>
-    <div class="d-flex gap-3">
-      <%= link_to "Get Started Free", signup_path, class: "btn-gradient-primary" %>
-      <%= link_to "Learn More", "#features", class: "btn-outline-gradient" %>
-    </div>
-  </section>
-
-  <!-- Features Section -->
-  <section id="features">
-    <div class="text-center mb-5">
-      <h2 class="display-4 mb-3">
-        <span class="gradient-text">Powerful Features</span>
-      </h2>
-      <p class="text-muted fs-5">Everything you need to build your streaming empire</p>
-    </div>
-
-    <div class="features-grid fade-in-delay-1">
-      <div class="glass-card">
-        <div class="stat-card-icon">🎮</div>
-        <h3 class="feature-title">Gaming Integration</h3>
-        <p class="feature-description">Connect Steam, Battle.net, Riot Games, and more. Auto-update your stream with real-time game stats and ranks.</p>
-      </div>
-
-      <div class="glass-card">
-        <div class="stat-card-icon">🤖</div>
-        <h3 class="feature-title">Advanced Discord Bot</h3>
-        <p class="feature-description">100+ commands, VC queues, loyalty points, giveaways, and mini-games. Build an engaged community.</p>
-      </div>
-
-      <div class="glass-card">
-        <div class="stat-card-icon">📱</div>
-        <h3 class="feature-title">Social Automation</h3>
-        <p class="feature-description">Auto-post to Twitter, TikTok, Instagram, and YouTube. One-click clip sharing across all platforms.</p>
-      </div>
-
-      <div class="glass-card">
-        <div class="stat-card-icon">💎</div>
-        <h3 class="feature-title">Monetization Tools</h3>
-        <p class="feature-description">Multiple revenue streams with subscriptions, donations, Patreon integration, and affiliate programs.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Testimonials Section -->
-  <section id="testimonials" class="fade-in-delay-2">
-    <div class="text-center mb-5">
-      <h2 class="display-4 mb-3">
-        <span class="gradient-text">Loved by Streamers</span>
-      </h2>
-      <p class="text-muted fs-5">See what creators are saying about StreamHub</p>
-    </div>
-
-    <div class="carousel-container" data-controller="carousel">
-      <div class="carousel-track">
-        <div class="glass-card testimonial-card active" data-carousel-target="card">
-          <p class="testimonial-quote">"StreamHub's game integration is incredible. My viewers love seeing my rank update in real-time. Plus the Discord bot has taken my community to the next level!"</p>
-          <p class="testimonial-author gradient-text">Alex "ProGamer" Chen</p>
-          <p class="testimonial-role">Valorant Streamer • 50K Followers</p>
-        </div>
-
-        <div class="glass-card testimonial-card" data-carousel-target="card">
-          <p class="testimonial-quote">"The social media automation saves me hours every week. Clips go straight to TikTok and Twitter with one click. Game changer for content creators."</p>
-          <p class="testimonial-author gradient-text">Sarah "StreamQueen" Martinez</p>
-          <p class="testimonial-role">Variety Streamer • 100K Followers</p>
-        </div>
-
-        <div class="glass-card testimonial-card" data-carousel-target="card">
-          <p class="testimonial-quote">"I switched from Twitch and never looked back. The monetization tools and 48 platform integrations make StreamHub the complete package for serious streamers."</p>
-          <p class="testimonial-author gradient-text">Mike "TheGrinder" Johnson</p>
-          <p class="testimonial-role">WoW Streamer • Partner</p>
-        </div>
-
-        <div class="glass-card testimonial-card" data-carousel-target="card">
-          <p class="testimonial-quote">"As a League streamer, showing my match history and champion mastery automatically on my profile is awesome. My engagement has doubled since joining StreamHub."</p>
-          <p class="testimonial-author gradient-text">Emma "MidLaneGG" Wilson</p>
-          <p class="testimonial-role">League of Legends Streamer • 75K Followers</p>
-        </div>
-      </div>
-
-      <div class="carousel-controls">
-        <button class="btn-gradient-secondary carousel-btn-prev" data-action="click->carousel#prev">
-          <i class="bi bi-arrow-left"></i> Previous
-        </button>
-        <button class="btn-gradient-secondary carousel-btn-next" data-action="click->carousel#next">
-          Next <i class="bi bi-arrow-right"></i>
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA Section -->
-  <section class="text-center py-5 my-5">
-    <div class="container">
-      <h2 class="display-3 mb-4">
-        <span class="gradient-text">Ready to Level Up?</span>
-      </h2>
-      <p class="fs-5 text-muted mb-4">
-        Join thousands of streamers building their community on StreamHub
+    <div class="hero-content">
+      <h1 class="hero-title gradient-text fade-in">
+        The Future of<br>Live Streaming
+      </h1>
+      <p class="hero-subtitle fade-in-delay-1">
+        Deep gaming integration, advanced community tools, and cross-platform automation.
+        Built for creators who demand more.
       </p>
-      <%= link_to "Start Streaming Free", signup_path, class: "btn-gradient-primary btn-lg" %>
+      <div class="hero-buttons fade-in-delay-2">
+        <%= link_to signup_path, class: "btn-gradient-primary" do %>
+          Get Started Free <i class="bi bi-arrow-right ms-2"></i>
+        <% end %>
+        <%= link_to "#features", class: "btn-outline-gradient" do %>
+          <i class="bi bi-play-circle me-2"></i> Watch Demo
+        <% end %>
+      </div>
     </div>
   </section>
-</main>
+
+  <%# FEATURES SECTION %>
+  <section id="features" style="padding: 6rem 0; background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-primary) 100%);">
+    <div class="container">
+      <div class="text-center mb-5 scroll-fade-up" data-scroll-reveal-target="animate">
+        <h2 style="font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800; margin-bottom: 1rem;">
+          <span class="gradient-text">Powerful Features</span>
+        </h2>
+        <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 700px; margin: 0 auto;">
+          Everything you need to dominate the streaming world
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 4rem;">
+        <%# Feature Card 1 %>
+        <div class="glass-card feature-card scroll-fade-up" data-scroll-reveal-target="animate">
+          <div class="feature-icon">🎮</div>
+          <h3 class="feature-title">48+ Gaming Integrations</h3>
+          <p class="feature-description">
+            Connect Steam, Battle.net, Riot Games, Epic, Xbox, PlayStation, and more.
+            Auto-update your stream with real-time ranks, stats, and game detection.
+          </p>
+        </div>
+
+        <%# Feature Card 2 %>
+        <div class="glass-card feature-card scroll-fade-up" data-scroll-reveal-target="animate">
+          <div class="feature-icon">🤖</div>
+          <h3 class="feature-title">Advanced Discord Bot</h3>
+          <p class="feature-description">
+            100+ commands, VC queues, loyalty points, mini-games, and giveaways.
+            Build an engaged community that keeps coming back.
+          </p>
+        </div>
+
+        <%# Feature Card 3 %>
+        <div class="glass-card feature-card scroll-fade-up" data-scroll-reveal-target="animate">
+          <div class="feature-icon">📱</div>
+          <h3 class="feature-title">Social Automation</h3>
+          <p class="feature-description">
+            Auto-post to Twitter, TikTok, Instagram, and YouTube.
+            One-click clip sharing across all platforms. Never miss a viral moment.
+          </p>
+        </div>
+
+        <%# Feature Card 4 %>
+        <div class="glass-card feature-card scroll-fade-up" data-scroll-reveal-target="animate">
+          <div class="feature-icon">💎</div>
+          <h3 class="feature-title">Multiple Revenue Streams</h3>
+          <p class="feature-description">
+            Subscriptions, donations, Patreon integration, Ko-fi, and affiliate programs.
+            Maximize your earnings with our creator-first monetization.
+          </p>
+        </div>
+
+        <%# Feature Card 5 %>
+        <div class="glass-card feature-card scroll-fade-up" data-scroll-reveal-target="animate">
+          <div class="feature-icon">📊</div>
+          <h3 class="feature-title">Advanced Analytics</h3>
+          <p class="feature-description">
+            Real-time viewer stats, engagement metrics, revenue tracking, and growth insights.
+            Make data-driven decisions to grow your channel.
+          </p>
+        </div>
+
+        <%# Feature Card 6 %>
+        <div class="glass-card feature-card scroll-fade-up" data-scroll-reveal-target="animate">
+          <div class="feature-icon">🎬</div>
+          <h3 class="feature-title">Pro VOD & Clips</h3>
+          <p class="feature-description">
+            Automatic VOD recording, AI-powered clip detection, highlight reels, and instant replay.
+            Turn streams into shareable content effortlessly.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%# STATS SECTION %>
+  <section style="padding: 6rem 0; background: var(--bg-primary);">
+    <div class="container">
+      <div class="text-center mb-5 scroll-fade-up" data-scroll-reveal-target="animate">
+        <h2 style="font-size: clamp(2rem, 4vw, 3rem); font-weight: 800;">
+          <span class="gradient-text">Trusted by Thousands</span>
+        </h2>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-item scroll-scale-in" data-scroll-reveal-target="animate">
+          <div class="stat-number">10,000+</div>
+          <div class="stat-label">Active Streamers</div>
+        </div>
+        <div class="stat-item scroll-scale-in" data-scroll-reveal-target="animate">
+          <div class="stat-number">48</div>
+          <div class="stat-label">Platform Integrations</div>
+        </div>
+        <div class="stat-item scroll-scale-in" data-scroll-reveal-target="animate">
+          <div class="stat-number">1M+</div>
+          <div class="stat-label">Hours Streamed</div>
+        </div>
+        <div class="stat-item scroll-scale-in" data-scroll-reveal-target="animate">
+          <div class="stat-number">99.9%</div>
+          <div class="stat-label">Uptime Guarantee</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%# INTEGRATIONS SHOWCASE %>
+  <section style="padding: 6rem 0; background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);">
+    <div class="container">
+      <div class="text-center mb-5 scroll-fade-up" data-scroll-reveal-target="animate">
+        <h2 style="font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; margin-bottom: 1rem;">
+          <span class="gradient-text">Connect Everything</span>
+        </h2>
+        <p style="font-size: 1.25rem; color: var(--text-muted);">
+          48+ integrations and counting
+        </p>
+      </div>
+
+      <div class="integrations-grid">
+        <%# Integration badges - using text logos for now %>
+        <% integrations = [
+          "Steam", "Discord", "Battle.net", "Riot Games", "Epic Games", "Xbox Live",
+          "PlayStation", "Twitch", "YouTube", "Twitter", "TikTok", "Instagram",
+          "Spotify", "Stripe", "PayPal", "Patreon"
+        ] %>
+        <% integrations.each do |integration| %>
+          <div class="integration-logo scroll-fade-up" data-scroll-reveal-target="animate">
+            <span style="font-weight: 600; font-size: 0.875rem; color: var(--text-muted);">
+              <%= integration %>
+            </span>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </section>
+
+  <%# TESTIMONIALS SECTION %>
+  <section style="padding: 6rem 0; background: var(--bg-primary);">
+    <div class="container">
+      <div class="text-center mb-5 scroll-fade-up" data-scroll-reveal-target="animate">
+        <h2 style="font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; margin-bottom: 1rem;">
+          <span class="gradient-text">Loved by Streamers</span>
+        </h2>
+        <p style="font-size: 1.25rem; color: var(--text-muted);">
+          See what creators are saying
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 1200px; margin: 3rem auto 0;">
+        <%# Testimonial 1 %>
+        <div class="glass-card scroll-fade-left" data-scroll-reveal-target="animate" style="padding: 2rem;">
+          <div style="margin-bottom: 1.5rem;">
+            <i class="bi bi-star-fill" style="color: var(--accent-yellow); font-size: 1.25rem;"></i>
+            <i class="bi bi-star-fill" style="color: var(--accent-yellow); font-size: 1.25rem;"></i>
+            <i class="bi bi-star-fill" style="color: var(--accent-yellow); font-size: 1.25rem;"></i>
+            <i class="bi bi-star-fill" style="color: var(--accent-yellow); font-size: 1.25rem;"></i>
+            <i class="bi bi-star-fill" style="color: var(--accent-yellow); font-size: 1.25rem;"></i>
+          </div>
+          <p style="font-size: 1.125rem; line-height: 1.7; color: var(--text-secondary); margin-bottom: 1.5rem;">
+            "StreamHub's game integration is incredible. My viewers love seeing my rank update in real-time.
+            Plus the Discord bot has taken my community to the next level!"
+          </p>
+          <div>
+            <p style="font-weight: 700; margin-bottom: 0.25rem;" class="gradient-text">Alex "ProGamer" Chen</p>
+            <p style="color: var(--text-muted); font-size: 0.875rem;">Valorant Streamer • 50K Followers</p>
+          </div>
+        </div>
+
+        <%# Testimonial 2 %>
+        <div class="glass-card scroll-fade-up" data-scroll-reveal-target="animate" style="padding: 2rem;">
+          <div style="margin-bottom: 1.5rem;">
+            <i class="bi bi-star-fill" style="color: var(--accent-yellow); font-size: 1.25rem;"></i>
+            <i class="bi bi-star-fill" style="color: var(--accent-yellow); font-size: 1.25rem;"></i>
+            <i class="bi bi-star-fill" style="color: var(--accent-yellow); font-size: 1.25rem;"></i>
+            <i class="bi bi-star-fill" style="color: var(--accent-yellow); font-size: 1.25rem;"></i>
+            <i class="bi bi-star-fill" style="color: var(--accent-yellow); font-size: 1.25rem;"></i>
+          </div>
+          <p style="font-size: 1.125rem; line-height: 1.7; color: var(--text-secondary); margin-bottom: 1.5rem;">
+            "The social media automation saves me hours every week. Clips go straight to TikTok and Twitter with one click.
+            Game changer for content creators."
+          </p>
+          <div>
+            <p style="font-weight: 700; margin-bottom: 0.25rem;" class="gradient-text">Sarah "StreamQueen" Martinez</p>
+            <p style="color: var(--text-muted); font-size: 0.875rem;">Variety Streamer • 100K Followers</p>
+          </div>
+        </div>
+
+        <%# Testimonial 3 %>
+        <div class="glass-card scroll-fade-right" data-scroll-reveal-target="animate" style="padding: 2rem;">
+          <div style="margin-bottom: 1.5rem;">
+            <i class="bi bi-star-fill" style="color: var(--accent-yellow); font-size: 1.25rem;"></i>
+            <i class="bi bi-star-fill" style="color: var(--accent-yellow); font-size: 1.25rem;"></i>
+            <i class="bi bi-star-fill" style="color: var(--accent-yellow); font-size: 1.25rem;"></i>
+            <i class="bi bi-star-fill" style="color: var(--accent-yellow); font-size: 1.25rem;"></i>
+            <i class="bi bi-star-fill" style="color: var(--accent-yellow); font-size: 1.25rem;"></i>
+          </div>
+          <p style="font-size: 1.125rem; line-height: 1.7; color: var(--text-secondary); margin-bottom: 1.5rem;">
+            "I switched from Twitch and never looked back. The monetization tools and 48 platform integrations
+            make StreamHub the complete package for serious streamers."
+          </p>
+          <div>
+            <p style="font-weight: 700; margin-bottom: 0.25rem;" class="gradient-text">Mike "TheGrinder" Johnson</p>
+            <p style="color: var(--text-muted); font-size: 0.875rem;">WoW Streamer • Partner</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%# PRICING PREVIEW SECTION %>
+  <section style="padding: 6rem 0; background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);">
+    <div class="container">
+      <div class="text-center mb-5 scroll-fade-up" data-scroll-reveal-target="animate">
+        <h2 style="font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; margin-bottom: 1rem;">
+          <span class="gradient-text">Choose Your Plan</span>
+        </h2>
+        <p style="font-size: 1.25rem; color: var(--text-muted);">
+          Start free, upgrade as you grow
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; max-width: 1200px; margin: 3rem auto 0;">
+        <%# Free Plan %>
+        <div class="glass-card scroll-scale-in" data-scroll-reveal-target="animate" style="padding: 2.5rem; text-align: center;">
+          <h3 style="font-size: 1.75rem; font-weight: 700; margin-bottom: 0.5rem;">Free</h3>
+          <div style="font-size: 3rem; font-weight: 800; margin: 1.5rem 0;" class="gradient-text">$0</div>
+          <p style="color: var(--text-muted); margin-bottom: 2rem;">Perfect to get started</p>
+          <ul style="text-align: left; list-style: none; padding: 0; margin-bottom: 2rem;">
+            <li style="padding: 0.5rem 0; color: var(--text-secondary);">
+              <i class="bi bi-check-circle-fill" style="color: var(--accent-green); margin-right: 0.5rem;"></i>
+              720p streaming
+            </li>
+            <li style="padding: 0.5rem 0; color: var(--text-secondary);">
+              <i class="bi bi-check-circle-fill" style="color: var(--accent-green); margin-right: 0.5rem;"></i>
+              Basic integrations
+            </li>
+            <li style="padding: 0.5rem 0; color: var(--text-secondary);">
+              <i class="bi bi-check-circle-fill" style="color: var(--accent-green); margin-right: 0.5rem;"></i>
+              Discord bot access
+            </li>
+            <li style="padding: 0.5rem 0; color: var(--text-secondary);">
+              <i class="bi bi-check-circle-fill" style="color: var(--accent-green); margin-right: 0.5rem;"></i>
+              Basic analytics
+            </li>
+          </ul>
+          <%= link_to "Get Started", signup_path, class: "btn-outline-gradient", style: "width: 100%;" %>
+        </div>
+
+        <%# Pro Plan %>
+        <div class="glass-card scroll-scale-in glow-pulse" data-scroll-reveal-target="animate"
+             style="padding: 2.5rem; text-align: center; border: 2px solid var(--accent-purple);">
+          <div class="badge-pro" style="position: absolute; top: 1rem; right: 1rem;">POPULAR</div>
+          <h3 style="font-size: 1.75rem; font-weight: 700; margin-bottom: 0.5rem;">Pro</h3>
+          <div style="font-size: 3rem; font-weight: 800; margin: 1.5rem 0;" class="gradient-text">$19</div>
+          <p style="color: var(--text-muted); margin-bottom: 2rem;">For serious streamers</p>
+          <ul style="text-align: left; list-style: none; padding: 0; margin-bottom: 2rem;">
+            <li style="padding: 0.5rem 0; color: var(--text-secondary);">
+              <i class="bi bi-check-circle-fill" style="color: var(--accent-green); margin-right: 0.5rem;"></i>
+              1080p streaming
+            </li>
+            <li style="padding: 0.5rem 0; color: var(--text-secondary);">
+              <i class="bi bi-check-circle-fill" style="color: var(--accent-green); margin-right: 0.5rem;"></i>
+              All 48 integrations
+            </li>
+            <li style="padding: 0.5rem 0; color: var(--text-secondary);">
+              <i class="bi bi-check-circle-fill" style="color: var(--accent-green); margin-right: 0.5rem;"></i>
+              Advanced bot features
+            </li>
+            <li style="padding: 0.5rem 0; color: var(--text-secondary);">
+              <i class="bi bi-check-circle-fill" style="color: var(--accent-green); margin-right: 0.5rem;"></i>
+              Priority support
+            </li>
+            <li style="padding: 0.5rem 0; color: var(--text-secondary);">
+              <i class="bi bi-check-circle-fill" style="color: var(--accent-green); margin-right: 0.5rem;"></i>
+              Custom branding
+            </li>
+          </ul>
+          <%= link_to "Upgrade to Pro", signup_path, class: "btn-gradient-primary", style: "width: 100%;" %>
+        </div>
+
+        <%# Enterprise Plan %>
+        <div class="glass-card scroll-scale-in" data-scroll-reveal-target="animate" style="padding: 2.5rem; text-align: center;">
+          <h3 style="font-size: 1.75rem; font-weight: 700; margin-bottom: 0.5rem;">Enterprise</h3>
+          <div style="font-size: 3rem; font-weight: 800; margin: 1.5rem 0;" class="gradient-text">$99</div>
+          <p style="color: var(--text-muted); margin-bottom: 2rem;">For teams & agencies</p>
+          <ul style="text-align: left; list-style: none; padding: 0; margin-bottom: 2rem;">
+            <li style="padding: 0.5rem 0; color: var(--text-secondary);">
+              <i class="bi bi-check-circle-fill" style="color: var(--accent-green); margin-right: 0.5rem;"></i>
+              4K streaming
+            </li>
+            <li style="padding: 0.5rem 0; color: var(--text-secondary);">
+              <i class="bi bi-check-circle-fill" style="color: var(--accent-green); margin-right: 0.5rem;"></i>
+              Unlimited bandwidth
+            </li>
+            <li style="padding: 0.5rem 0; color: var(--text-secondary);">
+              <i class="bi bi-check-circle-fill" style="color: var(--accent-green); margin-right: 0.5rem;"></i>
+              White-label options
+            </li>
+            <li style="padding: 0.5rem 0; color: var(--text-secondary);">
+              <i class="bi bi-check-circle-fill" style="color: var(--accent-green); margin-right: 0.5rem;"></i>
+              Dedicated support
+            </li>
+            <li style="padding: 0.5rem 0; color: var(--text-secondary);">
+              <i class="bi bi-check-circle-fill" style="color: var(--accent-green); margin-right: 0.5rem;"></i>
+              Custom integrations
+            </li>
+          </ul>
+          <%= link_to "Contact Sales", signup_path, class: "btn-outline-gradient", style: "width: 100%;" %>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%# FINAL CTA SECTION %>
+  <section class="cta-section">
+    <div class="gradient-blob blob-1"></div>
+    <div class="gradient-blob blob-2"></div>
+
+    <div class="cta-content scroll-fade-up" data-scroll-reveal-target="animate">
+      <h2 class="cta-title gradient-text">
+        Ready to Level Up Your Stream?
+      </h2>
+      <p class="cta-description">
+        Join thousands of streamers building their empire on StreamHub.
+        Start free, no credit card required.
+      </p>
+      <%= link_to signup_path, class: "btn-gradient-primary", style: "font-size: 1.125rem; padding: 1rem 3rem;" do %>
+        Start Streaming Free <i class="bi bi-arrow-right ms-2"></i>
+      <% end %>
+      <p style="margin-top: 1.5rem; color: var(--text-muted); font-size: 0.875rem;">
+        <i class="bi bi-shield-check me-1"></i>
+        No credit card required • Cancel anytime • 99.9% uptime
+      </p>
+    </div>
+  </section>
+</div>

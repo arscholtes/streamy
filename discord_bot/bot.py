@@ -54,7 +54,8 @@ class StreamHubBot(commands.Bot):
             'cogs.minigames',
             'cogs.vc_queue',
             'cogs.stream',
-            'cogs.moderation'
+            'cogs.moderation',
+            'cogs.obs'  # OBS remote control
         ]
 
         for cog in cogs_to_load:

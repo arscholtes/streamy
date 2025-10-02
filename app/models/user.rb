@@ -30,6 +30,20 @@ class User < ApplicationRecord
   has_many :vc_queue_entries, dependent: :destroy
   has_many :mini_game_sessions, dependent: :destroy
 
+  # Moderation associations
+  has_many :moderation_actions, dependent: :destroy
+  has_many :user_warnings, dependent: :destroy
+  has_many :user_mutes, dependent: :destroy
+
+  # Payment associations
+  has_many :subscriptions, dependent: :destroy
+  has_one :active_subscription, -> { active }, class_name: 'Subscription'
+  has_many :payments, dependent: :destroy
+  has_many :received_payments, foreign_key: :recipient_id, class_name: 'Payment', dependent: :nullify
+
+  # Chat associations
+  has_many :chat_messages, dependent: :destroy
+
   # CALLBACKS
   # Methods that run automatically at specific points in an object's lifecycle
   # Learn more: https://guides.rubyonrails.org/active_record_callbacks.html

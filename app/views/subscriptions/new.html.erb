@@ -1,0 +1,68 @@
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold mb-8 text-center">Choose Your Plan</h1>
+
+  <% if @current_subscription %>
+    <div class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded mb-6">
+      You currently have an active <%= @current_subscription.plan.titleize %> subscription.
+      <%= link_to "Manage Subscription", subscription_path, class: "underline font-semibold" %>
+    </div>
+  <% end %>
+
+  <div class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+    <% @plans.each do |plan_key, plan| %>
+      <div class="border rounded-lg p-6 <%= plan_key == 'pro' ? 'border-blue-500 shadow-lg' : 'border-gray-300' %>">
+        <h2 class="text-2xl font-bold mb-2"><%= plan[:name] %></h2>
+
+        <div class="text-4xl font-bold mb-4">
+          <% if plan[:price] == 0 %>
+            Free
+          <% else %>
+            $<%= '%.2f' % (plan[:price] / 100.0) %>
+            <span class="text-sm font-normal text-gray-600">/month</span>
+          <% end %>
+        </div>
+
+        <ul class="mb-6 space-y-2">
+          <% case plan_key %>
+          <% when 'free' %>
+            <li>✓ Basic streaming</li>
+            <li>✓ 720p quality</li>
+            <li>✓ Community features</li>
+            <li>✗ No custom overlays</li>
+            <li>✗ Limited chat features</li>
+          <% when 'pro' %>
+            <li>✓ HD streaming (1080p)</li>
+            <li>✓ Custom overlays</li>
+            <li>✓ Advanced chat features</li>
+            <li>✓ Stream analytics</li>
+            <li>✓ Priority support</li>
+          <% when 'enterprise' %>
+            <li>✓ 4K streaming</li>
+            <li>✓ All Pro features</li>
+            <li>✓ Multi-stream</li>
+            <li>✓ Advanced analytics</li>
+            <li>✓ Dedicated support</li>
+            <li>✓ Custom integrations</li>
+          <% end %>
+        </ul>
+
+        <% if plan_key == 'free' %>
+          <div class="text-center text-gray-600 font-semibold">Current Plan</div>
+        <% elsif @current_subscription&.plan == plan_key %>
+          <div class="text-center text-blue-600 font-semibold">Active Plan</div>
+        <% else %>
+          <%= form_with url: subscriptions_path, method: :post do |f| %>
+            <%= f.hidden_field :plan, value: plan_key %>
+            <%= f.submit "Subscribe to #{plan[:name]}",
+                class: "w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer" %>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mt-8 text-center text-sm text-gray-600">
+    <p>All subscriptions can be canceled at any time.</p>
+    <p>Powered by Stripe for secure payments.</p>
+  </div>
+</div>

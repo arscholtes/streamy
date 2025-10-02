@@ -1,0 +1,136 @@
+<%# app/views/streams/edit.html.erb %>
+<%# Edit Stream Settings %>
+
+<% content_for :title, "Edit Stream - #{@stream.title}" %>
+
+<%# Hero Header %>
+<div style="background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%); padding: 3rem 0; margin-bottom: 2rem;">
+  <div class="container">
+    <div class="row fade-in">
+      <div class="col-md-12">
+        <h1 style="font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; margin-bottom: 0.5rem;">
+          <i class="bi bi-camera-video-fill gradient-text"></i>
+          <span class="gradient-text">Edit Stream</span>
+        </h1>
+        <p style="font-size: 1.125rem; color: var(--text-muted); margin: 0;">
+          Update your stream details and settings
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container fade-in-delay-1">
+  <div class="row">
+    <div class="col-lg-8 mb-4">
+      <div class="glass-card">
+        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
+          <div style="width: 60px; height: 60px; background: var(--gradient-primary); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 2rem;">
+            📹
+          </div>
+          <div>
+            <h3 style="margin-bottom: 0.25rem; font-size: 1.75rem; font-weight: 700;">
+              <span class="gradient-text">Stream Settings</span>
+            </h3>
+            <p style="color: var(--text-muted); margin: 0;">Configure your stream information</p>
+          </div>
+        </div>
+
+        <%= form_with model: @stream, method: :patch, local: true do |form| %>
+          <%# Stream Title %>
+          <div class="mb-4">
+            <%= form.label :title, "Stream Title", class: "form-label", style: "color: var(--text-secondary); font-weight: 600; margin-bottom: 0.5rem; display: block;" %>
+            <%= form.text_field :title,
+              class: "form-control-dark #{@stream.errors[:title].any? ? 'is-invalid' : ''}",
+              required: true,
+              placeholder: "Enter a catchy stream title...",
+              style: "font-size: 1rem;" %>
+            <% if @stream.errors[:title].any? %>
+              <div class="invalid-feedback d-block" style="color: var(--accent-red); margin-top: 0.5rem;">
+                <i class="bi bi-exclamation-circle"></i> <%= @stream.errors[:title].join(", ") %>
+              </div>
+            <% end %>
+            <div class="form-text" style="color: var(--text-muted); font-size: 0.875rem; margin-top: 0.5rem;">
+              <i class="bi bi-info-circle"></i> Make it descriptive to attract viewers (3-100 characters)
+            </div>
+          </div>
+
+          <%# Stream Status (Read-only) %>
+          <div class="mb-4">
+            <label class="form-label" style="color: var(--text-secondary); font-weight: 600; margin-bottom: 0.5rem; display: block;">
+              Current Status
+            </label>
+            <div style="background: <%= @stream.live? ? 'rgba(239, 68, 68, 0.1)' : 'rgba(255, 255, 255, 0.03)' %>; border: 1px solid <%= @stream.live? ? 'rgba(239, 68, 68, 0.3)' : 'rgba(255, 255, 255, 0.1)' %>; border-radius: var(--radius-md); padding: 1rem;">
+              <% if @stream.live? %>
+                <span class="badge-live">
+                  <i class="bi bi-broadcast"></i> LIVE NOW
+                </span>
+              <% else %>
+                <span class="badge-offline">
+                  <i class="bi bi-camera-video-off"></i> OFFLINE
+                </span>
+              <% end %>
+              <p style="color: var(--text-muted); margin: 0.75rem 0 0; font-size: 0.875rem;">
+                Status is automatically updated when you start/stop streaming in OBS
+              </p>
+            </div>
+          </div>
+
+          <%# Action Buttons %>
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <%= form.submit "Save Changes", class: "btn-gradient-primary", style: "flex: 1;" %>
+            <%= link_to "Cancel", @stream, class: "btn-outline-gradient", style: "flex: 1; text-align: center; line-height: 1.5;" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="col-lg-4 mb-4">
+      <%# Quick Actions %>
+      <div class="glass-card mb-3">
+        <h5 style="font-size: 1.125rem; font-weight: 700; margin-bottom: 1.5rem;">
+          <i class="bi bi-lightning-charge gradient-text"></i>
+          <span class="gradient-text">Quick Actions</span>
+        </h5>
+
+        <div class="d-grid gap-2">
+          <%= link_to @stream, class: "btn-outline-gradient" do %>
+            <i class="bi bi-eye"></i> View Stream Page
+          <% end %>
+          <%= link_to dashboard_path, class: "btn-outline-gradient" do %>
+            <i class="bi bi-house"></i> Back to Dashboard
+          <% end %>
+        </div>
+      </div>
+
+      <%# Stream Info %>
+      <div class="glass-card">
+        <h5 style="font-size: 1.125rem; font-weight: 700; margin-bottom: 1.5rem;">
+          <i class="bi bi-info-circle gradient-text"></i>
+          <span class="gradient-text">Stream Info</span>
+        </h5>
+
+        <div style="margin-bottom: 1.5rem;">
+          <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem;">Stream Key</div>
+          <div style="font-size: 0.875rem; color: var(--text-secondary); font-family: 'Courier New', monospace; word-break: break-all;">
+            <%= @stream.stream_key %>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+          <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem;">Created</div>
+          <div style="font-size: 0.875rem; color: var(--text-secondary);">
+            <%= @stream.created_at.strftime("%B %d, %Y") %>
+          </div>
+        </div>
+
+        <div>
+          <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem;">Last Updated</div>
+          <div style="font-size: 0.875rem; color: var(--text-secondary);">
+            <%= time_ago_in_words(@stream.updated_at) %> ago
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

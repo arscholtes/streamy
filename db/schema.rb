@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_02_101306) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_02_144007) do
   create_table "achievements", force: :cascade do |t|
     t.string "name", null: false
     t.text "description", null: false
@@ -37,6 +37,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_02_101306) do
     t.datetime "updated_at", null: false
     t.index ["battletag"], name: "index_battlenet_accounts_on_battletag", unique: true
     t.index ["user_id"], name: "index_battlenet_accounts_on_user_id"
+  end
+
+  create_table "chat_messages", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "stream_id", null: false
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["stream_id"], name: "index_chat_messages_on_stream_id"
+    t.index ["user_id"], name: "index_chat_messages_on_user_id"
   end
 
   create_table "discord_accounts", force: :cascade do |t|
@@ -110,6 +120,25 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_02_101306) do
     t.index ["user_id"], name: "index_mini_game_sessions_on_user_id"
   end
 
+  create_table "moderation_actions", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "action_type", null: false
+    t.integer "target_user_id"
+    t.string "moderator_discord_id", null: false
+    t.string "target_discord_id", null: false
+    t.text "reason"
+    t.json "metadata", default: {}
+    t.string "guild_id", null: false
+    t.datetime "performed_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["action_type"], name: "index_moderation_actions_on_action_type"
+    t.index ["guild_id"], name: "index_moderation_actions_on_guild_id"
+    t.index ["performed_at"], name: "index_moderation_actions_on_performed_at"
+    t.index ["target_discord_id"], name: "index_moderation_actions_on_target_discord_id"
+    t.index ["user_id"], name: "index_moderation_actions_on_user_id"
+  end
+
   create_table "obs_connections", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "obs_version"
@@ -120,6 +149,35 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_02_101306) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_obs_connections_on_user_id"
+  end
+
+  create_table "payments", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "recipient_id"
+    t.string "stripe_payment_intent_id"
+    t.string "stripe_charge_id"
+    t.string "stripe_transfer_id"
+    t.integer "amount_cents", null: false
+    t.integer "platform_fee_cents", default: 0
+    t.integer "recipient_amount_cents"
+    t.string "currency", default: "usd", null: false
+    t.string "status", default: "pending", null: false
+    t.string "payment_type", null: false
+    t.text "description"
+    t.json "metadata", default: {}
+    t.datetime "refunded_at"
+    t.integer "refund_amount_cents"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "paid_at"
+    t.index ["payment_type"], name: "index_payments_on_payment_type"
+    t.index ["recipient_id", "status"], name: "index_payments_on_recipient_id_and_status"
+    t.index ["recipient_id"], name: "index_payments_on_recipient_id"
+    t.index ["status"], name: "index_payments_on_status"
+    t.index ["stripe_charge_id"], name: "index_payments_on_stripe_charge_id"
+    t.index ["stripe_payment_intent_id"], name: "index_payments_on_stripe_payment_intent_id", unique: true
+    t.index ["user_id", "payment_type"], name: "index_payments_on_user_id_and_payment_type"
+    t.index ["user_id"], name: "index_payments_on_user_id"
   end
 
   create_table "riot_accounts", force: :cascade do |t|
@@ -190,6 +248,27 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_02_101306) do
     t.index ["user_id"], name: "index_stripe_accounts_on_user_id"
   end
 
+  create_table "subscriptions", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "stripe_subscription_id", null: false
+    t.string "stripe_customer_id", null: false
+    t.string "status", default: "incomplete", null: false
+    t.string "plan", null: false
+    t.datetime "current_period_start"
+    t.datetime "current_period_end"
+    t.boolean "cancel_at_period_end", default: false, null: false
+    t.datetime "canceled_at"
+    t.datetime "trial_start"
+    t.datetime "trial_end"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["plan"], name: "index_subscriptions_on_plan"
+    t.index ["status"], name: "index_subscriptions_on_status"
+    t.index ["stripe_customer_id"], name: "index_subscriptions_on_stripe_customer_id"
+    t.index ["stripe_subscription_id"], name: "index_subscriptions_on_stripe_subscription_id", unique: true
+    t.index ["user_id"], name: "index_subscriptions_on_user_id"
+  end
+
   create_table "twitter_accounts", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "twitter_id"
@@ -220,6 +299,42 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_02_101306) do
     t.index ["user_id"], name: "index_user_achievements_on_user_id"
   end
 
+  create_table "user_mutes", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "discord_id", null: false
+    t.string "moderator_discord_id", null: false
+    t.string "guild_id", null: false
+    t.text "reason"
+    t.datetime "muted_at", null: false
+    t.datetime "unmuted_at"
+    t.integer "duration_minutes", null: false
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["active"], name: "index_user_mutes_on_active"
+    t.index ["discord_id", "guild_id", "active"], name: "index_user_mutes_on_discord_id_and_guild_id_and_active"
+    t.index ["discord_id"], name: "index_user_mutes_on_discord_id"
+    t.index ["guild_id"], name: "index_user_mutes_on_guild_id"
+    t.index ["unmuted_at"], name: "index_user_mutes_on_unmuted_at"
+    t.index ["user_id"], name: "index_user_mutes_on_user_id"
+  end
+
+  create_table "user_warnings", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "discord_id", null: false
+    t.string "moderator_discord_id", null: false
+    t.string "guild_id", null: false
+    t.text "reason"
+    t.datetime "warned_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["discord_id", "guild_id"], name: "index_user_warnings_on_discord_id_and_guild_id"
+    t.index ["discord_id"], name: "index_user_warnings_on_discord_id"
+    t.index ["guild_id"], name: "index_user_warnings_on_guild_id"
+    t.index ["user_id"], name: "index_user_warnings_on_user_id"
+    t.index ["warned_at"], name: "index_user_warnings_on_warned_at"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "username"
     t.string "email"
@@ -228,8 +343,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_02_101306) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "subscription_tier", default: "free", null: false
+    t.string "stripe_customer_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["stream_key"], name: "index_users_on_stream_key", unique: true
+    t.index ["stripe_customer_id"], name: "index_users_on_stripe_customer_id", unique: true
     t.index ["subscription_tier"], name: "index_users_on_subscription_tier"
     t.index ["username"], name: "index_users_on_username", unique: true
   end
@@ -269,19 +386,27 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_02_101306) do
   end
 
   add_foreign_key "battlenet_accounts", "users"
+  add_foreign_key "chat_messages", "streams"
+  add_foreign_key "chat_messages", "users"
   add_foreign_key "discord_accounts", "users"
   add_foreign_key "integration_privacy_settings", "users"
   add_foreign_key "loyalty_points", "users"
   add_foreign_key "loyalty_transactions", "users"
   add_foreign_key "mini_game_sessions", "users"
+  add_foreign_key "moderation_actions", "users"
   add_foreign_key "obs_connections", "users"
+  add_foreign_key "payments", "users"
+  add_foreign_key "payments", "users", column: "recipient_id"
   add_foreign_key "riot_accounts", "users"
   add_foreign_key "steam_accounts", "users"
   add_foreign_key "streams", "users"
   add_foreign_key "stripe_accounts", "users"
+  add_foreign_key "subscriptions", "users"
   add_foreign_key "twitter_accounts", "users"
   add_foreign_key "user_achievements", "achievements"
   add_foreign_key "user_achievements", "users"
+  add_foreign_key "user_mutes", "users"
+  add_foreign_key "user_warnings", "users"
   add_foreign_key "vc_queue_entries", "users"
   add_foreign_key "youtube_accounts", "users"
 end

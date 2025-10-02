@@ -1,0 +1,17 @@
+# Stripe configuration
+# Documentation: https://stripe.com/docs/api
+
+Rails.configuration.stripe = {
+  publishable_key: ENV['STRIPE_PUBLISHABLE_KEY'],
+  secret_key: ENV['STRIPE_SECRET_KEY'],
+  signing_secret: ENV['STRIPE_WEBHOOK_SECRET'],
+  connect_client_id: ENV['STRIPE_CONNECT_CLIENT_ID']
+}
+
+Stripe.api_key = Rails.configuration.stripe[:secret_key]
+Stripe.api_version = '2024-11-20.acacia' # Latest stable version
+
+# Set up logging in development
+if Rails.env.development?
+  Stripe.log_level = Stripe::LEVEL_INFO
+end

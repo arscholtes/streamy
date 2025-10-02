@@ -1,0 +1,361 @@
+<%# app/views/users/show.html.erb %>
+<%# Public User Profile Page %>
+
+<% content_for :title, "#{@user.username} - Profile" %>
+
+<%# Hero Section with User Info %>
+<div style="background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%); padding: 4rem 0 3rem; margin-bottom: 2rem; position: relative; overflow: hidden;">
+  <%# Decorative Gradient Blobs %>
+  <div style="position: absolute; top: -50%; right: -10%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(139, 92, 246, 0.2), transparent); border-radius: 50%; filter: blur(100px);"></div>
+  <div style="position: absolute; bottom: -50%; left: -10%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(59, 130, 246, 0.15), transparent); border-radius: 50%; filter: blur(100px);"></div>
+
+  <div class="container">
+    <div class="row align-items-center fade-in">
+      <div class="col-lg-8">
+        <div style="display: flex; align-items: center; gap: 2rem; margin-bottom: 2rem;">
+          <%# User Avatar %>
+          <div style="width: 120px; height: 120px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 3rem; flex-shrink: 0; border: 4px solid rgba(255, 255, 255, 0.1); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);">
+            <%= @user.username[0].upcase %>
+          </div>
+
+          <%# User Info %>
+          <div style="flex: 1;">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.75rem; flex-wrap: wrap;">
+              <h1 style="font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; margin: 0;">
+                <%= @user.username %>
+              </h1>
+
+              <% if @user.subscription_tier != "free" %>
+                <span class="badge-pro" style="font-size: 0.875rem; padding: 0.5rem 1rem;">
+                  <%= @user.subscription_tier.upcase %>
+                </span>
+              <% end %>
+
+              <% if @live_streams.any? %>
+                <span class="badge-live" style="font-size: 0.875rem; padding: 0.5rem 1rem; animation: pulse-glow 2s infinite;">
+                  <i class="bi bi-broadcast"></i> LIVE
+                </span>
+              <% end %>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; color: var(--text-muted); font-size: 0.875rem;">
+              <span>
+                <i class="bi bi-calendar"></i> Joined <%= @user.created_at.strftime("%B %Y") %>
+              </span>
+              <span>
+                <i class="bi bi-camera-video"></i> <%= @total_streams %> <%= 'Stream'.pluralize(@total_streams) %>
+              </span>
+              <span>
+                <i class="bi bi-plug"></i> <%= @connected_integrations %> Connected Services
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <%# Bio/Description (placeholder for future) %>
+        <p style="color: var(--text-secondary); font-size: 1.125rem; line-height: 1.6; margin: 0;">
+          Gaming enthusiast and content creator. Watch me live!
+        </p>
+      </div>
+
+      <div class="col-lg-4">
+        <%# Action Buttons %>
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+          <% if current_user == @user %>
+            <%= link_to settings_path, class: "btn-gradient-primary", style: "text-align: center;" do %>
+              <i class="bi bi-gear"></i> Edit Profile
+            <% end %>
+            <%= link_to dashboard_path, class: "btn-outline-gradient", style: "text-align: center;" do %>
+              <i class="bi bi-house"></i> Dashboard
+            <% end %>
+          <% else %>
+            <button class="btn-gradient-primary">
+              <i class="bi bi-heart"></i> Follow
+            </button>
+            <% if @live_streams.any? %>
+              <%= link_to stream_path(@live_streams.first), class: "btn-outline-gradient", style: "text-align: center;" do %>
+                <i class="bi bi-broadcast"></i> Watch Stream
+              <% end %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container fade-in-delay-1">
+  <%# Stats Overview %>
+  <div class="row g-4 mb-4">
+    <%# Total Streams %>
+    <div class="col-lg-3 col-md-6">
+      <div class="glass-card" style="text-align: center;">
+        <div style="font-size: 3rem; font-weight: 800; margin-bottom: 0.5rem;" class="gradient-text">
+          <%= @total_streams %>
+        </div>
+        <div style="color: var(--text-muted); font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.5px;">
+          <i class="bi bi-camera-video"></i> Total Streams
+        </div>
+      </div>
+    </div>
+
+    <%# Connected Services %>
+    <div class="col-lg-3 col-md-6">
+      <div class="glass-card" style="text-align: center;">
+        <div style="font-size: 3rem; font-weight: 800; margin-bottom: 0.5rem;" class="gradient-text">
+          <%= @connected_integrations %>
+        </div>
+        <div style="color: var(--text-muted); font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.5px;">
+          <i class="bi bi-plug"></i> Connected Services
+        </div>
+      </div>
+    </div>
+
+    <%# Loyalty Points %>
+    <div class="col-lg-3 col-md-6">
+      <div class="glass-card" style="text-align: center;">
+        <div style="font-size: 3rem; font-weight: 800; margin-bottom: 0.5rem;" class="gradient-text">
+          <%= number_with_delimiter(@loyalty_points) %>
+        </div>
+        <div style="color: var(--text-muted); font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.5px;">
+          <i class="bi bi-star"></i> Loyalty Points
+        </div>
+      </div>
+    </div>
+
+    <%# Achievements %>
+    <div class="col-lg-3 col-md-6">
+      <div class="glass-card" style="text-align: center;">
+        <div style="font-size: 3rem; font-weight: 800; margin-bottom: 0.5rem;" class="gradient-text">
+          <%= @achievements_count %>/<%= @total_achievements %>
+        </div>
+        <div style="color: var(--text-muted); font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.5px;">
+          <i class="bi bi-trophy"></i> Achievements
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <%# Main Content Column %>
+    <div class="col-lg-8">
+      <%# Connected Gaming Integrations %>
+      <div class="glass-card mb-4">
+        <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem;">
+          <i class="bi bi-controller gradient-text"></i>
+          <span class="gradient-text">Gaming Profiles</span>
+        </h3>
+
+        <div class="row g-3">
+          <%# Steam %>
+          <div class="col-md-6">
+            <div style="background: <%= @steam_connected ? 'linear-gradient(135deg, #1b2838, #2a475e)' : 'rgba(255, 255, 255, 0.03)' %>; border: 1px solid <%= @steam_connected ? 'rgba(23, 36, 51, 0.5)' : 'rgba(255, 255, 255, 0.1)' %>; border-radius: var(--radius-lg); padding: 1.25rem; transition: all var(--transition-base); position: relative; overflow: hidden;">
+              <div style="display: flex; align-items: center; gap: 1rem;">
+                <i class="bi bi-steam" style="font-size: 2rem; <%= @steam_connected ? 'color: #66C0F4;' : 'color: var(--text-muted);' %>"></i>
+                <div style="flex: 1;">
+                  <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem;">Steam</div>
+                  <% if @steam_connected %>
+                    <div class="neon-indicator" style="display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 999px; padding: 0.125rem 0.5rem;">
+                      <span style="width: 6px; height: 6px; background: var(--accent-green); border-radius: 50%; box-shadow: 0 0 8px var(--accent-green); animation: pulse-glow 2s infinite;"></span>
+                      <span style="color: var(--accent-green); font-size: 0.625rem; font-weight: 600; text-transform: uppercase;">Connected</span>
+                    </div>
+                  <% else %>
+                    <div style="font-size: 0.75rem; color: var(--text-muted);">Not connected</div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <%# Discord %>
+          <div class="col-md-6">
+            <div style="background: <%= @discord_connected ? 'linear-gradient(135deg, #5865F2, #7289DA)' : 'rgba(255, 255, 255, 0.03)' %>; border: 1px solid <%= @discord_connected ? 'rgba(88, 101, 242, 0.5)' : 'rgba(255, 255, 255, 0.1)' %>; border-radius: var(--radius-lg); padding: 1.25rem; transition: all var(--transition-base);">
+              <div style="display: flex; align-items: center; gap: 1rem;">
+                <i class="bi bi-discord" style="font-size: 2rem; <%= @discord_connected ? 'color: white;' : 'color: var(--text-muted);' %>"></i>
+                <div style="flex: 1;">
+                  <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem;">Discord</div>
+                  <% if @discord_connected %>
+                    <div class="neon-indicator" style="display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 999px; padding: 0.125rem 0.5rem;">
+                      <span style="width: 6px; height: 6px; background: var(--accent-green); border-radius: 50%; box-shadow: 0 0 8px var(--accent-green); animation: pulse-glow 2s infinite;"></span>
+                      <span style="color: var(--accent-green); font-size: 0.625rem; font-weight: 600; text-transform: uppercase;">Connected</span>
+                    </div>
+                  <% else %>
+                    <div style="font-size: 0.75rem; color: var(--text-muted);">Not connected</div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <%# Battle.net %>
+          <div class="col-md-6">
+            <div style="background: <%= @battlenet_connected ? 'linear-gradient(135deg, #148EFF, #0074E0)' : 'rgba(255, 255, 255, 0.03)' %>; border: 1px solid <%= @battlenet_connected ? 'rgba(20, 142, 255, 0.5)' : 'rgba(255, 255, 255, 0.1)' %>; border-radius: var(--radius-lg); padding: 1.25rem;">
+              <div style="display: flex; align-items: center; gap: 1rem;">
+                <i class="bi bi-controller" style="font-size: 2rem; <%= @battlenet_connected ? 'color: white;' : 'color: var(--text-muted);' %>"></i>
+                <div style="flex: 1;">
+                  <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem;">Battle.net</div>
+                  <% if @battlenet_connected %>
+                    <div class="neon-indicator" style="display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 999px; padding: 0.125rem 0.5rem;">
+                      <span style="width: 6px; height: 6px; background: var(--accent-green); border-radius: 50%; box-shadow: 0 0 8px var(--accent-green); animation: pulse-glow 2s infinite;"></span>
+                      <span style="color: var(--accent-green); font-size: 0.625rem; font-weight: 600; text-transform: uppercase;">Connected</span>
+                    </div>
+                  <% else %>
+                    <div style="font-size: 0.75rem; color: var(--text-muted);">Not connected</div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <%# Riot Games %>
+          <div class="col-md-6">
+            <div style="background: <%= @riot_connected ? 'linear-gradient(135deg, #D13639, #E84057)' : 'rgba(255, 255, 255, 0.03)' %>; border: 1px solid <%= @riot_connected ? 'rgba(209, 54, 57, 0.5)' : 'rgba(255, 255, 255, 0.1)' %>; border-radius: var(--radius-lg); padding: 1.25rem;">
+              <div style="display: flex; align-items: center; gap: 1rem;">
+                <i class="bi bi-joystick" style="font-size: 2rem; <%= @riot_connected ? 'color: white;' : 'color: var(--text-muted);' %>"></i>
+                <div style="flex: 1;">
+                  <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem;">Riot Games</div>
+                  <% if @riot_connected %>
+                    <div class="neon-indicator" style="display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 999px; padding: 0.125rem 0.5rem;">
+                      <span style="width: 6px; height: 6px; background: var(--accent-green); border-radius: 50%; box-shadow: 0 0 8px var(--accent-green); animation: pulse-glow 2s infinite;"></span>
+                      <span style="color: var(--accent-green); font-size: 0.625rem; font-weight: 600; text-transform: uppercase;">Connected</span>
+                    </div>
+                  <% else %>
+                    <div style="font-size: 0.75rem; color: var(--text-muted);">Not connected</div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <%# Recent Streams %>
+      <div class="glass-card">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
+          <h3 style="font-size: 1.5rem; font-weight: 700; margin: 0; display: flex; align-items: center; gap: 0.75rem;">
+            <i class="bi bi-camera-video gradient-text"></i>
+            <span class="gradient-text">Recent Streams</span>
+          </h3>
+          <% if @streams.any? %>
+            <%= link_to "View All", streams_path(search: @user.username), class: "btn-outline-gradient", style: "padding: 0.5rem 1rem; font-size: 0.875rem;" %>
+          <% end %>
+        </div>
+
+        <% if @streams.any? %>
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem;">
+            <% @streams.each do |stream| %>
+              <%= link_to stream_path(stream), style: "text-decoration: none; color: inherit;" do %>
+                <div class="feature-card" style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-lg); padding: 0; overflow: hidden; transition: all var(--transition-base);">
+                  <div style="position: relative; aspect-ratio: 16/9; background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));">
+                    <img src="<%= stream.thumbnail_url %>" alt="<%= stream.title %>" style="width: 100%; height: 100%; object-fit: cover;">
+                    <% if stream.live? %>
+                      <div style="position: absolute; top: 0.5rem; left: 0.5rem;">
+                        <span class="badge-live" style="font-size: 0.625rem; padding: 0.25rem 0.5rem;">LIVE</span>
+                      </div>
+                    <% else %>
+                      <div style="position: absolute; top: 0.5rem; left: 0.5rem;">
+                        <span class="badge-offline" style="font-size: 0.625rem; padding: 0.25rem 0.5rem;">OFFLINE</span>
+                      </div>
+                    <% end %>
+                  </div>
+                  <div style="padding: 1rem;">
+                    <div style="font-weight: 600; font-size: 0.875rem; margin-bottom: 0.5rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                      <%= stream.title %>
+                    </div>
+                    <div style="font-size: 0.75rem; color: var(--text-muted);">
+                      <%= time_ago_in_words(stream.updated_at) %> ago
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+        <% else %>
+          <div style="text-align: center; padding: 3rem 1rem;">
+            <i class="bi bi-camera-video-off display-4" style="color: var(--text-muted);"></i>
+            <p style="color: var(--text-muted); margin-top: 1rem;">
+              No streams yet
+            </p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <%# Sidebar %>
+    <div class="col-lg-4">
+      <%# Social Links %>
+      <div class="glass-card mb-4">
+        <h5 style="font-size: 1.125rem; font-weight: 700; margin-bottom: 1.5rem;">
+          <i class="bi bi-share gradient-text"></i>
+          <span class="gradient-text">Social Links</span>
+        </h5>
+
+        <div class="d-grid gap-2">
+          <% if @twitter_connected %>
+            <div style="background: linear-gradient(135deg, #1DA1F2, #0d8bd9); border-radius: var(--radius-md); padding: 0.75rem; display: flex; align-items: center; gap: 0.75rem;">
+              <i class="bi bi-twitter" style="font-size: 1.5rem; color: white;"></i>
+              <span style="color: white; font-weight: 600;">Twitter</span>
+            </div>
+          <% end %>
+
+          <% if @youtube_connected %>
+            <div style="background: linear-gradient(135deg, #FF0000, #cc0000); border-radius: var(--radius-md); padding: 0.75rem; display: flex; align-items: center; gap: 0.75rem;">
+              <i class="bi bi-youtube" style="font-size: 1.5rem; color: white;"></i>
+              <span style="color: white; font-weight: 600;">YouTube</span>
+            </div>
+          <% end %>
+
+          <% unless @twitter_connected || @youtube_connected %>
+            <div style="text-align: center; padding: 2rem 1rem; color: var(--text-muted);">
+              <i class="bi bi-link-45deg display-4"></i>
+              <p style="margin-top: 0.5rem; font-size: 0.875rem;">No social links yet</p>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <%# Discord Bot Stats %>
+      <div class="glass-card">
+        <h5 style="font-size: 1.125rem; font-weight: 700; margin-bottom: 1.5rem;">
+          <i class="bi bi-trophy gradient-text"></i>
+          <span class="gradient-text">Community Stats</span>
+        </h5>
+
+        <div style="margin-bottom: 1.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+            <span style="color: var(--text-secondary); font-size: 0.875rem; font-weight: 600;">Loyalty Points</span>
+            <span style="color: var(--text-primary); font-weight: 700; font-size: 1.125rem;"><%= number_with_delimiter(@loyalty_points) %></span>
+          </div>
+          <div style="background: rgba(255, 255, 255, 0.05); border-radius: 999px; height: 8px; overflow: hidden;">
+            <div style="background: var(--gradient-primary); height: 100%; width: <%= [@loyalty_points / 100.0, 100].min %>%; border-radius: 999px; transition: width 1s ease;"></div>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+            <span style="color: var(--text-secondary); font-size: 0.875rem; font-weight: 600;">Achievements</span>
+            <span style="color: var(--text-primary); font-weight: 700; font-size: 1.125rem;"><%= @achievements_count %>/<%= @total_achievements %></span>
+          </div>
+          <div style="background: rgba(255, 255, 255, 0.05); border-radius: 999px; height: 8px; overflow: hidden;">
+            <% progress = @total_achievements > 0 ? (@achievements_count.to_f / @total_achievements * 100) : 0 %>
+            <div style="background: var(--gradient-primary); height: 100%; width: <%= progress %>%; border-radius: 999px; transition: width 1s ease;"></div>
+          </div>
+        </div>
+
+        <div style="text-align: center; padding-top: 1rem; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+          <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem;">Member Since</div>
+          <div style="color: var(--text-primary); font-weight: 600;"><%= @user.created_at.strftime("%B %Y") %></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+/* Hover effects for stream cards */
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
+  border-color: rgba(139, 92, 246, 0.5) !important;
+}
+</style>

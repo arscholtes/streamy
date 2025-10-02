@@ -45,6 +45,18 @@ class RailsAPIClient:
             logger.error(f"API request failed: {method} {url} - {e}")
             raise
 
+    async def get(self, endpoint: str, params: Optional[Dict] = None) -> Dict:
+        """Make GET request"""
+        return await self._request('GET', endpoint, params=params)
+
+    async def post(self, endpoint: str, data: Optional[Dict] = None) -> Dict:
+        """Make POST request"""
+        return await self._request('POST', endpoint, json=data)
+
+    async def delete(self, endpoint: str, data: Optional[Dict] = None) -> Dict:
+        """Make DELETE request"""
+        return await self._request('DELETE', endpoint, json=data)
+
     # User endpoints
     async def get_user_by_discord_id(self, discord_id: str) -> Optional[Dict]:
         """Get user by Discord ID"""

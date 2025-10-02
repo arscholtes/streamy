@@ -1,97 +1,155 @@
 <%# app/views/settings/index.html.erb %>
-<%# User settings page with tabbed interface %>
-<%# Includes: Profile, Account (password), and Billing settings %>
+<%# StreamHub Settings - Modern Dark Design with Neon Indicators %>
 
 <% content_for :title, "Settings" %>
 
-<div class="container mt-4 fade-in">
-  <div class="row mb-4">
-    <div class="col-md-12">
-      <h1><i class="bi bi-gear gradient-text"></i> <span class="gradient-text">Settings</span></h1>
-      <p class="lead" style="color: var(--text-muted);">Manage your account preferences and settings</p>
+<%# Hero Header %>
+<div style="background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%); padding: 3rem 0; margin-bottom: 2rem; position: relative; overflow: hidden;">
+  <div style="position: absolute; top: -50%; left: -10%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(59, 130, 246, 0.15), transparent); border-radius: 50%; filter: blur(80px);"></div>
+
+  <div class="container">
+    <div class="row fade-in">
+      <div class="col-md-12">
+        <h1 style="font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; margin-bottom: 0.5rem;">
+          <i class="bi bi-gear-fill" style="background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
+          <span class="gradient-text">Settings</span>
+        </h1>
+        <p style="font-size: 1.125rem; color: var(--text-muted); margin: 0;">
+          Manage your account, integrations, and preferences
+        </p>
+      </div>
     </div>
   </div>
+</div>
 
-  <%# Tabbed Navigation %>
-  <ul class="nav nav-tabs nav-tabs-dark mb-4" id="settingsTabs" role="tablist">
-    <li class="nav-item" role="presentation">
-      <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button">
-        <i class="bi bi-person"></i> Profile
-      </button>
-    </li>
-    <li class="nav-item" role="presentation">
-      <button class="nav-link" id="account-tab" data-bs-toggle="tab" data-bs-target="#account" type="button">
-        <i class="bi bi-shield-lock"></i> Account
-      </button>
-    </li>
-    <li class="nav-item" role="presentation">
-      <button class="nav-link" id="billing-tab" data-bs-toggle="tab" data-bs-target="#billing" type="button">
-        <i class="bi bi-credit-card"></i> Billing
-      </button>
-    </li>
-    <li class="nav-item" role="presentation">
-      <button class="nav-link" id="integrations-tab" data-bs-toggle="tab" data-bs-target="#integrations" type="button">
-        <i class="bi bi-plug"></i> Integrations
-      </button>
-    </li>
-  </ul>
+<div class="container fade-in-delay-1">
+  <%# Enhanced Tabbed Navigation %>
+  <div style="background: rgba(26, 31, 58, 0.4); border-radius: var(--radius-lg); padding: 0.5rem; margin-bottom: 2rem; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.05);">
+    <ul class="nav nav-pills" id="settingsTabs" role="tablist" style="gap: 0.5rem;">
+      <li class="nav-item" role="presentation" style="flex: 1;">
+        <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
+                style="width: 100%; background: var(--gradient-primary); border-radius: var(--radius-md); font-weight: 600; transition: all var(--transition-base);">
+          <i class="bi bi-person-circle"></i> Profile
+        </button>
+      </li>
+      <li class="nav-item" role="presentation" style="flex: 1;">
+        <button class="nav-link" id="account-tab" data-bs-toggle="tab" data-bs-target="#account" type="button"
+                style="width: 100%; background: transparent; border: none; color: var(--text-muted); border-radius: var(--radius-md); font-weight: 600; transition: all var(--transition-base);">
+          <i class="bi bi-shield-lock-fill"></i> Account
+        </button>
+      </li>
+      <li class="nav-item" role="presentation" style="flex: 1;">
+        <button class="nav-link" id="billing-tab" data-bs-toggle="tab" data-bs-target="#billing" type="button"
+                style="width: 100%; background: transparent; border: none; color: var(--text-muted); border-radius: var(--radius-md); font-weight: 600; transition: all var(--transition-base);">
+          <i class="bi bi-credit-card-fill"></i> Billing
+        </button>
+      </li>
+      <li class="nav-item" role="presentation" style="flex: 1;">
+        <button class="nav-link" id="integrations-tab" data-bs-toggle="tab" data-bs-target="#integrations" type="button"
+                style="width: 100%; background: transparent; border: none; color: var(--text-muted); border-radius: var(--radius-md); font-weight: 600; transition: all var(--transition-base);">
+          <i class="bi bi-plug-fill"></i> Integrations
+          <%
+            connected = [
+              current_user.steam_account.present?,
+              current_user.discord_account.present?
+            ].count(true)
+          %>
+          <% if connected > 0 %>
+            <span class="badge" style="background: var(--gradient-success); border-radius: 999px; padding: 0.125rem 0.5rem; font-size: 0.75rem; margin-left: 0.25rem;"><%= connected %></span>
+          <% end %>
+        </button>
+      </li>
+    </ul>
+  </div>
 
   <%# Tab Content %>
-  <div class="tab-content fade-in-delay-1" id="settingsTabContent">
+  <div class="tab-content" id="settingsTabContent">
     <%# PROFILE TAB %>
     <div class="tab-pane fade show active" id="profile" role="tabpanel">
       <div class="row">
-        <div class="col-md-8">
+        <div class="col-lg-8 mb-4">
           <div class="glass-card">
-            <h4 class="mb-4 gradient-text"><i class="bi bi-person-circle"></i> Profile Information</h4>
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
+              <div style="width: 60px; height: 60px; background: var(--gradient-primary); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 2rem;">
+                👤
+              </div>
+              <div>
+                <h3 style="margin-bottom: 0.25rem; font-size: 1.75rem; font-weight: 700;">
+                  <span class="gradient-text">Profile Information</span>
+                </h3>
+                <p style="color: var(--text-muted); margin: 0;">Update your public profile details</p>
+              </div>
+            </div>
+
             <%= form_with model: @user, url: update_profile_path, method: :patch, local: true do |form| %>
               <%# Username Field %>
               <div class="mb-4">
-                <%= form.label :username, "Username", class: "form-label", style: "color: var(--text-secondary);" %>
+                <%= form.label :username, "Username", class: "form-label", style: "color: var(--text-secondary); font-weight: 600; margin-bottom: 0.5rem; display: block;" %>
                 <%= form.text_field :username,
                   class: "form-control-dark #{@user.errors[:username].any? ? 'is-invalid' : ''}",
-                  required: true %>
+                  required: true,
+                  style: "font-size: 1rem;" %>
                 <% if @user.errors[:username].any? %>
-                  <div class="invalid-feedback d-block">
-                    <%= @user.errors[:username].join(", ") %>
+                  <div class="invalid-feedback d-block" style="color: var(--accent-red); margin-top: 0.5rem;">
+                    <i class="bi bi-exclamation-circle"></i> <%= @user.errors[:username].join(", ") %>
                   </div>
                 <% end %>
-                <div class="form-text" style="color: var(--text-muted);">3-50 characters. Letters, numbers, and underscores only.</div>
+                <div class="form-text" style="color: var(--text-muted); font-size: 0.875rem; margin-top: 0.5rem;">
+                  <i class="bi bi-info-circle"></i> 3-50 characters. Letters, numbers, and underscores only.
+                </div>
               </div>
 
               <%# Email Field %>
               <div class="mb-4">
-                <%= form.label :email, "Email Address", class: "form-label", style: "color: var(--text-secondary);" %>
+                <%= form.label :email, "Email Address", class: "form-label", style: "color: var(--text-secondary); font-weight: 600; margin-bottom: 0.5rem; display: block;" %>
                 <%= form.email_field :email,
                   class: "form-control-dark #{@user.errors[:email].any? ? 'is-invalid' : ''}",
-                  required: true %>
+                  required: true,
+                  style: "font-size: 1rem;" %>
                 <% if @user.errors[:email].any? %>
-                  <div class="invalid-feedback d-block">
-                    <%= @user.errors[:email].join(", ") %>
+                  <div class="invalid-feedback d-block" style="color: var(--accent-red); margin-top: 0.5rem;">
+                    <i class="bi bi-exclamation-circle"></i> <%= @user.errors[:email].join(", ") %>
                   </div>
                 <% end %>
               </div>
 
-              <div class="d-grid">
-                <%= form.submit "Update Profile", class: "btn-gradient-primary" %>
-              </div>
+              <%= form.submit "Save Changes", class: "btn-gradient-primary", style: "width: 100%; padding: 0.875rem;" %>
             <% end %>
           </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-lg-4 mb-4">
           <div class="glass-card">
-            <h5 class="mb-4 gradient-text"><i class="bi bi-info-circle"></i> Profile Info</h5>
-            <p style="margin-bottom: 1rem;"><strong style="color: var(--text-primary);">Username:</strong><br><span style="color: var(--text-secondary);"><%= @user.username %></span></p>
-            <p style="margin-bottom: 1rem;"><strong style="color: var(--text-primary);">Email:</strong><br><span style="color: var(--text-secondary);"><%= @user.email %></span></p>
-            <p style="margin-bottom: 1rem;"><strong style="color: var(--text-primary);">Member Since:</strong><br><span style="color: var(--text-secondary);"><%= @user.created_at.strftime("%B %d, %Y") %></span></p>
-            <p><strong style="color: var(--text-primary);">Subscription:</strong><br>
+            <h5 style="font-size: 1.125rem; font-weight: 700; margin-bottom: 1.5rem;">
+              <i class="bi bi-person-badge gradient-text"></i>
+              <span class="gradient-text">Account Details</span>
+            </h5>
+
+            <div style="margin-bottom: 1.5rem;">
+              <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem;">Username</div>
+              <div style="font-size: 1.125rem; font-weight: 600; color: var(--text-primary);"><%= @user.username %></div>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+              <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem;">Email</div>
+              <div style="font-size: 1rem; color: var(--text-secondary); word-break: break-word;"><%= @user.email %></div>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+              <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem;">Member Since</div>
+              <div style="font-size: 1rem; color: var(--text-secondary);"><%= @user.created_at.strftime("%B %d, %Y") %></div>
+            </div>
+
+            <div>
+              <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem;">Subscription</div>
               <% if @user.subscription_tier == "free" %>
-                <span class="badge-offline text-capitalize"><%= @user.subscription_tier %></span>
+                <span class="badge" style="background: linear-gradient(135deg, #F59E0B, #EF4444); padding: 0.5rem 1rem; border-radius: var(--radius-full); font-weight: 600; text-transform: uppercase; font-size: 0.875rem;">
+                  <%= @user.subscription_tier %>
+                </span>
               <% else %>
-                <span class="badge-pro text-capitalize"><%= @user.subscription_tier %></span>
+                <span class="badge-pro" style="padding: 0.5rem 1rem; font-size: 0.875rem;">PREMIUM</span>
               <% end %>
-            </p>
+            </div>
           </div>
         </div>
       </div>
@@ -100,70 +158,89 @@
     <%# ACCOUNT TAB (Password) %>
     <div class="tab-pane fade" id="account" role="tabpanel">
       <div class="row">
-        <div class="col-md-8">
+        <div class="col-lg-8 mb-4">
           <div class="glass-card">
-            <h4 class="mb-4 gradient-text"><i class="bi bi-shield-lock"></i> Change Password</h4>
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
+              <div style="width: 60px; height: 60px; background: var(--gradient-primary); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 2rem;">
+                🔒
+              </div>
+              <div>
+                <h3 style="margin-bottom: 0.25rem; font-size: 1.75rem; font-weight: 700;">
+                  <span class="gradient-text">Change Password</span>
+                </h3>
+                <p style="color: var(--text-muted); margin: 0;">Update your password to keep your account secure</p>
+              </div>
+            </div>
+
             <%= form_with scope: :user, url: update_password_path, method: :patch, local: true do |form| %>
               <%# Current Password %>
               <div class="mb-4">
-                <%= form.label :current_password, "Current Password", class: "form-label", style: "color: var(--text-secondary);" %>
+                <%= form.label :current_password, "Current Password", class: "form-label", style: "color: var(--text-secondary); font-weight: 600; margin-bottom: 0.5rem; display: block;" %>
                 <%= form.password_field :current_password,
                   class: "form-control-dark",
                   required: true,
-                  autocomplete: "current-password" %>
-                <div class="form-text" style="color: var(--text-muted);">Enter your current password to verify it's you</div>
+                  autocomplete: "current-password",
+                  style: "font-size: 1rem;" %>
+                <div class="form-text" style="color: var(--text-muted); font-size: 0.875rem; margin-top: 0.5rem;">
+                  <i class="bi bi-shield-check"></i> Enter your current password to verify your identity
+                </div>
               </div>
 
               <%# New Password %>
               <div class="mb-4">
-                <%= form.label :password, "New Password", class: "form-label", style: "color: var(--text-secondary);" %>
+                <%= form.label :password, "New Password", class: "form-label", style: "color: var(--text-secondary); font-weight: 600; margin-bottom: 0.5rem; display: block;" %>
                 <%= form.password_field :password,
                   class: "form-control-dark #{@user.errors[:password].any? ? 'is-invalid' : ''}",
                   required: true,
-                  autocomplete: "new-password" %>
+                  autocomplete: "new-password",
+                  style: "font-size: 1rem;" %>
                 <% if @user.errors[:password].any? %>
-                  <div class="invalid-feedback d-block">
-                    <%= @user.errors[:password].join(", ") %>
+                  <div class="invalid-feedback d-block" style="color: var(--accent-red); margin-top: 0.5rem;">
+                    <i class="bi bi-exclamation-circle"></i> <%= @user.errors[:password].join(", ") %>
                   </div>
                 <% end %>
-                <div class="form-text" style="color: var(--text-muted);">Minimum 6 characters</div>
+                <div class="form-text" style="color: var(--text-muted); font-size: 0.875rem; margin-top: 0.5rem;">
+                  <i class="bi bi-info-circle"></i> Minimum 6 characters
+                </div>
               </div>
 
               <%# Password Confirmation %>
               <div class="mb-4">
-                <%= form.label :password_confirmation, "Confirm New Password", class: "form-label", style: "color: var(--text-secondary);" %>
+                <%= form.label :password_confirmation, "Confirm New Password", class: "form-label", style: "color: var(--text-secondary); font-weight: 600; margin-bottom: 0.5rem; display: block;" %>
                 <%= form.password_field :password_confirmation,
                   class: "form-control-dark",
                   required: true,
-                  autocomplete: "new-password" %>
+                  autocomplete: "new-password",
+                  style: "font-size: 1rem;" %>
               </div>
 
-              <div class="d-grid">
-                <%= form.submit "Update Password", class: "btn-gradient-primary" %>
-              </div>
+              <%= form.submit "Update Password", class: "btn-gradient-primary", style: "width: 100%; padding: 0.875rem;" %>
             <% end %>
           </div>
         </div>
 
-        <div class="col-md-4">
-          <div class="glass-card" style="border: 1px solid rgba(239, 68, 68, 0.3);">
-            <h5 class="mb-4 gradient-text"><i class="bi bi-shield-check"></i> Security Tips</h5>
-            <ul class="list-unstyled">
-              <li class="mb-3" style="color: var(--text-secondary);">
-                <i class="bi bi-check-circle" style="color: var(--accent-green);"></i>
-                Use a strong, unique password
+        <div class="col-lg-4 mb-4">
+          <div class="glass-card" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%); border: 1px solid rgba(239, 68, 68, 0.2);">
+            <h5 style="font-size: 1.125rem; font-weight: 700; margin-bottom: 1.5rem;">
+              <i class="bi bi-shield-fill-exclamation" style="color: var(--accent-red);"></i>
+              <span style="color: var(--accent-red);">Security Tips</span>
+            </h5>
+            <ul class="list-unstyled" style="margin: 0;">
+              <li style="padding: 0.75rem 0; color: var(--text-secondary); display: flex; align-items: start; gap: 0.75rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+                <i class="bi bi-check-circle-fill" style="color: var(--accent-green); font-size: 1.125rem; flex-shrink: 0;"></i>
+                <span>Use a strong, unique password that you don't use elsewhere</span>
               </li>
-              <li class="mb-3" style="color: var(--text-secondary);">
-                <i class="bi bi-check-circle" style="color: var(--accent-green);"></i>
-                Include numbers and symbols
+              <li style="padding: 0.75rem 0; color: var(--text-secondary); display: flex; align-items: start; gap: 0.75rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+                <i class="bi bi-check-circle-fill" style="color: var(--accent-green); font-size: 1.125rem; flex-shrink: 0;"></i>
+                <span>Include uppercase, lowercase, numbers, and symbols</span>
               </li>
-              <li class="mb-3" style="color: var(--text-secondary);">
-                <i class="bi bi-check-circle" style="color: var(--accent-green);"></i>
-                Never share your password
+              <li style="padding: 0.75rem 0; color: var(--text-secondary); display: flex; align-items: start; gap: 0.75rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+                <i class="bi bi-check-circle-fill" style="color: var(--accent-green); font-size: 1.125rem; flex-shrink: 0;"></i>
+                <span>Never share your password with anyone</span>
               </li>
-              <li style="color: var(--text-secondary);">
-                <i class="bi bi-check-circle" style="color: var(--accent-green);"></i>
-                Change it regularly
+              <li style="padding: 0.75rem 0; color: var(--text-secondary); display: flex; align-items: start; gap: 0.75rem;">
+                <i class="bi bi-check-circle-fill" style="color: var(--accent-green); font-size: 1.125rem; flex-shrink: 0;"></i>
+                <span>Change your password regularly for best security</span>
               </li>
             </ul>
           </div>
@@ -171,109 +248,126 @@
       </div>
     </div>
 
-    <%# BILLING TAB (Future Payment Integration) %>
+    <%# BILLING TAB %>
     <div class="tab-pane fade" id="billing" role="tabpanel">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="glass-card">
-            <h4 class="mb-4 gradient-text"><i class="bi bi-credit-card"></i> Subscription & Billing</h4>
-            <div class="row">
-              <div class="col-md-4 mb-4">
-                <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-md); padding: 2rem; text-align: center;">
-                  <h5 style="color: var(--text-secondary); margin-bottom: 1rem;">Current Plan</h5>
-                  <h2 class="text-capitalize gradient-text" style="margin-bottom: 1rem;"><%= @user.subscription_tier %></h2>
-                  <% if @user.subscription_tier == "free" %>
-                    <p style="color: var(--text-muted);">You're on the free plan</p>
-                  <% else %>
-                    <p style="color: var(--accent-green);"><i class="bi bi-check-circle-fill"></i> Premium subscriber</p>
-                  <% end %>
-                </div>
+      <div class="glass-card mb-4">
+        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
+          <div style="width: 60px; height: 60px; background: var(--gradient-primary); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 2rem;">
+            💳
+          </div>
+          <div>
+            <h3 style="margin-bottom: 0.25rem; font-size: 1.75rem; font-weight: 700;">
+              <span class="gradient-text">Subscription & Billing</span>
+            </h3>
+            <p style="color: var(--text-muted); margin: 0;">Manage your subscription and payment methods</p>
+          </div>
+        </div>
+
+        <div class="row">
+          <%# Current Plan Status %>
+          <div class="col-lg-4 mb-4">
+            <div style="background: <%= @user.subscription_tier == 'free' ? 'linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(239, 68, 68, 0.1) 100%)' : 'linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%)' %>; border: 1px solid <%= @user.subscription_tier == 'free' ? 'rgba(245, 158, 11, 0.3)' : 'rgba(139, 92, 246, 0.3)' %>; border-radius: var(--radius-lg); padding: 2rem; text-align: center;">
+              <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem;">Current Plan</div>
+              <div style="font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem;" class="gradient-text text-capitalize">
+                <%= @user.subscription_tier %>
               </div>
+              <% if @user.subscription_tier == "free" %>
+                <p style="color: var(--text-muted); margin: 0;">Limited features available</p>
+              <% else %>
+                <p style="color: var(--accent-green); margin: 0;">
+                  <i class="bi bi-check-circle-fill"></i> All premium features unlocked
+                </p>
+              <% end %>
+            </div>
+          </div>
 
-              <div class="col-md-8">
-                <h5 style="color: var(--text-secondary); margin-bottom: 1.5rem;">Available Plans</h5>
+          <%# Plans Grid %>
+          <div class="col-lg-8">
+            <h5 style="color: var(--text-secondary); margin-bottom: 1.5rem; font-weight: 600;">Available Plans</h5>
 
-                <%# Free Plan %>
-                <div class="glass-card mb-3" style="border: 1px solid <%= @user.subscription_tier == 'free' ? 'rgba(139, 92, 246, 0.5)' : 'rgba(255, 255, 255, 0.1)' %>;">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                      <h5 class="mb-2" style="color: var(--text-primary);">Free Plan</h5>
-                      <ul class="list-unstyled mb-0" style="font-size: 0.875rem;">
-                        <li class="mb-1" style="color: var(--text-muted);"><i class="bi bi-check" style="color: var(--accent-green);"></i> 720p streaming</li>
-                        <li class="mb-1" style="color: var(--text-muted);"><i class="bi bi-check" style="color: var(--accent-green);"></i> Basic analytics</li>
-                        <li style="color: var(--text-muted);"><i class="bi bi-check" style="color: var(--accent-green);"></i> Community support</li>
-                      </ul>
+            <%# Pro Plan - Highlighted %>
+            <div style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%); border: 2px solid rgba(139, 92, 246, 0.4); border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 1rem; position: relative; <%= @user.subscription_tier == 'pro' ? 'box-shadow: var(--glow-purple);' : '' %>">
+              <% if @user.subscription_tier != 'pro' %>
+                <div style="position: absolute; top: 1rem; right: 1rem;">
+                  <span class="badge-pro" style="font-size: 0.75rem; padding: 0.375rem 0.75rem;">POPULAR</span>
+                </div>
+              <% end %>
+              <div class="d-flex justify-content-between align-items-center">
+                <div style="flex: 1;">
+                  <h5 style="margin-bottom: 0.75rem; font-size: 1.5rem; font-weight: 700;">
+                    <span class="gradient-text">Pro Plan</span>
+                  </h5>
+                  <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; margin-bottom: 1rem;">
+                    <div style="color: var(--text-secondary); font-size: 0.875rem;">
+                      <i class="bi bi-check-circle-fill" style="color: var(--accent-green);"></i> 1080p streaming
                     </div>
-                    <div class="text-end">
-                      <h4 class="mb-2" style="color: var(--text-primary);">$0<small style="color: var(--text-muted);">/mo</small></h4>
-                      <% if @user.subscription_tier == "free" %>
-                        <span class="badge-pro">Current</span>
-                      <% end %>
+                    <div style="color: var(--text-secondary); font-size: 0.875rem;">
+                      <i class="bi bi-check-circle-fill" style="color: var(--accent-green);"></i> All 48 integrations
+                    </div>
+                    <div style="color: var(--text-secondary); font-size: 0.875rem;">
+                      <i class="bi bi-check-circle-fill" style="color: var(--accent-green);"></i> Custom branding
+                    </div>
+                    <div style="color: var(--text-secondary); font-size: 0.875rem;">
+                      <i class="bi bi-check-circle-fill" style="color: var(--accent-green);"></i> Priority support
                     </div>
                   </div>
                 </div>
-
-                <%# Pro Plan %>
-                <div class="glass-card mb-3" style="border: 1px solid <%= @user.subscription_tier == 'pro' ? 'rgba(139, 92, 246, 0.5)' : 'rgba(59, 130, 246, 0.3)' %>; box-shadow: <%= @user.subscription_tier == 'pro' ? 'var(--glow-purple)' : 'var(--glow-blue)' %>;">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                      <h5 class="mb-2">
-                        <span class="gradient-text">Pro Plan</span>
-                        <span class="badge-pro">Popular</span>
-                      </h5>
-                      <ul class="list-unstyled mb-0" style="font-size: 0.875rem;">
-                        <li class="mb-1" style="color: var(--text-muted);"><i class="bi bi-check-circle-fill" style="color: var(--accent-green);"></i> 1080p streaming</li>
-                        <li class="mb-1" style="color: var(--text-muted);"><i class="bi bi-check-circle-fill" style="color: var(--accent-green);"></i> Advanced analytics</li>
-                        <li class="mb-1" style="color: var(--text-muted);"><i class="bi bi-check-circle-fill" style="color: var(--accent-green);"></i> Custom branding</li>
-                        <li style="color: var(--text-muted);"><i class="bi bi-check-circle-fill" style="color: var(--accent-green);"></i> Priority support</li>
-                      </ul>
-                    </div>
-                    <div class="text-end">
-                      <h4 class="mb-2 gradient-text">$19<small style="color: var(--text-muted);">/mo</small></h4>
-                      <% if @user.subscription_tier == "pro" %>
-                        <span class="badge-pro">Current</span>
-                      <% else %>
-                        <button class="btn-outline-gradient btn-sm" disabled style="font-size: 0.875rem; padding: 0.5rem 1rem;">
-                          Coming Soon
-                        </button>
-                      <% end %>
-                    </div>
+                <div style="text-align: right; padding-left: 2rem;">
+                  <div style="font-size: 2.5rem; font-weight: 800; line-height: 1; margin-bottom: 0.5rem;" class="gradient-text">
+                    $19<span style="font-size: 1rem; color: var(--text-muted);">/mo</span>
                   </div>
-                </div>
-
-                <%# Enterprise Plan %>
-                <div class="glass-card" style="border: 1px solid <%= @user.subscription_tier == 'enterprise' ? 'rgba(139, 92, 246, 0.5)' : 'rgba(255, 255, 255, 0.1)' %>;">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                      <h5 class="mb-2" style="color: var(--text-primary);">Enterprise Plan</h5>
-                      <ul class="list-unstyled mb-0" style="font-size: 0.875rem;">
-                        <li class="mb-1" style="color: var(--text-muted);"><i class="bi bi-check-circle-fill" style="color: var(--accent-green);"></i> 4K streaming</li>
-                        <li class="mb-1" style="color: var(--text-muted);"><i class="bi bi-check-circle-fill" style="color: var(--accent-green);"></i> Unlimited bandwidth</li>
-                        <li class="mb-1" style="color: var(--text-muted);"><i class="bi bi-check-circle-fill" style="color: var(--accent-green);"></i> White-label solution</li>
-                        <li style="color: var(--text-muted);"><i class="bi bi-check-circle-fill" style="color: var(--accent-green);"></i> Dedicated support</li>
-                      </ul>
-                    </div>
-                    <div class="text-end">
-                      <h4 class="mb-2" style="color: var(--text-primary);">$99<small style="color: var(--text-muted);">/mo</small></h4>
-                      <% if @user.subscription_tier == "enterprise" %>
-                        <span class="badge-pro">Current</span>
-                      <% else %>
-                        <button class="btn-outline-gradient btn-sm" disabled style="font-size: 0.875rem; padding: 0.5rem 1rem;">
-                          Coming Soon
-                        </button>
-                      <% end %>
-                    </div>
-                  </div>
+                  <% if @user.subscription_tier == "pro" %>
+                    <span class="badge-pro">ACTIVE</span>
+                  <% else %>
+                    <button class="btn-gradient-primary btn-sm" disabled style="padding: 0.5rem 1.5rem;">
+                      Coming Soon
+                    </button>
+                  <% end %>
                 </div>
               </div>
             </div>
 
-            <hr style="border-color: rgba(255, 255, 255, 0.1); margin: 2rem 0;">
+            <%# Enterprise Plan %>
+            <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-lg); padding: 1.5rem;">
+              <div class="d-flex justify-content-between align-items-center">
+                <div style="flex: 1;">
+                  <h5 style="margin-bottom: 0.75rem; font-size: 1.25rem; font-weight: 700; color: var(--text-primary);">Enterprise Plan</h5>
+                  <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem;">
+                    <div style="color: var(--text-secondary); font-size: 0.875rem;">
+                      <i class="bi bi-check-circle-fill" style="color: var(--accent-green);"></i> 4K streaming
+                    </div>
+                    <div style="color: var(--text-secondary); font-size: 0.875rem;">
+                      <i class="bi bi-check-circle-fill" style="color: var(--accent-green);"></i> White-label
+                    </div>
+                    <div style="color: var(--text-secondary); font-size: 0.875rem;">
+                      <i class="bi bi-check-circle-fill" style="color: var(--accent-green);"></i> Unlimited bandwidth
+                    </div>
+                    <div style="color: var(--text-secondary); font-size: 0.875rem;">
+                      <i class="bi bi-check-circle-fill" style="color: var(--accent-green);"></i> Dedicated support
+                    </div>
+                  </div>
+                </div>
+                <div style="text-align: right; padding-left: 2rem;">
+                  <div style="font-size: 2rem; font-weight: 700; line-height: 1; margin-bottom: 0.5rem; color: var(--text-primary);">
+                    $99<span style="font-size: 0.875rem; color: var(--text-muted);">/mo</span>
+                  </div>
+                  <button class="btn-outline-gradient btn-sm" disabled style="padding: 0.5rem 1.5rem; font-size: 0.875rem;">
+                    Contact Sales
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-            <div style="background: rgba(59, 130, 246, 0.15); border: 1px solid var(--accent-blue); border-radius: var(--radius-md); padding: 1rem;">
-              <i class="bi bi-info-circle" style="color: var(--accent-blue);"></i>
-              <strong style="color: var(--accent-blue);">Payment Integration Coming Soon!</strong>
-              <span style="color: var(--text-secondary);">We're working on integrating Stripe for secure payment processing. You'll soon be able to upgrade your plan directly from this page.</span>
+        <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: var(--radius-md); padding: 1.5rem; margin-top: 2rem;">
+          <div style="display: flex; align-items: start; gap: 1rem;">
+            <i class="bi bi-info-circle" style="color: var(--accent-blue); font-size: 1.5rem; flex-shrink: 0;"></i>
+            <div>
+              <strong style="color: var(--accent-blue); font-size: 1.125rem;">Payment Integration Coming Soon!</strong>
+              <p style="color: var(--text-secondary); margin: 0.5rem 0 0; line-height: 1.6;">
+                We're integrating Stripe for secure payment processing. You'll soon be able to upgrade your plan and manage billing directly from this page.
+              </p>
             </div>
           </div>
         </div>
@@ -282,70 +376,150 @@
 
     <%# INTEGRATIONS TAB %>
     <div class="tab-pane fade" id="integrations" role="tabpanel">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="glass-card mb-4">
-            <h4 class="mb-4 gradient-text"><i class="bi bi-plug"></i> Connected Integrations</h4>
-            <p style="color: var(--text-muted);">
-              Connect your gaming and streaming accounts to enhance your profile and unlock powerful features.
-            </p>
+      <div class="glass-card mb-4">
+        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+          <div style="width: 60px; height: 60px; background: var(--gradient-primary); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 2rem;">
+            🔌
           </div>
+          <div>
+            <h3 style="margin-bottom: 0.25rem; font-size: 1.75rem; font-weight: 700;">
+              <span class="gradient-text">Platform Integrations</span>
+            </h3>
+            <p style="color: var(--text-muted); margin: 0;">Connect your gaming and social accounts for enhanced features</p>
+          </div>
+        </div>
 
-          <%# Steam Integration %>
-          <div class="glass-card mb-3" style="border: 1px solid <%= current_user.steam_account.present? ? 'rgba(139, 92, 246, 0.5)' : 'rgba(255, 255, 255, 0.1)' %>;">
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="d-flex align-items-center gap-3">
-                <div style="font-size: 2.5rem;">🎮</div>
-                <div>
-                  <h5 class="mb-1" style="color: var(--text-primary);">Steam</h5>
-                  <p class="mb-0" style="color: var(--text-muted); font-size: 0.875rem;">
-                    Connect your Steam account to show your games, achievements, and playtime
-                  </p>
-                </div>
-              </div>
-              <div>
+        <%
+          connected_count = [
+            current_user.steam_account.present?,
+            current_user.discord_account.present?
+          ].count(true)
+        %>
+
+        <%# Connection Status Bar %>
+        <div style="background: rgba(255, 255, 255, 0.03); border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 2rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <span style="color: var(--text-secondary); font-weight: 600;">Connected Integrations</span>
+            <span style="font-size: 1.5rem; font-weight: 800;" class="gradient-text"><%= connected_count %> / 48</span>
+          </div>
+          <div style="background: rgba(255, 255, 255, 0.1); height: 8px; border-radius: 999px; overflow: hidden;">
+            <div style="background: var(--gradient-primary); height: 100%; width: <%= (connected_count.to_f / 48 * 100).round(2) %>%; transition: width 0.5s ease;"></div>
+          </div>
+        </div>
+      </div>
+
+      <%# Gaming Integrations %>
+      <div class="mb-4">
+        <h5 style="color: var(--text-secondary); margin-bottom: 1rem; font-weight: 600; display: flex; align-items: center; gap: 0.5rem;">
+          <i class="bi bi-joystick"></i> Gaming Platforms
+        </h5>
+
+        <%# Steam Integration %>
+        <div class="glass-card mb-3" style="border: 1px solid <%= current_user.steam_account.present? ? 'rgba(139, 92, 246, 0.5)' : 'rgba(255, 255, 255, 0.1)' %>; <%= current_user.steam_account.present? ? 'box-shadow: 0 4px 20px rgba(139, 92, 246, 0.2);' : '' %>">
+          <div style="display: flex; align-items: center; gap: 1.5rem;">
+            <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #1b2838, #2a475e); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 2rem; flex-shrink: 0;">
+              🎮
+            </div>
+            <div style="flex: 1;">
+              <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                <h5 style="margin: 0; font-size: 1.25rem; font-weight: 700;">Steam</h5>
                 <% if current_user.steam_account.present? %>
-                  <div class="d-flex align-items-center gap-2">
-                    <span class="badge-pro">Connected</span>
-                    <%= link_to 'Settings', integrations_steam_privacy_settings_path, class: 'btn-gradient-secondary btn-sm' %>
+                  <div class="neon-indicator" style="display: flex; align-items: center; gap: 0.5rem; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 999px; padding: 0.25rem 0.75rem;">
+                    <span style="width: 8px; height: 8px; background: var(--accent-green); border-radius: 50%; box-shadow: 0 0 10px var(--accent-green); animation: pulse-glow 2s infinite;"></span>
+                    <span style="color: var(--accent-green); font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">Connected</span>
                   </div>
                 <% else %>
-                  <%= link_to integrations_steam_connect_path, class: 'btn-gradient-primary' do %>
-                    <i class="bi bi-plus-circle"></i> Connect Steam
-                  <% end %>
+                  <div style="display: flex; align-items: center; gap: 0.5rem; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 999px; padding: 0.25rem 0.75rem;">
+                    <span style="width: 8px; height: 8px; background: var(--text-muted); border-radius: 50%;"></span>
+                    <span style="color: var(--text-muted); font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">Not Connected</span>
+                  </div>
                 <% end %>
               </div>
-            </div>
-          </div>
-
-          <%# Discord Integration (Coming Soon) %>
-          <div class="glass-card mb-3">
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="d-flex align-items-center gap-3">
-                <div style="font-size: 2.5rem;">💬</div>
-                <div>
-                  <h5 class="mb-1" style="color: var(--text-primary);">Discord</h5>
-                  <p class="mb-0" style="color: var(--text-muted); font-size: 0.875rem;">
-                    Connect Discord for advanced bot features and community management
-                  </p>
-                </div>
-              </div>
-              <div>
-                <button class="btn-outline-gradient" disabled>
-                  Coming Soon
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <%# More integrations placeholder %>
-          <div class="glass-card">
-            <div style="text-align: center; padding: 2rem;">
-              <i class="bi bi-lightning-charge display-4 gradient-text"></i>
-              <h5 class="mt-3" style="color: var(--text-primary);">More Integrations Coming Soon</h5>
-              <p style="color: var(--text-muted);">
-                We're working on integrations for Battle.net, Riot Games, Twitter, YouTube, and many more!
+              <p style="color: var(--text-muted); margin: 0; font-size: 0.875rem;">
+                Show your games, achievements, and playtime on your profile
               </p>
+            </div>
+            <div>
+              <% if current_user.steam_account.present? %>
+                <div style="display: flex; gap: 0.75rem;">
+                  <%= link_to integrations_steam_privacy_settings_path, class: "btn-outline-gradient btn-sm" do %>
+                    <i class="bi bi-gear"></i> Settings
+                  <% end %>
+                  <%= button_to integrations_steam_disconnect_path, method: :delete, class: "btn-outline-gradient btn-sm", style: "border-color: rgba(239, 68, 68, 0.5); color: var(--accent-red);", data: { confirm: "Are you sure you want to disconnect Steam?" } do %>
+                    <i class="bi bi-x-circle"></i> Disconnect
+                  <% end %>
+                </div>
+              <% else %>
+                <%= link_to integrations_steam_connect_path, class: "btn-gradient-primary" do %>
+                  <i class="bi bi-plus-circle"></i> Connect Steam
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <%# Discord Integration %>
+        <div class="glass-card mb-3" style="border: 1px solid <%= current_user.discord_account.present? ? 'rgba(139, 92, 246, 0.5)' : 'rgba(255, 255, 255, 0.1)' %>; <%= current_user.discord_account.present? ? 'box-shadow: 0 4px 20px rgba(139, 92, 246, 0.2);' : '' %>">
+          <div style="display: flex; align-items: center; gap: 1.5rem;">
+            <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #5865F2, #7289DA); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 2rem; flex-shrink: 0;">
+              💬
+            </div>
+            <div style="flex: 1;">
+              <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                <h5 style="margin: 0; font-size: 1.25rem; font-weight: 700;">Discord</h5>
+                <% if current_user.discord_account.present? %>
+                  <div class="neon-indicator" style="display: flex; align-items: center; gap: 0.5rem; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 999px; padding: 0.25rem 0.75rem;">
+                    <span style="width: 8px; height: 8px; background: var(--accent-green); border-radius: 50%; box-shadow: 0 0 10px var(--accent-green); animation: pulse-glow 2s infinite;"></span>
+                    <span style="color: var(--accent-green); font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">Connected</span>
+                  </div>
+                <% else %>
+                  <div style="display: flex; align-items: center; gap: 0.5rem; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 999px; padding: 0.25rem 0.75rem;">
+                    <span style="width: 8px; height: 8px; background: var(--text-muted); border-radius: 50%;"></span>
+                    <span style="color: var(--text-muted); font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">Not Connected</span>
+                  </div>
+                <% end %>
+              </div>
+              <p style="color: var(--text-muted); margin: 0; font-size: 0.875rem;">
+                Enable Discord bot features and community management tools
+              </p>
+            </div>
+            <div>
+              <% if current_user.discord_account.present? %>
+                <div style="display: flex; gap: 0.75rem;">
+                  <%= link_to integrations_discord_privacy_settings_path, class: "btn-outline-gradient btn-sm" do %>
+                    <i class="bi bi-gear"></i> Settings
+                  <% end %>
+                  <%= button_to integrations_discord_disconnect_path, method: :delete, class: "btn-outline-gradient btn-sm", style: "border-color: rgba(239, 68, 68, 0.5); color: var(--accent-red);", data: { confirm: "Are you sure you want to disconnect Discord?" } do %>
+                    <i class="bi bi-x-circle"></i> Disconnect
+                  <% end %>
+                </div>
+              <% else %>
+                <%= link_to integrations_discord_connect_path, class: "btn-gradient-primary" do %>
+                  <i class="bi bi-plus-circle"></i> Connect Discord
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <%# Coming Soon Integrations %>
+      <div class="glass-card">
+        <div style="text-align: center; padding: 3rem 2rem;">
+          <i class="bi bi-lightning-charge-fill display-3 gradient-text"></i>
+          <h5 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 700;">
+            <span class="gradient-text">46 More Integrations Coming Soon</span>
+          </h5>
+          <p style="color: var(--text-muted); margin: 1rem auto 0; max-width: 600px; line-height: 1.6;">
+            We're actively developing integrations for Battle.net, Riot Games, Epic Games, Xbox Live, PlayStation Network, Twitter, YouTube, TikTok, Twitch, and many more platforms.
+          </p>
+          <div style="margin-top: 2rem;">
+            <div style="display: inline-flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center;">
+              <% ["Battle.net", "Riot", "Epic", "Xbox", "PSN", "Twitter", "YouTube", "TikTok", "Twitch", "Spotify"].each do |platform| %>
+                <span style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-md); padding: 0.5rem 1rem; color: var(--text-muted); font-size: 0.875rem;">
+                  <%= platform %>
+                </span>
+              <% end %>
             </div>
           </div>
         </div>
@@ -353,6 +527,38 @@
     </div>
   </div>
 </div>
+
+<style>
+/* Custom tab styling */
+#settingsTabs .nav-link {
+  transition: all 0.3s ease;
+}
+
+#settingsTabs .nav-link:not(.active):hover {
+  background: rgba(139, 92, 246, 0.1);
+  color: var(--text-primary);
+}
+
+#settingsTabs .nav-link.active {
+  background: var(--gradient-primary);
+  color: var(--text-primary);
+  box-shadow: var(--glow-purple);
+}
+
+/* Neon pulse animation */
+@keyframes neon-pulse {
+  0%, 100% {
+    box-shadow: 0 0 5px currentColor, 0 0 10px currentColor;
+  }
+  50% {
+    box-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+  }
+}
+
+.neon-indicator span:first-child {
+  animation: neon-pulse 2s infinite;
+}
+</style>
 
 <script>
 // Handle tab switching from URL hash

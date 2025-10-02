@@ -21,6 +21,9 @@ gem "jbuilder"
 # BCrypt is a password hashing algorithm that securely stores passwords in the database
 gem "bcrypt", "~> 3.1.7"
 
+# Stripe for payment processing
+gem "stripe", "~> 12.0"
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
@@ -57,6 +60,8 @@ group :development, :test do
   gem "factory_bot_rails"
   # Faker for generating test data
   gem "faker"
+  # Shoulda matchers for testing
+  gem "shoulda-matchers", "~> 6.0"
 end
 
 group :development do

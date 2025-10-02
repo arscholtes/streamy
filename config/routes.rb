@@ -4,6 +4,10 @@
 
 Rails.application.routes.draw do
   get "pages/landing"
+
+  # USER PROFILE ROUTES
+  # Public user profiles
+  resources :users, only: [:show]
   # AUTHENTICATION ROUTES
   # These routes handle user signup, login, and logout
   # Learn more about resources: https://guides.rubyonrails.org/routing.html#resource-routing-the-rails-default
@@ -49,7 +53,38 @@ Rails.application.routes.draw do
 
   # STREAM ROUTES
   # Routes for managing user streams
-  resources :streams, only: [ :index, :show, :edit, :update ]
+  resources :streams, only: [ :index, :show, :edit, :update ] do
+    # Nested chat messages routes
+    resources :chat_messages, only: [ :create ]
+  end
+
+  # SUBSCRIPTION ROUTES
+  # Platform subscription management
+  resources :subscriptions, only: [] do
+    collection do
+      get :new
+      post :create
+    end
+  end
+
+  resource :subscription, only: [:show] do
+    get :success, on: :collection
+    post :reactivate
+    post :change_plan
+    delete :cancel
+    get :portal
+  end
+
+  # DONATION ROUTES
+  # Streamer tips and donations
+  resources :donations, only: [:index]
+  get '/users/:username/donate', to: 'donations#new', as: :new_user_donation
+  post '/users/:username/donate', to: 'donations#create', as: :user_donations
+  get '/users/:username/donate/success', to: 'donations#success', as: :donation_success
+
+  # WEBHOOK ROUTES
+  # Stripe webhook endpoint
+  post '/webhooks/stripe', to: 'webhooks#stripe'
 
   # INTEGRATION ROUTES
   # Routes for third-party integrations (Steam, Discord, etc.)
@@ -95,6 +130,17 @@ Rails.application.routes.draw do
       # Mini-games endpoints
       post 'mini_games/record', to: 'mini_games#record'
       get 'users/:user_id/mini_games/stats', to: 'mini_games#stats'
+
+      # Moderation endpoints
+      post 'moderation/warn', to: 'moderation#warn'
+      get 'moderation/warnings/:discord_id', to: 'moderation#warnings'
+      delete 'moderation/warnings/:discord_id', to: 'moderation#clear_warnings'
+      post 'moderation/mute', to: 'moderation#mute'
+      post 'moderation/unmute', to: 'moderation#unmute'
+      get 'moderation/mutes/active', to: 'moderation#active_mutes'
+      get 'moderation/mutes/:discord_id', to: 'moderation#check_mute'
+      post 'moderation/action', to: 'moderation#log_action'
+      get 'moderation/actions', to: 'moderation#actions'
     end
   end
 
