@@ -1,0 +1,310 @@
+<%# app/views/settings/index.html.erb %>
+<%# User settings page with tabbed interface %>
+<%# Includes: Profile, Account (password), and Billing settings %>
+
+<% content_for :title, "Settings" %>
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-12">
+      <h1><i class="bi bi-gear"></i> Settings</h1>
+      <p class="lead text-muted">Manage your account preferences and settings</p>
+    </div>
+  </div>
+
+  <%# Tabbed Navigation %>
+  <ul class="nav nav-tabs mb-4" id="settingsTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button">
+        <i class="bi bi-person"></i> Profile
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="account-tab" data-bs-toggle="tab" data-bs-target="#account" type="button">
+        <i class="bi bi-shield-lock"></i> Account
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="billing-tab" data-bs-toggle="tab" data-bs-target="#billing" type="button">
+        <i class="bi bi-credit-card"></i> Billing
+      </button>
+    </li>
+  </ul>
+
+  <%# Tab Content %>
+  <div class="tab-content" id="settingsTabContent">
+    <%# PROFILE TAB %>
+    <div class="tab-pane fade show active" id="profile" role="tabpanel">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+              <h4 class="mb-0"><i class="bi bi-person-circle"></i> Profile Information</h4>
+            </div>
+            <div class="card-body">
+              <%= form_with model: @user, url: update_profile_path, method: :patch, local: true do |form| %>
+                <%# Username Field %>
+                <div class="mb-3">
+                  <%= form.label :username, "Username", class: "form-label" %>
+                  <%= form.text_field :username,
+                    class: "form-control #{@user.errors[:username].any? ? 'is-invalid' : ''}",
+                    required: true %>
+                  <% if @user.errors[:username].any? %>
+                    <div class="invalid-feedback d-block">
+                      <%= @user.errors[:username].join(", ") %>
+                    </div>
+                  <% end %>
+                  <div class="form-text">3-50 characters. Letters, numbers, and underscores only.</div>
+                </div>
+
+                <%# Email Field %>
+                <div class="mb-3">
+                  <%= form.label :email, "Email Address", class: "form-label" %>
+                  <%= form.email_field :email,
+                    class: "form-control #{@user.errors[:email].any? ? 'is-invalid' : ''}",
+                    required: true %>
+                  <% if @user.errors[:email].any? %>
+                    <div class="invalid-feedback d-block">
+                      <%= @user.errors[:email].join(", ") %>
+                    </div>
+                  <% end %>
+                </div>
+
+                <div class="d-grid">
+                  <%= form.submit "Update Profile", class: "btn btn-primary btn-lg" %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card shadow">
+            <div class="card-header bg-info text-white">
+              <h5 class="mb-0"><i class="bi bi-info-circle"></i> Profile Info</h5>
+            </div>
+            <div class="card-body">
+              <p><strong>Username:</strong><br><%= @user.username %></p>
+              <p><strong>Email:</strong><br><%= @user.email %></p>
+              <p><strong>Member Since:</strong><br><%= @user.created_at.strftime("%B %d, %Y") %></p>
+              <p><strong>Subscription:</strong><br>
+                <span class="badge bg-warning text-dark text-capitalize"><%= @user.subscription_tier %></span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%# ACCOUNT TAB (Password) %>
+    <div class="tab-pane fade" id="account" role="tabpanel">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="card shadow">
+            <div class="card-header bg-warning text-dark">
+              <h4 class="mb-0"><i class="bi bi-shield-lock"></i> Change Password</h4>
+            </div>
+            <div class="card-body">
+              <%= form_with scope: :user, url: update_password_path, method: :patch, local: true do |form| %>
+                <%# Current Password %>
+                <div class="mb-3">
+                  <%= form.label :current_password, "Current Password", class: "form-label" %>
+                  <%= form.password_field :current_password,
+                    class: "form-control",
+                    required: true,
+                    autocomplete: "current-password" %>
+                  <div class="form-text">Enter your current password to verify it's you</div>
+                </div>
+
+                <%# New Password %>
+                <div class="mb-3">
+                  <%= form.label :password, "New Password", class: "form-label" %>
+                  <%= form.password_field :password,
+                    class: "form-control #{@user.errors[:password].any? ? 'is-invalid' : ''}",
+                    required: true,
+                    autocomplete: "new-password" %>
+                  <% if @user.errors[:password].any? %>
+                    <div class="invalid-feedback d-block">
+                      <%= @user.errors[:password].join(", ") %>
+                    </div>
+                  <% end %>
+                  <div class="form-text">Minimum 6 characters</div>
+                </div>
+
+                <%# Password Confirmation %>
+                <div class="mb-3">
+                  <%= form.label :password_confirmation, "Confirm New Password", class: "form-label" %>
+                  <%= form.password_field :password_confirmation,
+                    class: "form-control",
+                    required: true,
+                    autocomplete: "new-password" %>
+                </div>
+
+                <div class="d-grid">
+                  <%= form.submit "Update Password", class: "btn btn-warning btn-lg" %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card shadow">
+            <div class="card-header bg-danger text-white">
+              <h5 class="mb-0"><i class="bi bi-shield-check"></i> Security Tips</h5>
+            </div>
+            <div class="card-body">
+              <ul class="list-unstyled">
+                <li class="mb-2">
+                  <i class="bi bi-check-circle text-success"></i>
+                  Use a strong, unique password
+                </li>
+                <li class="mb-2">
+                  <i class="bi bi-check-circle text-success"></i>
+                  Include numbers and symbols
+                </li>
+                <li class="mb-2">
+                  <i class="bi bi-check-circle text-success"></i>
+                  Never share your password
+                </li>
+                <li class="mb-2">
+                  <i class="bi bi-check-circle text-success"></i>
+                  Change it regularly
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%# BILLING TAB (Future Payment Integration) %>
+    <div class="tab-pane fade" id="billing" role="tabpanel">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card shadow">
+            <div class="card-header bg-success text-white">
+              <h4 class="mb-0"><i class="bi bi-credit-card"></i> Subscription & Billing</h4>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-4">
+                  <h5>Current Plan</h5>
+                  <h2 class="text-capitalize"><%= @user.subscription_tier %></h2>
+                  <% if @user.subscription_tier == "free" %>
+                    <p class="text-muted">You're on the free plan</p>
+                  <% else %>
+                    <p class="text-success">Premium subscriber</p>
+                  <% end %>
+                </div>
+
+                <div class="col-md-8">
+                  <h5>Available Plans</h5>
+
+                  <%# Free Plan %>
+                  <div class="card mb-3">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                          <h5 class="mb-1">Free Plan</h5>
+                          <ul class="list-unstyled text-muted small mb-0">
+                            <li><i class="bi bi-check"></i> 720p streaming</li>
+                            <li><i class="bi bi-check"></i> Basic analytics</li>
+                            <li><i class="bi bi-check"></i> Community support</li>
+                          </ul>
+                        </div>
+                        <div class="text-end">
+                          <h4 class="mb-0">$0<small class="text-muted">/mo</small></h4>
+                          <% if @user.subscription_tier == "free" %>
+                            <span class="badge bg-success">Current</span>
+                          <% end %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <%# Pro Plan %>
+                  <div class="card mb-3 border-primary">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                          <h5 class="mb-1 text-primary">Pro Plan <span class="badge bg-primary">Popular</span></h5>
+                          <ul class="list-unstyled text-muted small mb-0">
+                            <li><i class="bi bi-check-circle-fill text-success"></i> 1080p streaming</li>
+                            <li><i class="bi bi-check-circle-fill text-success"></i> Advanced analytics</li>
+                            <li><i class="bi bi-check-circle-fill text-success"></i> Custom branding</li>
+                            <li><i class="bi bi-check-circle-fill text-success"></i> Priority support</li>
+                          </ul>
+                        </div>
+                        <div class="text-end">
+                          <h4 class="mb-0">$19<small class="text-muted">/mo</small></h4>
+                          <% if @user.subscription_tier == "pro" %>
+                            <span class="badge bg-success">Current</span>
+                          <% else %>
+                            <button class="btn btn-primary btn-sm" disabled>
+                              Coming Soon
+                            </button>
+                          <% end %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <%# Enterprise Plan %>
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                          <h5 class="mb-1">Enterprise Plan</h5>
+                          <ul class="list-unstyled text-muted small mb-0">
+                            <li><i class="bi bi-check-circle-fill text-success"></i> 4K streaming</li>
+                            <li><i class="bi bi-check-circle-fill text-success"></i> Unlimited bandwidth</li>
+                            <li><i class="bi bi-check-circle-fill text-success"></i> White-label solution</li>
+                            <li><i class="bi bi-check-circle-fill text-success"></i> Dedicated support</li>
+                          </ul>
+                        </div>
+                        <div class="text-end">
+                          <h4 class="mb-0">$99<small class="text-muted">/mo</small></h4>
+                          <% if @user.subscription_tier == "enterprise" %>
+                            <span class="badge bg-success">Current</span>
+                          <% else %>
+                            <button class="btn btn-outline-dark btn-sm" disabled>
+                              Coming Soon
+                            </button>
+                          <% end %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <hr>
+
+              <div class="alert alert-info">
+                <i class="bi bi-info-circle"></i>
+                <strong>Payment Integration Coming Soon!</strong>
+                We're working on integrating Stripe for secure payment processing.
+                You'll soon be able to upgrade your plan directly from this page.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Handle tab switching from URL hash
+document.addEventListener('DOMContentLoaded', function() {
+  const hash = window.location.hash;
+  if (hash) {
+    const tab = document.querySelector(`button[data-bs-target="${hash}"]`);
+    if (tab) {
+      const tabInstance = new bootstrap.Tab(tab);
+      tabInstance.show();
+    }
+  }
+});
+</script>

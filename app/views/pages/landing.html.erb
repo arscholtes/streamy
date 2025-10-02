@@ -1,0 +1,263 @@
+<style>
+  :root {
+    --bg-primary: #0A0E27;
+    --accent-purple: #8B5CF6;
+    --accent-blue: #3B82F6;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  }
+
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(135deg, var(--bg-primary) 0%, #1a1f3a 100%);
+    color: white;
+    padding: 2rem;
+  }
+
+  #hero h1 {
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    background: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-blue) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  #hero button {
+    padding: 1rem 2.5rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: white;
+    background: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-blue) 100%);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+  }
+
+  #hero button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(139, 92, 246, 0.6);
+  }
+
+  @media (max-width: 768px) {
+    #hero h1 {
+      font-size: 32px;
+    }
+  }
+
+  /* Features Section Styles */
+  #features {
+    padding: 5rem 2rem;
+    background: linear-gradient(135deg, #1a1f3a 0%, var(--bg-primary) 100%);
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .feature-card {
+    background: rgba(139, 92, 246, 0.05);
+    border: 1px solid rgba(139, 92, 246, 0.2);
+    border-radius: 16px;
+    padding: 2rem;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    color: white;
+  }
+
+  .feature-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .feature-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: white;
+  }
+
+  .feature-description {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  @media (max-width: 1024px) {
+    .features-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Testimonials Section Styles */
+  #testimonials {
+    padding: 5rem 2rem;
+    background: linear-gradient(135deg, var(--bg-primary) 0%, #1a1f3a 100%);
+    position: relative;
+  }
+
+  .carousel-container {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .carousel-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+  }
+
+  .testimonial-card {
+    min-width: 100%;
+    padding: 3rem 2rem;
+    background: rgba(139, 92, 246, 0.05);
+    border: 1px solid rgba(139, 92, 246, 0.2);
+    border-radius: 16px;
+    text-align: center;
+    color: white;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+  }
+
+  .testimonial-card.active {
+    opacity: 1;
+  }
+
+  .testimonial-quote {
+    font-size: 1.25rem;
+    font-style: italic;
+    margin-bottom: 1.5rem;
+    line-height: 1.8;
+  }
+
+  .testimonial-author {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .testimonial-role {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .carousel-controls {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .carousel-btn-prev, .carousel-btn-next {
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-blue) 100%);
+    border: none;
+    border-radius: 50px;
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+  }
+
+  .carousel-btn-prev:hover, .carousel-btn-next:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(139, 92, 246, 0.6);
+  }
+</style>
+
+<main>
+  <!-- Hero Section -->
+  <section id="hero" data-controller="fade-in">
+    <h1>Building strong brands through technology</h1>
+    <button>Get Started</button>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features">
+    <div class="features-grid">
+      <div class="feature-card" data-controller="feature-card">
+        <div class="feature-icon">💻</div>
+        <h3 class="feature-title">Custom Software Development</h3>
+        <p class="feature-description">Tailored solutions designed to meet your unique business needs and drive growth.</p>
+      </div>
+
+      <div class="feature-card" data-controller="feature-card">
+        <div class="feature-icon">📱</div>
+        <h3 class="feature-title">Mobile App Development</h3>
+        <p class="feature-description">Native and cross-platform mobile applications that deliver exceptional user experiences.</p>
+      </div>
+
+      <div class="feature-card" data-controller="feature-card">
+        <div class="feature-icon">🤖</div>
+        <h3 class="feature-title">AI-Powered Solutions</h3>
+        <p class="feature-description">Leverage cutting-edge AI technology to automate processes and gain valuable insights.</p>
+      </div>
+
+      <div class="feature-card" data-controller="feature-card">
+        <div class="feature-icon">☁️</div>
+        <h3 class="feature-title">Cloud Integration Services</h3>
+        <p class="feature-description">Seamlessly integrate cloud services to enhance scalability and reliability.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section id="testimonials" data-controller="carousel">
+    <div class="carousel-container">
+      <div class="carousel-track">
+        <div class="testimonial-card active" data-carousel-target="card">
+          <p class="testimonial-quote">"C0deMine transformed our business with their innovative solutions. Their team's expertise and dedication exceeded our expectations."</p>
+          <p class="testimonial-author">Sarah Johnson</p>
+          <p class="testimonial-role">CEO, TechStart Inc.</p>
+        </div>
+
+        <div class="testimonial-card" data-carousel-target="card">
+          <p class="testimonial-quote">"Working with C0deMine was a game-changer. They delivered a robust platform that scaled with our growth seamlessly."</p>
+          <p class="testimonial-author">Michael Chen</p>
+          <p class="testimonial-role">CTO, DataFlow Systems</p>
+        </div>
+
+        <div class="testimonial-card" data-carousel-target="card">
+          <p class="testimonial-quote">"The AI-powered solution from C0deMine helped us automate processes and increase efficiency by 300%. Highly recommended!"</p>
+          <p class="testimonial-author">Emma Williams</p>
+          <p class="testimonial-role">Product Manager, AutoScale</p>
+        </div>
+
+        <div class="testimonial-card" data-carousel-target="card">
+          <p class="testimonial-quote">"Outstanding service and technical excellence. C0deMine's mobile app exceeded all our requirements and delighted our users."</p>
+          <p class="testimonial-author">David Rodriguez</p>
+          <p class="testimonial-role">Founder, MobileFirst</p>
+        </div>
+      </div>
+
+      <div class="carousel-controls">
+        <button class="carousel-btn-prev" data-action="click->carousel#prev">Previous</button>
+        <button class="carousel-btn-next" data-action="click->carousel#next">Next</button>
+      </div>
+    </div>
+  </section>
+</main>

@@ -3,6 +3,7 @@
 # Learn more about routing: https://guides.rubyonrails.org/routing.html
 
 Rails.application.routes.draw do
+  get "pages/landing"
   # AUTHENTICATION ROUTES
   # These routes handle user signup, login, and logout
   # Learn more about resources: https://guides.rubyonrails.org/routing.html#resource-routing-the-rails-default
@@ -36,6 +37,20 @@ Rails.application.routes.draw do
   # post "/signup" maps to registrations#create (processes signup)
   post "/signup", to: "registrations#create"
 
+  # DASHBOARD ROUTES
+  # Main user dashboard after login
+  get "/dashboard", to: "dashboard#index", as: :dashboard
+
+  # SETTINGS ROUTES
+  # User settings and preferences
+  get "/settings", to: "settings#index", as: :settings
+  patch "/settings/profile", to: "settings#update_profile", as: :update_profile
+  patch "/settings/password", to: "settings#update_password", as: :update_password
+
+  # STREAM ROUTES
+  # Routes for managing user streams
+  resources :streams, only: [ :index, :show, :edit, :update ]
+
   # HEALTH CHECK ROUTE
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
@@ -43,6 +58,6 @@ Rails.application.routes.draw do
 
   # ROOT ROUTE
   # Defines the root path route ("/")
-  # For now, redirect to login page (we'll change this to dashboard later)
-  root "sessions#new"
+  # After login, users go to dashboard; logged-out users see landing page
+  root "dashboard#index"
 end

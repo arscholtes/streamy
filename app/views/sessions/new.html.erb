@@ -10,27 +10,12 @@
   <div class="row justify-content-center mt-5">
     <div class="col-md-6">
       <%# Card component for styling the login form %>
-      <div class="card">
-        <div class="card-header text-center">
-          <h2>Login to Your Account</h2>
+      <div class="card shadow">
+        <div class="card-header text-center bg-primary text-white">
+          <h2><i class="bi bi-box-arrow-in-right"></i> Login to Your Account</h2>
         </div>
         <div class="card-body">
-          <%# Display flash messages (errors/success) %>
-          <%# flash is a hash containing messages from the controller %>
-          <% if flash[:danger] %>
-            <%# Bootstrap alert component for error messages %>
-            <div class="alert alert-danger" role="alert">
-              <%= flash[:danger] %>
-            </div>
-          <% end %>
-
-          <% if flash[:success] %>
-            <%# Bootstrap alert component for success messages %>
-            <div class="alert alert-success" role="alert">
-              <%= flash[:success] %>
-            </div>
-          <% end %>
-
+          <%# Flash messages are now handled in the layout %>
           <%# form_with is a Rails form helper %>
           <%# url: session_path - submits to POST /session %>
           <%# scope: :session - nests params under params[:session] %>

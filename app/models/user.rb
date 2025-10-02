@@ -82,6 +82,16 @@ class User < ApplicationRecord
     },
     if: :password_digest_changed? # Only validate when password is being set/changed
 
+  # Subscription tier validation
+  # Ensures only valid subscription tiers can be set
+  # This prepares for future payment integration (Stripe, PayPal, etc.)
+  validates :subscription_tier,
+    presence: true,
+    inclusion: {
+      in: %w[free pro enterprise], # Only these values are allowed
+      message: "%{value} is not a valid subscription tier"
+    }
+
   # PRIVATE METHODS
   # These methods can only be called from within this class
   private

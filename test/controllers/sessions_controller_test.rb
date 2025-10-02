@@ -146,8 +146,8 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     # RESTful convention: DELETE is used to destroy a resource (the session)
     delete session_path(@user)
 
-    # Should redirect to root page after logout
-    assert_redirected_to root_path
+    # Should redirect to login page after logout
+    assert_redirected_to login_path
 
     # Session should be cleared (no user_id)
     assert_nil session[:user_id]

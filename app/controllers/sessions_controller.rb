@@ -32,11 +32,9 @@ class SessionsController < ApplicationController
     if user && user.authenticate(password)
       # Login successful!
 
-      # Store the user's ID in the session
-      # session is a hash-like object that persists across requests
-      # It's stored in an encrypted cookie on the user's browser
-      # Learn more: https://guides.rubyonrails.org/action_controller_overview.html#session
-      session[:user_id] = user.id
+      # Use the log_in helper method from Authentication concern
+      # This sets session[:user_id] and caches the user
+      log_in(user)
 
       # flash is used to display messages to the user
       # flash[:success] will be displayed as a success message (green)
@@ -63,17 +61,14 @@ class SessionsController < ApplicationController
   # destroy action logs the user out
   # DELETE /logout
   def destroy
-    # Remove the user_id from the session
-    # This effectively logs the user out
-    session.delete(:user_id)
-
-    # Alternatively, you can clear the entire session:
-    # reset_session
+    # Use the log_out helper method from Authentication concern
+    # This clears session[:user_id] and @current_user
+    log_out
 
     # Set a success message
     flash[:success] = "You have been logged out successfully!"
 
-    # Redirect to the root page (login page)
-    redirect_to root_path
+    # Redirect to the login page
+    redirect_to login_path
   end
 end

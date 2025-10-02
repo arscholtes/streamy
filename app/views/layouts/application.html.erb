@@ -1,21 +1,41 @@
+<%# app/views/layouts/application.html.erb %>
+<%# This is the main layout template that wraps all pages %>
+<%# Learn more: https://guides.rubyonrails.org/layouts_and_rendering.html %>
+
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Rubymine Test Project 1" %></title>
+    <%# Page title - shows in browser tab %>
+    <%# content_for(:title) allows individual pages to set custom titles %>
+    <title><%= content_for(:title) || "StreamHub - Live Streaming Platform" %></title>
+
+    <%# Meta tags for responsive design and mobile support %>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
+
+    <%# Security meta tags %>
+    <%# csrf_meta_tags prevents Cross-Site Request Forgery attacks %>
+    <%# Learn more: https://guides.rubyonrails.org/security.html#cross-site-request-forgery-csrf %>
     <%= csrf_meta_tags %>
+    <%# csp_meta_tag sets Content Security Policy headers %>
     <%= csp_meta_tag %>
 
     <%= yield :head %>
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
+    <%# Favicon links - browser tab icons %>
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
+
+    <%# Bootstrap CSS from CDN (Content Delivery Network) %>
+    <%# Bootstrap provides pre-built CSS components for styling %>
+    <%# Learn more: https://getbootstrap.com/docs/5.3/getting-started/introduction/ %>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
+    <%# Bootstrap Icons for UI icons %>
+    <%# Learn more: https://icons.getbootstrap.com/ %>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
@@ -23,6 +43,83 @@
   </head>
 
   <body>
+    <%# Navigation bar - shown on all pages %>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <%# Brand/logo - links to home page %>
+        <%= link_to "StreamHub", root_path, class: "navbar-brand" %>
+
+        <%# Mobile menu toggle button %>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <%# Navigation links %>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <%# Check if user is logged in %>
+            <%# session[:user_id] contains the logged-in user's ID %>
+            <% if session[:user_id] %>
+              <%# Links shown when logged in %>
+              <li class="nav-item">
+                <%= link_to "Dashboard", "#", class: "nav-link" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to "My Stream", "#", class: "nav-link" %>
+              </li>
+              <li class="nav-item">
+                <%# logout_path uses DELETE method (RESTful convention) %>
+                <%# data-turbo-method tells Turbo to use DELETE instead of GET %>
+                <%= link_to "Logout", logout_path, data: { turbo_method: :delete }, class: "nav-link" %>
+              </li>
+            <% else %>
+              <%# Links shown when logged out %>
+              <li class="nav-item">
+                <%= link_to "Login", login_path, class: "nav-link" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to "Sign Up", signup_path, class: "nav-link" %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <%# Flash messages - displayed at top of page %>
+    <%# Flash messages are used to show success/error notifications %>
+    <%# Learn more: https://guides.rubyonrails.org/action_controller_overview.html#the-flash %>
+    <% if flash.any? %>
+      <div class="container mt-3">
+        <% flash.each do |type, message| %>
+          <%# Convert Rails flash types to Bootstrap alert classes %>
+          <%# 'notice' and 'success' -> 'success' (green) %>
+          <%# 'alert' and 'danger' -> 'danger' (red) %>
+          <%# 'warning' -> 'warning' (yellow) %>
+          <%# 'info' -> 'info' (blue) %>
+          <% bootstrap_class = case type.to_s
+               when 'notice', 'success' then 'success'
+               when 'alert', 'danger' then 'danger'
+               when 'warning' then 'warning'
+               else 'info'
+               end %>
+
+          <%# Bootstrap alert component with dismiss button %>
+          <div class="alert alert-<%= bootstrap_class %> alert-dismissible fade show" role="alert">
+            <%= message %>
+            <%# Close button to dismiss the alert %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%# Main content area - individual page content goes here %>
     <%= yield %>
+
+    <%# Bootstrap JavaScript bundle (includes Popper.js) %>
+    <%# Required for interactive components (dropdowns, modals, etc.) %>
+    <%# Loaded at bottom for faster page rendering %>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
   </body>
 </html>

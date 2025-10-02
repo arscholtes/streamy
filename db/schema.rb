@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_02_032721) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_02_043146) do
   create_table "streams", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "title"
@@ -30,8 +30,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_02_032721) do
     t.string "stream_key"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "subscription_tier", default: "free", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["stream_key"], name: "index_users_on_stream_key", unique: true
+    t.index ["subscription_tier"], name: "index_users_on_subscription_tier"
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 

@@ -1,0 +1,302 @@
+<%# app/views/dashboard/index.html.erb %>
+<%# Main dashboard view - user landing page after login %>
+<%# Learn more: https://guides.rubyonrails.org/layouts_and_rendering.html %>
+
+<% content_for :title, "Dashboard" %>
+
+<div class="container-fluid mt-4">
+  <%# Welcome Header %>
+  <div class="row mb-4">
+    <div class="col-md-12">
+      <h1 class="display-4">
+        <i class="bi bi-speedometer2"></i>
+        Welcome back, <strong><%= current_user.username %></strong>!
+      </h1>
+      <p class="lead text-muted">
+        Here's an overview of your streaming account
+      </p>
+    </div>
+  </div>
+
+  <%# Statistics Cards %>
+  <div class="row mb-4">
+    <%# Total Streams Card %>
+    <div class="col-md-3 mb-3">
+      <div class="card shadow-sm">
+        <div class="card-body text-center">
+          <i class="bi bi-broadcast display-4 text-primary"></i>
+          <h3 class="mt-3"><%= @total_streams %></h3>
+          <p class="text-muted mb-0">Total Streams</p>
+        </div>
+      </div>
+    </div>
+
+    <%# Active Streams Card %>
+    <div class="col-md-3 mb-3">
+      <div class="card shadow-sm">
+        <div class="card-body text-center">
+          <i class="bi bi-circle-fill display-4 text-danger"></i>
+          <h3 class="mt-3"><%= @active_streams %></h3>
+          <p class="text-muted mb-0">Live Now</p>
+        </div>
+      </div>
+    </div>
+
+    <%# Subscription Tier Card %>
+    <div class="col-md-3 mb-3">
+      <div class="card shadow-sm">
+        <div class="card-body text-center">
+          <i class="bi bi-trophy display-4 text-warning"></i>
+          <h3 class="mt-3 text-capitalize"><%= @subscription %></h3>
+          <p class="text-muted mb-0">Subscription</p>
+          <% if @subscription == "free" %>
+            <a href="<%= settings_path %>#billing" class="btn btn-sm btn-outline-primary mt-2">
+              <i class="bi bi-arrow-up-circle"></i> Upgrade
+            </a>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <%# Stream Key Card %>
+    <div class="col-md-3 mb-3">
+      <div class="card shadow-sm">
+        <div class="card-body text-center">
+          <i class="bi bi-key display-4 text-success"></i>
+          <h5 class="mt-3">Stream Key</h5>
+          <p class="text-muted mb-0">For OBS Setup</p>
+          <button class="btn btn-sm btn-outline-success mt-2" data-bs-toggle="modal" data-bs-target="#streamKeyModal">
+            <i class="bi bi-eye"></i> View Key
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%# Main Content Row %>
+  <div class="row">
+    <%# Stream Information Column %>
+    <div class="col-md-8 mb-4">
+      <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+          <h3 class="mb-0">
+            <i class="bi bi-camera-video"></i>
+            Your Stream
+          </h3>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-8">
+              <h3><%= @stream.title %></h3>
+              <p class="text-muted">
+                <span class="badge <%= @stream.status == 'live' ? 'bg-danger' : 'bg-secondary' %>">
+                  <i class="bi <%= @stream.status == 'live' ? 'bi-circle-fill' : 'bi-circle' %>"></i>
+                  <%= @stream.status.upcase %>
+                </span>
+              </p>
+
+              <div class="mt-3">
+                <h5>RTMP URL:</h5>
+                <div class="input-group mb-2">
+                  <input type="text" class="form-control" value="rtmp://localhost:1935/live" readonly>
+                  <button class="btn btn-outline-secondary" type="button" onclick="navigator.clipboard.writeText('rtmp://localhost:1935/live')">
+                    <i class="bi bi-clipboard"></i> Copy
+                  </button>
+                </div>
+
+                <h5 class="mt-3">Stream Key:</h5>
+                <div class="input-group">
+                  <input type="password" class="form-control" value="<%= current_user.stream_key %>" id="streamKeyInput" readonly>
+                  <button class="btn btn-outline-secondary" type="button" onclick="toggleStreamKey()">
+                    <i class="bi bi-eye" id="eyeIcon"></i>
+                  </button>
+                  <button class="btn btn-outline-secondary" type="button" onclick="navigator.clipboard.writeText('<%= current_user.stream_key %>')">
+                    <i class="bi bi-clipboard"></i> Copy
+                  </button>
+                </div>
+                <small class="text-muted">Never share your stream key with anyone!</small>
+              </div>
+            </div>
+
+            <div class="col-md-4 text-center">
+              <% if @stream.status == 'live' %>
+                <div class="alert alert-danger">
+                  <i class="bi bi-broadcast-pin display-3"></i>
+                  <h5 class="mt-2">You're LIVE!</h5>
+                </div>
+              <% else %>
+                <div class="alert alert-secondary">
+                  <i class="bi bi-camera-video-off display-3"></i>
+                  <h5 class="mt-2">Offline</h5>
+                  <p class="mb-0">Start streaming with OBS</p>
+                </div>
+              <% end %>
+            </div>
+          </div>
+
+          <hr>
+
+          <div class="d-flex gap-2">
+            <%= link_to edit_stream_path(@stream), class: "btn btn-primary" do %>
+              <i class="bi bi-pencil"></i> Edit Stream
+            <% end %>
+            <%= link_to streams_path, class: "btn btn-outline-secondary" do %>
+              <i class="bi bi-list"></i> All Streams
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%# Quick Actions Column %>
+    <div class="col-md-4 mb-4">
+      <div class="card shadow">
+        <div class="card-header bg-success text-white">
+          <h4 class="mb-0">
+            <i class="bi bi-lightning-charge"></i>
+            Quick Actions
+          </h4>
+        </div>
+        <div class="card-body">
+          <div class="d-grid gap-2">
+            <%= link_to settings_path, class: "btn btn-outline-primary btn-lg" do %>
+              <i class="bi bi-gear"></i> Settings
+            <% end %>
+
+            <button class="btn btn-outline-info btn-lg" data-bs-toggle="modal" data-bs-target="#obsGuideModal">
+              <i class="bi bi-info-circle"></i> OBS Setup Guide
+            </button>
+
+            <%= link_to "https://obsproject.com/download", target: "_blank", class: "btn btn-outline-secondary btn-lg" do %>
+              <i class="bi bi-download"></i> Download OBS
+            <% end %>
+          </div>
+
+          <hr>
+
+          <h5 class="mb-3">Recent Activity</h5>
+          <div class="list-group list-group-flush">
+            <div class="list-group-item">
+              <small class="text-muted">
+                <i class="bi bi-clock"></i>
+                Account created <%= time_ago_in_words(current_user.created_at) %> ago
+              </small>
+            </div>
+            <div class="list-group-item">
+              <small class="text-muted">
+                <i class="bi bi-camera-video"></i>
+                Stream status: <%= @stream.status %>
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <%# Subscription Info %>
+      <div class="card shadow mt-3">
+        <div class="card-header bg-warning text-dark">
+          <h5 class="mb-0">
+            <i class="bi bi-credit-card"></i>
+            Subscription
+          </h5>
+        </div>
+        <div class="card-body">
+          <h4 class="text-capitalize"><%= @subscription %> Plan</h4>
+          <% if @subscription == "free" %>
+            <p class="text-muted mb-3">
+              Upgrade to unlock premium features:
+            </p>
+            <ul class="list-unstyled">
+              <li><i class="bi bi-check-circle text-success"></i> Higher bitrate</li>
+              <li><i class="bi bi-check-circle text-success"></i> Custom branding</li>
+              <li><i class="bi bi-check-circle text-success"></i> Priority support</li>
+              <li><i class="bi bi-check-circle text-success"></i> Analytics dashboard</li>
+            </ul>
+            <%= link_to settings_path(anchor: "billing"), class: "btn btn-warning w-100" do %>
+              <i class="bi bi-arrow-up-circle"></i> Upgrade Now
+            <% end %>
+          <% else %>
+            <p class="text-success">
+              <i class="bi bi-check-circle-fill"></i>
+              You have access to all premium features!
+            </p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%# Stream Key Modal %>
+<div class="modal fade" id="streamKeyModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          <i class="bi bi-key"></i> Your Stream Key
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-warning">
+          <i class="bi bi-exclamation-triangle"></i>
+          <strong>Keep this secret!</strong> Never share your stream key publicly.
+        </div>
+        <div class="input-group">
+          <input type="text" class="form-control" value="<%= current_user.stream_key %>" readonly>
+          <button class="btn btn-primary" onclick="navigator.clipboard.writeText('<%= current_user.stream_key %>')">
+            <i class="bi bi-clipboard"></i> Copy
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%# OBS Guide Modal %>
+<div class="modal fade" id="obsGuideModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          <i class="bi bi-info-circle"></i> OBS Setup Guide
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <h5>1. Download OBS Studio</h5>
+        <p>Download from <a href="https://obsproject.com/download" target="_blank">obsproject.com</a></p>
+
+        <h5>2. Configure Stream Settings</h5>
+        <ol>
+          <li>Open OBS Studio</li>
+          <li>Go to <strong>Settings → Stream</strong></li>
+          <li>Select <strong>Custom</strong> as the service</li>
+          <li>Enter Server: <code>rtmp://localhost:1935/live</code></li>
+          <li>Enter Stream Key: <code><%= current_user.stream_key %></code></li>
+        </ol>
+
+        <h5>3. Start Streaming</h5>
+        <p>Click <strong>Start Streaming</strong> in OBS and you'll be live!</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Toggle stream key visibility
+function toggleStreamKey() {
+  const input = document.getElementById('streamKeyInput');
+  const icon = document.getElementById('eyeIcon');
+
+  if (input.type === 'password') {
+    input.type = 'text';
+    icon.classList.remove('bi-eye');
+    icon.classList.add('bi-eye-slash');
+  } else {
+    input.type = 'password';
+    icon.classList.remove('bi-eye-slash');
+    icon.classList.add('bi-eye');
+  }
+}
+</script>
