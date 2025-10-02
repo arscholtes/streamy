@@ -1,0 +1,48 @@
+# config/routes.rb
+# This file defines all application routes (URL patterns and their handlers)
+# Learn more about routing: https://guides.rubyonrails.org/routing.html
+
+Rails.application.routes.draw do
+  # AUTHENTICATION ROUTES
+  # These routes handle user signup, login, and logout
+  # Learn more about resources: https://guides.rubyonrails.org/routing.html#resource-routing-the-rails-default
+
+  # Session routes (login/logout)
+  # resource :session creates routes for managing a single session (not plural)
+  # This creates: new_session_path, session_path, etc.
+  # only: [:new, :create, :destroy] limits to just these actions
+  resource :session, only: [ :new, :create, :destroy ]
+
+  # Registration routes (signup)
+  # resource :registration creates routes for user signup
+  resource :registration, only: [ :new, :create ]
+
+  # Named routes for better readability
+  # get "/login" maps to sessions#new (the login form)
+  # to: specifies the controller#action
+  # as: creates a named route helper (login_path, login_url)
+  get "/login", to: "sessions#new", as: :login
+
+  # post "/login" maps to sessions#create (processes login)
+  post "/login", to: "sessions#create"
+
+  # delete "/logout" maps to sessions#destroy (logs user out)
+  # RESTful convention: DELETE is used to destroy resources
+  delete "/logout", to: "sessions#destroy", as: :logout
+
+  # get "/signup" maps to registrations#new (the signup form)
+  get "/signup", to: "registrations#new", as: :signup
+
+  # post "/signup" maps to registrations#create (processes signup)
+  post "/signup", to: "registrations#create"
+
+  # HEALTH CHECK ROUTE
+  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
+  # Can be used by load balancers and uptime monitors to verify that the app is live.
+  get "up" => "rails/health#show", as: :rails_health_check
+
+  # ROOT ROUTE
+  # Defines the root path route ("/")
+  # For now, redirect to login page (we'll change this to dashboard later)
+  root "sessions#new"
+end

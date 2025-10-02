@@ -1,0 +1,6 @@
+# test/fixtures/streams.yml
+# Fixtures are pre-loaded test data for your database
+# Learn more: https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# We're leaving this empty because our tests create streams dynamically
+# This gives us more control and makes tests easier to understand

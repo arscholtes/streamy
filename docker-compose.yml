@@ -1,0 +1,12 @@
+version: "3.8"
+services:
+  mediamtx:
+    image: bluenviron/mediamtx:latest
+    container_name: mediamtx
+    ports:
+      - "1935:1935"   # RTMP ingest
+      - "8889:8889"   # HLS (HTTP)
+      - "8189:8189"   # WebRTC (later)
+    volumes:
+      - ./mediamtx.yml:/mediamtx.yml:ro
+    command: ["/mediamtx", "/mediamtx.yml"]

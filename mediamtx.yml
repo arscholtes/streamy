@@ -1,0 +1,16 @@
+paths:
+  # OBS will push to rtmp://localhost/live/<streamKey>
+  live:
+    # Validate publish requests (checks your stream key).
+    # MediaMTX will call this URL with Authorization: Basic user:pass or with query.
+    # We'll use query ?key=<streamKey> to keep it simple.
+    # Example publish URL from OBS: rtmp://localhost/live?key=STREAMKEY
+    sourcePublish:
+      url: http://host.docker.internal:3000/rtmp/auth?key={query:key}
+    # Serve HLS here (we'll reference it from Rails):
+    # http://localhost:8889/live/index.m3u8
+hls:
+  enable: yes
+  address: :8889
+rtmp:
+  enable: yes

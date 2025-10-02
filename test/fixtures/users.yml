@@ -1,0 +1,13 @@
+# test/fixtures/users.yml
+# Fixtures are pre-loaded test data for your database
+# Learn more: https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# We're leaving this empty because our tests create users dynamically
+# This gives us more control and makes tests easier to understand
+
+# If you want to use fixtures, here's an example:
+# john:
+#   username: john_doe
+#   email: john@example.com
+#   password_digest: <%= BCrypt::Password.create('password123', cost: 4) %>
+#   stream_key: <%= SecureRandom.hex(20) %>
