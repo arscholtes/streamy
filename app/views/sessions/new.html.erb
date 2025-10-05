@@ -19,8 +19,8 @@
         <%# form_with is a Rails form helper %>
         <%# url: session_path - submits to POST /session %>
         <%# scope: :session - nests params under params[:session] %>
-        <%# local: true - disables Turbo/AJAX (submits normally) %>
-        <%= form_with url: session_path, scope: :session, local: true do |form| %>
+        <%# data: { turbo: false } - disables Turbo/AJAX (submits normally) %>
+        <%= form_with url: session_path, scope: :session, data: { turbo: false } do |form| %>
 
           <%# Username/Email field %>
           <div class="mb-4">

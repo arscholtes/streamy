@@ -24,6 +24,9 @@ gem "bcrypt", "~> 3.1.7"
 # Stripe for payment processing
 gem "stripe", "~> 12.0"
 
+# HTTParty for API requests
+gem "httparty", "~> 0.21"
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
@@ -73,4 +76,6 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+  # WebMock for stubbing HTTP requests in tests
+  gem "webmock"
 end

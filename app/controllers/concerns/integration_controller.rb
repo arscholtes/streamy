@@ -1,190 +1,141 @@
-# app/controllers/concerns/integration_controller.rb
-# Concern for integration controllers
-# Provides common OAuth flow actions (connect, callback, disconnect, sync)
-
 module IntegrationController
   extend ActiveSupport::Concern
 
   included do
     before_action :require_login
-    before_action :set_integration_account, only: [:disconnect, :sync, :privacy_settings, :update_privacy_settings]
   end
 
-  # Redirect to OAuth authorization URL
+  # GET /integrations/:provider/connect
   def connect
     redirect_to oauth_authorize_url, allow_other_host: true
   end
 
-  # Handle OAuth callback
+  # GET /integrations/:provider/callback
   def callback
     code = params[:code]
 
     if code.blank?
-      redirect_to settings_path, alert: "#{integration_name} connection failed: No authorization code"
-      return
+      flash[:error] = "#{integration_name} authorization failed"
+      redirect_to settings_path and return
     end
 
     begin
       # Exchange code for tokens
       tokens = oauth_service.exchange_code(code)
 
-      # Fetch user data from API
-      user_data = fetch_user_data(tokens[:access_token])
+      # Fetch user profile data
+      profile_data = fetch_user_profile(tokens[:access_token])
 
       # Create or update integration account
-      integration_account = create_or_update_integration_account(user_data, tokens)
+      integration_account = create_or_update_account(profile_data, tokens)
 
-      # Redirect to privacy settings
-      redirect_to privacy_settings_path, notice: "#{integration_name} connected successfully!"
+      # Enqueue sync job if available
+      enqueue_sync_job(integration_account) if integration_account.respond_to?(:sync_service_class)
+
+      flash[:success] = "#{integration_name} connected successfully"
+      redirect_to settings_path
     rescue => e
-      Rails.logger.error("OAuth callback error: #{e.message}")
-      redirect_to settings_path, alert: "Failed to connect #{integration_name}: #{e.message}"
+      Rails.logger.error("#{integration_name} connection error: #{e.message}")
+      flash[:error] = "Failed to connect #{integration_name} account"
+      redirect_to settings_path
     end
   end
 
-  # Disconnect integration
+  # DELETE /integrations/:provider/disconnect
   def disconnect
-    @integration_account.destroy
-    redirect_to settings_path, notice: "#{integration_name} disconnected successfully"
+    current_user.send(integration_account_association)&.destroy
+    flash[:success] = "#{integration_name} account disconnected"
+    redirect_to settings_path
   end
 
-  # Manually trigger sync
+  # POST /integrations/:provider/sync
   def sync
-    enqueue_sync_job(@integration_account)
-    redirect_to settings_path, notice: "#{integration_name} sync started..."
-  end
+    integration_account = current_user.send(integration_account_association)
 
-  # Show privacy settings page
-  def privacy_settings
-    @privacy_setting = @integration_account.integration_privacy_setting
-    @settings_schema = privacy_settings_schema
-  end
-
-  # Update privacy settings
-  def update_privacy_settings
-    privacy_setting = @integration_account.integration_privacy_setting
-
-    if privacy_setting.update(settings: privacy_params)
-      redirect_to settings_path, notice: "Privacy settings updated"
-    else
-      @privacy_setting = privacy_setting
-      @settings_schema = privacy_settings_schema
-      render :privacy_settings
+    unless integration_account
+      flash[:error] = "No #{integration_name} account connected"
+      redirect_to settings_path and return
     end
+
+    enqueue_sync_job(integration_account)
+
+    flash[:success] = "#{integration_name} sync started"
+    redirect_to settings_path
   end
 
-  private
+  protected
 
-  # Set integration account from current user
-  def set_integration_account
-    @integration_account = current_user.send(integration_account_association)
-
-    unless @integration_account
-      redirect_to settings_path, alert: "#{integration_name} not connected"
-    end
-  end
-
-  # Create or update integration account
-  def create_or_update_integration_account(user_data, tokens)
-    account = current_user.send(integration_account_association) ||
-              current_user.send("build_#{integration_account_association}")
-
-    account.assign_attributes(
-      integration_account_attributes(user_data, tokens)
-    )
-
-    account.expires_in = tokens[:expires_in] # Temporary attribute for HasOauthTokens
-    account.save!
-
-    # Enqueue sync job
-    enqueue_sync_job(account)
-
-    account
-  end
-
-  # Enqueue background sync job
-  def enqueue_sync_job(account)
-    return unless respond_to?(:sync_job_class, true)
-    sync_job_class.perform_later(account.id)
-  end
-
-  # Get privacy params from form
-  def privacy_params
-    params.require(:privacy_settings).permit(
-      privacy_settings_schema.values.flatten.map { |s| s[:key] }
-    )
-  end
-
-  # Override in subclasses to provide OAuth service instance
-  # @return [Integrations::BaseOauthService]
+  # Override in controller to specify the OAuth service
   def oauth_service
-    raise NotImplementedError, "#{self.class.name} must implement #oauth_service"
+    oauth_service_class.new
   end
 
-  # Override in subclasses to fetch user data from API
-  # @param access_token [String]
-  # @return [Hash] User data
-  def fetch_user_data(access_token)
-    raise NotImplementedError, "#{self.class.name} must implement #fetch_user_data"
+  def oauth_service_class
+    raise NotImplementedError, "#{self.class} must define oauth_service_class"
   end
 
-  # Override in subclasses to build account attributes
-  # @param user_data [Hash]
-  # @param tokens [Hash]
-  # @return [Hash]
-  def integration_account_attributes(user_data, tokens)
-    raise NotImplementedError, "#{self.class.name} must implement #integration_account_attributes"
+  # Override in controller to specify the integration provider name
+  def integration_provider
+    controller_name.to_sym
   end
 
-  # Override in subclasses to specify account association name
-  # @return [Symbol] e.g., :steam_account
+  # Override in controller to specify the user association name
   def integration_account_association
-    raise NotImplementedError, "#{self.class.name} must implement #integration_account_association"
+    "#{integration_provider}_account".to_sym
   end
 
-  # Override in subclasses to specify sync job class
-  def sync_job_class
-    nil # Optional - some integrations may not need background sync
+  # Override in controller to specify the account model class
+  def integration_account_class
+    "#{integration_provider.to_s.camelize}Account".constantize
   end
 
-  # Override in subclasses to define privacy settings schema
-  # @return [Hash]
-  def privacy_settings_schema
-    {
-      general: [
-        { key: :show_username, label: "Show username", default: true },
-        { key: :show_avatar, label: "Show avatar", default: true }
-      ]
-    }
-  end
-
-  # Get integration name from controller
+  # Override in controller to specify the integration display name
   def integration_name
-    self.class.name.demodulize.gsub('Controller', '').titleize
+    integration_provider.to_s.titleize
   end
 
-  # Get OAuth authorize URL
+  # Override in controller to fetch user profile from API
+  def fetch_user_profile(access_token)
+    raise NotImplementedError, "#{self.class} must define fetch_user_profile"
+  end
+
+  # Create or update the integration account
+  def create_or_update_account(profile_data, tokens)
+    integration_account = current_user.send(integration_account_association) ||
+                         current_user.send("build_#{integration_account_association}")
+
+    integration_account.assign_attributes(
+      build_account_attributes(profile_data, tokens)
+    )
+
+    integration_account.save!
+    integration_account
+  end
+
+  # Override in controller to specify account attributes
+  def build_account_attributes(profile_data, tokens)
+    {
+      access_token: tokens[:access_token],
+      refresh_token: tokens[:refresh_token],
+      token_expires_at: calculate_token_expiration(tokens[:expires_in])
+    }.merge(profile_data)
+  end
+
+  def calculate_token_expiration(expires_in)
+    return nil unless expires_in
+    (expires_in.to_i - 300).seconds.from_now
+  end
+
   def oauth_authorize_url
-    oauth_service.authorize_url(
-      scopes: oauth_scopes,
-      state: oauth_state
+    oauth_service.authorization_url(
+      state: SecureRandom.urlsafe_base64(32)
     )
   end
 
-  # OAuth scopes (override in subclasses)
-  def oauth_scopes
-    []
-  end
-
-  # OAuth state parameter (override in subclasses)
-  def oauth_state
-    nil
-  end
-
-  # Privacy settings path (override if custom route)
-  def privacy_settings_path
-    send("integrations_#{integration_account_association.to_s.split('_').first}_privacy_settings_path")
-  rescue
-    settings_path
+  def enqueue_sync_job(integration_account)
+    Integrations::BaseSyncJob.perform_later(
+      integration_account.id,
+      integration_account.class.name
+    )
   end
 end

@@ -279,6 +279,45 @@
           </div>
         <% end %>
       </div>
+
+      <%# Steam Game Library %>
+      <% if @steam_connected && @steam_top_games.present? %>
+        <div class="glass-card" style="margin-top: 2rem;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
+            <h3 style="font-size: 1.5rem; font-weight: 700; margin: 0; display: flex; align-items: center; gap: 0.75rem;">
+              <i class="bi bi-steam gradient-text"></i>
+              <span class="gradient-text">Steam Library</span>
+            </h3>
+            <span style="font-size: 0.875rem; color: var(--text-muted);"><%= @steam_game_count %> games</span>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 1rem;">
+            <% @steam_top_games.each do |game| %>
+              <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-md); padding: 1rem; text-align: center; transition: all var(--transition-base);"
+                   onmouseover="this.style.borderColor='rgba(139, 92, 246, 0.5)'; this.style.boxShadow='0 4px 15px rgba(139, 92, 246, 0.2)'"
+                   onmouseout="this.style.borderColor='rgba(255, 255, 255, 0.1)'; this.style.boxShadow=''">
+                <% if game.img_icon_url.present? %>
+                  <img src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/apps/<%= game.app_id %>/<%= game.img_icon_url %>.jpg"
+                       alt="<%= game.name %>"
+                       style="width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: var(--radius-sm); margin-bottom: 0.75rem;">
+                <% else %>
+                  <div style="width: 100%; aspect-ratio: 1; background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary)); border-radius: var(--radius-sm); margin-bottom: 0.75rem; display: flex; align-items: center; justify-content: center;">
+                    <i class="bi bi-controller" style="font-size: 2rem; color: var(--text-muted);"></i>
+                  </div>
+                <% end %>
+
+                <div style="font-size: 0.75rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="<%= game.name %>">
+                  <%= game.name %>
+                </div>
+
+                <div style="font-size: 0.625rem; color: var(--text-muted);">
+                  <%= (game.playtime_forever / 60.0).round(1) %>h played
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
     </div>
 
     <%# Sidebar %>

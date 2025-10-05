@@ -1,61 +1,38 @@
-# app/jobs/integrations/base_sync_job.rb
-# Base background job for syncing integration data from external APIs
-# Provides retry logic, error handling, and common sync patterns
-
 module Integrations
   class BaseSyncJob < ApplicationJob
     queue_as :default
 
     # Retry on API errors with exponential backoff
-    retry_on Integrations::APIError,
-             wait: :exponentially_longer,
-             attempts: 5
+    retry_on Integrations::APIError, wait: :exponentially_longer, attempts: 5
+    retry_on Integrations::RateLimitError, wait: 1.hour, attempts: 3
 
-    # Retry on rate limit errors with custom wait time
-    retry_on Integrations::RateLimitError,
-             wait: ->(executions) { executions * 60 },
-             attempts: 3
+    def perform(integration_account_id, integration_class_name)
+      integration_class = integration_class_name.constantize
+      integration_account = integration_class.find_by(id: integration_account_id)
 
-    # Don't retry if record is gone
-    discard_on ActiveRecord::RecordNotFound
-
-    def perform(integration_account_id)
-      integration_account = find_integration_account(integration_account_id)
-
-      # Check if token is valid
-      unless integration_account.ensure_valid_token!
-        Rails.logger.warn("Token refresh failed for #{integration_account.class.name}##{integration_account_id}")
+      unless integration_account
+        Rails.logger.warn("Integration account not found: #{integration_class_name}##{integration_account_id}")
         return
       end
 
-      # Perform sync
-      sync_service_class.new(integration_account).sync!
+      # Perform the sync
+      sync_service_class = integration_account.sync_service_class
+      unless sync_service_class
+        Rails.logger.warn("No sync service defined for #{integration_class_name}")
+        return
+      end
 
-      # Update last synced timestamp
+      Rails.logger.info("Starting sync for #{integration_class_name}##{integration_account_id}")
+
+      sync_service = sync_service_class.new(integration_account)
+      sync_service.sync!
+
       integration_account.update(last_synced_at: Time.current)
 
-      Rails.logger.info("Successfully synced #{integration_account.class.name}##{integration_account_id}")
-    rescue => e
-      Rails.logger.error("Sync failed for #{integration_account_class.name}##{integration_account_id}: #{e.message}")
-      raise e
-    end
-
-    private
-
-    # Find the integration account
-    # Override in subclasses or implement integration_account_class
-    def find_integration_account(id)
-      integration_account_class.find(id)
-    end
-
-    # Override in subclasses to specify the account model
-    def integration_account_class
-      raise NotImplementedError, "#{self.class.name} must implement #integration_account_class"
-    end
-
-    # Override in subclasses to specify the sync service
-    def sync_service_class
-      raise NotImplementedError, "#{self.class.name} must implement #sync_service_class"
+      Rails.logger.info("Completed sync for #{integration_class_name}##{integration_account_id}")
+    rescue StandardError => e
+      Rails.logger.error("Sync failed for #{integration_class_name}##{integration_account_id}: #{e.message}")
+      raise
     end
   end
 end

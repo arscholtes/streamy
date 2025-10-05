@@ -8,7 +8,11 @@
       "Bash(bin/rails:*)",
       "Read(//Users/alexscholtes/Developer/Rubymine_Projects/**)",
       "Bash(bundle exec rspec:*)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(for:*)",
+      "Bash(do)",
+      "Bash(done)",
+      "Bash(find:*)"
     ],
     "deny": [],
     "ask": []

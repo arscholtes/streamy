@@ -34,4 +34,17 @@ class DiscordAccount < ApplicationRecord
       ]
     }
   end
+
+  def default_privacy_settings
+    {
+      show_username: true,
+      show_avatar: true,
+      show_discriminator: false,
+      show_servers: true,
+      show_server_count: true,
+      show_roles: false,
+      show_online_status: true,
+      show_activity: true
+    }
+  end
 end

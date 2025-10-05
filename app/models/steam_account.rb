@@ -45,4 +45,22 @@ class SteamAccount < ApplicationRecord
       ]
     }
   end
+
+  def default_privacy_settings
+    {
+      show_profile: true,
+      show_persona_name: true,
+      show_avatar: true,
+      show_real_name: false,
+      show_country: true,
+      show_level: true,
+      show_owned_games: true,
+      show_recent_games: true,
+      show_playtime: true,
+      show_achievements: true,
+      show_online_status: true,
+      show_current_game: true,
+      show_last_logoff: false
+    }
+  end
 end

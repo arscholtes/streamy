@@ -11952,3 +11952,1112 @@ FOREIGN KEY ("user_id")
   [1m[36mUserMute Load (0.0ms)[0m  [1m[34mSELECT "user_mutes".* FROM "user_mutes" WHERE "user_mutes"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
   [1m[36mUserMute Load (0.0ms)[0m  [1m[34mSELECT "user_mutes".* FROM "user_mutes" WHERE "user_mutes"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
   [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.0ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.0ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.0ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "achievements"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "achievements" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar NOT NULL, "description" text NOT NULL, "icon" varchar, "category" varchar NOT NULL, "points_reward" integer DEFAULT 0 NOT NULL, "requirement_type" varchar NOT NULL, "requirement_value" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_achievements_on_category" ON "achievements" ("category")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_achievements_on_name" ON "achievements" ("name")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "battlenet_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "battlenet_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "battletag" varchar, "region" varchar, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_battlenet_accounts_on_battletag" ON "battlenet_accounts" ("battletag")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_battlenet_accounts_on_user_id" ON "battlenet_accounts" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "chat_messages"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "chat_messages" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "stream_id" integer NOT NULL, "content" text, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_chat_messages_on_stream_id" ON "chat_messages" ("stream_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_chat_messages_on_user_id" ON "chat_messages" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "discord_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "discord_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "discord_id" varchar, "username" varchar, "discriminator" varchar, "avatar_url" varchar, "email" varchar, "verified" boolean, "locale" varchar, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_discord_accounts_on_discord_id" ON "discord_accounts" ("discord_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_discord_accounts_on_user_id" ON "discord_accounts" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "epic_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "epic_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "epic_id" varchar, "display_name" varchar, "email" varchar, "country" varchar, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_epic_accounts_on_epic_id" ON "epic_accounts" ("epic_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_epic_accounts_on_user_id" ON "epic_accounts" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "google_analytics_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "google_analytics_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "property_id" varchar, "account_id" varchar, "property_name" varchar, "tracking_id" varchar, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_google_analytics_accounts_on_property_id" ON "google_analytics_accounts" ("property_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_google_analytics_accounts_on_user_id" ON "google_analytics_accounts" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "instagram_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "instagram_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "instagram_id" varchar, "username" varchar, "full_name" varchar, "follower_count" integer, "media_count" integer, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_instagram_accounts_on_instagram_id" ON "instagram_accounts" ("instagram_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_instagram_accounts_on_user_id" ON "instagram_accounts" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "integration_privacy_settings"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "integration_privacy_settings" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "integration_type" varchar NOT NULL, "integration_id" integer NOT NULL, "user_id" integer NOT NULL, "settings" json DEFAULT '{}' NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_privacy_on_integration" ON "integration_privacy_settings" ("integration_type", "integration_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_privacy_unique_integration" ON "integration_privacy_settings" ("integration_type", "integration_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_integration_privacy_settings_on_user_id" ON "integration_privacy_settings" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "loyalty_points"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "loyalty_points" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "points" integer DEFAULT 0 NOT NULL, "level" integer DEFAULT 1 NOT NULL, "total_earned" integer DEFAULT 0 NOT NULL, "total_spent" integer DEFAULT 0 NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_loyalty_points_on_user_id" ON "loyalty_points" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "loyalty_transactions"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "loyalty_transactions" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "transaction_type" varchar NOT NULL, "amount" integer NOT NULL, "description" text, "metadata" json DEFAULT '{}', "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_loyalty_transactions_on_created_at" ON "loyalty_transactions" ("created_at")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_loyalty_transactions_on_transaction_type" ON "loyalty_transactions" ("transaction_type")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_loyalty_transactions_on_user_id" ON "loyalty_transactions" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "mini_game_sessions"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "mini_game_sessions" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "game_type" varchar NOT NULL, "bet_amount" integer NOT NULL, "result" varchar NOT NULL, "winnings" integer DEFAULT 0 NOT NULL, "metadata" json DEFAULT '{}', "played_at" datetime(6) NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_mini_game_sessions_on_game_type" ON "mini_game_sessions" ("game_type")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_mini_game_sessions_on_played_at" ON "mini_game_sessions" ("played_at")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_mini_game_sessions_on_user_id_and_played_at" ON "mini_game_sessions" ("user_id", "played_at")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_mini_game_sessions_on_user_id" ON "mini_game_sessions" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "moderation_actions"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "moderation_actions" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "action_type" varchar NOT NULL, "target_user_id" integer, "moderator_discord_id" varchar NOT NULL, "target_discord_id" varchar NOT NULL, "reason" text, "metadata" json DEFAULT '{}', "guild_id" varchar NOT NULL, "performed_at" datetime(6) NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_moderation_actions_on_action_type" ON "moderation_actions" ("action_type")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_moderation_actions_on_guild_id" ON "moderation_actions" ("guild_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_moderation_actions_on_performed_at" ON "moderation_actions" ("performed_at")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_moderation_actions_on_target_discord_id" ON "moderation_actions" ("target_discord_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_moderation_actions_on_user_id" ON "moderation_actions" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "obs_connections"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "obs_connections" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "obs_version" varchar, "platform" varchar, "ip_address" varchar, "last_connected_at" datetime(6), "access_token" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_obs_connections_on_user_id" ON "obs_connections" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "openai_integrations"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "openai_integrations" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "api_key" varchar, "organization_id" varchar, "usage_limit" integer, "usage_count" integer, "last_used_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_openai_integrations_on_user_id" ON "openai_integrations" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "payments"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "payments" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "recipient_id" integer, "stripe_payment_intent_id" varchar, "stripe_charge_id" varchar, "stripe_transfer_id" varchar, "amount_cents" integer NOT NULL, "platform_fee_cents" integer DEFAULT 0, "recipient_amount_cents" integer, "currency" varchar DEFAULT 'usd' NOT NULL, "status" varchar DEFAULT 'pending' NOT NULL, "payment_type" varchar NOT NULL, "description" text, "metadata" json DEFAULT '{}', "refunded_at" datetime(6), "refund_amount_cents" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "paid_at" datetime(6))[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_payments_on_payment_type" ON "payments" ("payment_type")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_payments_on_recipient_id_and_status" ON "payments" ("recipient_id", "status")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_payments_on_recipient_id" ON "payments" ("recipient_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_payments_on_status" ON "payments" ("status")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_payments_on_stripe_charge_id" ON "payments" ("stripe_charge_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_payments_on_stripe_payment_intent_id" ON "payments" ("stripe_payment_intent_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_payments_on_user_id_and_payment_type" ON "payments" ("user_id", "payment_type")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_payments_on_user_id" ON "payments" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "paypal_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "paypal_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "paypal_id" varchar, "email" varchar, "verified" boolean, "account_type" varchar, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_paypal_accounts_on_paypal_id" ON "paypal_accounts" ("paypal_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_paypal_accounts_on_user_id" ON "paypal_accounts" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "playstation_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "playstation_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "psn_id" varchar, "online_id" varchar, "account_id" varchar, "region" varchar, "plus_status" varchar, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_playstation_accounts_on_psn_id" ON "playstation_accounts" ("psn_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_playstation_accounts_on_user_id" ON "playstation_accounts" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "riot_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "riot_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "puuid" varchar, "game_name" varchar, "tag_line" varchar, "region" varchar, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_riot_accounts_on_puuid" ON "riot_accounts" ("puuid")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_riot_accounts_on_user_id" ON "riot_accounts" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "spotify_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "spotify_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "spotify_id" varchar, "display_name" varchar, "email" varchar, "product" varchar, "country" varchar, "follower_count" integer, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_spotify_accounts_on_spotify_id" ON "spotify_accounts" ("spotify_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_spotify_accounts_on_user_id" ON "spotify_accounts" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "steam_accounts"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "steam_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "steam_id" varchar, "persona_name" varchar, "profile_url" varchar, "avatar_url" varchar, "real_name" varchar, "country_code" varchar, "state_code" varchar, "visibility" integer, "time_created" integer, "last_logoff" integer, "level" integer, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_steam_accounts_on_steam_id" ON "steam_accounts" ("steam_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_steam_accounts_on_user_id" ON "steam_accounts" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "streams"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "streams" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "title" varchar, "status" varchar, "stream_key" varchar, "playback_path" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_streams_on_stream_key" ON "streams" ("stream_key")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_streams_on_user_id" ON "streams" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "stripe_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "stripe_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "stripe_id" varchar, "email" varchar, "account_type" varchar, "charges_enabled" boolean, "payouts_enabled" boolean, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_stripe_accounts_on_stripe_id" ON "stripe_accounts" ("stripe_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_stripe_accounts_on_user_id" ON "stripe_accounts" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "subscriptions"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "subscriptions" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "stripe_subscription_id" varchar NOT NULL, "stripe_customer_id" varchar NOT NULL, "status" varchar DEFAULT 'incomplete' NOT NULL, "plan" varchar NOT NULL, "current_period_start" datetime(6), "current_period_end" datetime(6), "cancel_at_period_end" boolean DEFAULT 0 NOT NULL, "canceled_at" datetime(6), "trial_start" datetime(6), "trial_end" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_subscriptions_on_plan" ON "subscriptions" ("plan")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_subscriptions_on_status" ON "subscriptions" ("status")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_subscriptions_on_stripe_customer_id" ON "subscriptions" ("stripe_customer_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_subscriptions_on_stripe_subscription_id" ON "subscriptions" ("stripe_subscription_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_subscriptions_on_user_id" ON "subscriptions" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "tiktok_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "tiktok_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "tiktok_id" varchar, "username" varchar, "display_name" varchar, "follower_count" integer, "video_count" integer, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_tiktok_accounts_on_tiktok_id" ON "tiktok_accounts" ("tiktok_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_tiktok_accounts_on_user_id" ON "tiktok_accounts" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "twitch_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "twitch_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "twitch_id" varchar, "login" varchar, "display_name" varchar, "broadcaster_type" varchar, "description" varchar, "profile_image_url" varchar, "view_count" integer, "follower_count" integer, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_twitch_accounts_on_twitch_id" ON "twitch_accounts" ("twitch_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_twitch_accounts_on_user_id" ON "twitch_accounts" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "twitter_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "twitter_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "twitter_id" varchar, "username" varchar, "name" varchar, "profile_image_url" varchar, "followers_count" integer, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_twitter_accounts_on_twitter_id" ON "twitter_accounts" ("twitter_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_twitter_accounts_on_user_id" ON "twitter_accounts" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "user_achievements"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "user_achievements" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "achievement_id" integer NOT NULL, "earned_at" datetime(6), "progress" integer DEFAULT 0 NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_user_achievements_on_achievement_id" ON "user_achievements" ("achievement_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_user_achievements_on_earned_at" ON "user_achievements" ("earned_at")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_user_achievements_on_user_id_and_achievement_id" ON "user_achievements" ("user_id", "achievement_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_user_achievements_on_user_id" ON "user_achievements" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "user_mutes"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "user_mutes" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "discord_id" varchar NOT NULL, "moderator_discord_id" varchar NOT NULL, "guild_id" varchar NOT NULL, "reason" text, "muted_at" datetime(6) NOT NULL, "unmuted_at" datetime(6), "duration_minutes" integer NOT NULL, "active" boolean DEFAULT 1 NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_user_mutes_on_active" ON "user_mutes" ("active")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_user_mutes_on_discord_id_and_guild_id_and_active" ON "user_mutes" ("discord_id", "guild_id", "active")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_user_mutes_on_discord_id" ON "user_mutes" ("discord_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_user_mutes_on_guild_id" ON "user_mutes" ("guild_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_user_mutes_on_unmuted_at" ON "user_mutes" ("unmuted_at")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_user_mutes_on_user_id" ON "user_mutes" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "user_warnings"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "user_warnings" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "discord_id" varchar NOT NULL, "moderator_discord_id" varchar NOT NULL, "guild_id" varchar NOT NULL, "reason" text, "warned_at" datetime(6) NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_user_warnings_on_discord_id_and_guild_id" ON "user_warnings" ("discord_id", "guild_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_user_warnings_on_discord_id" ON "user_warnings" ("discord_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_user_warnings_on_guild_id" ON "user_warnings" ("guild_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_user_warnings_on_user_id" ON "user_warnings" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_user_warnings_on_warned_at" ON "user_warnings" ("warned_at")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "users"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "users" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "username" varchar, "email" varchar, "password_digest" varchar, "stream_key" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "subscription_tier" varchar DEFAULT 'free' NOT NULL, "stripe_customer_id" varchar)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_users_on_stream_key" ON "users" ("stream_key")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_users_on_stripe_customer_id" ON "users" ("stripe_customer_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_users_on_subscription_tier" ON "users" ("subscription_tier")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_users_on_username" ON "users" ("username")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "vc_queue_entries"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "vc_queue_entries" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "discord_user_id" varchar NOT NULL, "priority" integer DEFAULT 0 NOT NULL, "position" integer NOT NULL, "status" varchar DEFAULT 'waiting' NOT NULL, "joined_at" datetime(6) NOT NULL, "left_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_vc_queue_entries_on_discord_user_id" ON "vc_queue_entries" ("discord_user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_vc_queue_on_status_priority_joined" ON "vc_queue_entries" ("status", "priority", "joined_at")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_vc_queue_entries_on_status" ON "vc_queue_entries" ("status")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_vc_queue_entries_on_user_id" ON "vc_queue_entries" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "xbox_accounts"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "xbox_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "xbox_id" varchar, "gamertag" varchar, "gamerscore" integer, "account_tier" varchar, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_xbox_accounts_on_user_id" ON "xbox_accounts" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_xbox_accounts_on_xbox_id" ON "xbox_accounts" ("xbox_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "youtube_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "youtube_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "youtube_id" varchar, "channel_title" varchar, "channel_url" varchar, "subscriber_count" integer, "video_count" integer, "thumbnail_url" varchar, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_youtube_accounts_on_user_id" ON "youtube_accounts" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_youtube_accounts_on_youtube_id" ON "youtube_accounts" ("youtube_id")[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TEMPORARY TABLE "abattlenet_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "battletag" varchar, "region" varchar, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_abattlenet_accounts_on_user_id" ON "abattlenet_accounts" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "tindex_abattlenet_accounts_on_battletag" ON "abattlenet_accounts" ("battletag")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "abattlenet_accounts" ("id","user_id","battletag","region","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at")
+                     SELECT "id","user_id","battletag","region","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at" FROM "battlenet_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "battlenet_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "battlenet_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "battletag" varchar, "region" varchar, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_7236d533e6"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_battlenet_accounts_on_battletag" ON "battlenet_accounts" ("battletag")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_battlenet_accounts_on_user_id" ON "battlenet_accounts" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "battlenet_accounts" ("id","user_id","battletag","region","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at")
+                     SELECT "id","user_id","battletag","region","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at" FROM "abattlenet_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "abattlenet_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TEMPORARY TABLE "achat_messages" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "stream_id" integer NOT NULL, "content" text, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_achat_messages_on_user_id" ON "achat_messages" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_achat_messages_on_stream_id" ON "achat_messages" ("stream_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "achat_messages" ("id","user_id","stream_id","content","created_at","updated_at")
+                     SELECT "id","user_id","stream_id","content","created_at","updated_at" FROM "chat_messages"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "chat_messages"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "chat_messages" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "stream_id" integer NOT NULL, "content" text, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_dbe407105b"
+FOREIGN KEY ("stream_id")
+  REFERENCES "streams" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_chat_messages_on_stream_id" ON "chat_messages" ("stream_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_chat_messages_on_user_id" ON "chat_messages" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "chat_messages" ("id","user_id","stream_id","content","created_at","updated_at")
+                     SELECT "id","user_id","stream_id","content","created_at","updated_at" FROM "achat_messages"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "achat_messages"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TEMPORARY TABLE "achat_messages" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "stream_id" integer NOT NULL, "content" text, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_achat_messages_on_user_id" ON "achat_messages" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_achat_messages_on_stream_id" ON "achat_messages" ("stream_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "achat_messages" ("id","user_id","stream_id","content","created_at","updated_at")
+                     SELECT "id","user_id","stream_id","content","created_at","updated_at" FROM "chat_messages"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "chat_messages"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "chat_messages" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "stream_id" integer NOT NULL, "content" text, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_dbe407105b"
+FOREIGN KEY ("stream_id")
+  REFERENCES "streams" ("id")
+, CONSTRAINT "fk_rails_918ef7acc4"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_chat_messages_on_stream_id" ON "chat_messages" ("stream_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_chat_messages_on_user_id" ON "chat_messages" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "chat_messages" ("id","user_id","stream_id","content","created_at","updated_at")
+                     SELECT "id","user_id","stream_id","content","created_at","updated_at" FROM "achat_messages"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "achat_messages"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TEMPORARY TABLE "adiscord_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "discord_id" varchar, "username" varchar, "discriminator" varchar, "avatar_url" varchar, "email" varchar, "verified" boolean, "locale" varchar, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_adiscord_accounts_on_user_id" ON "adiscord_accounts" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "tindex_adiscord_accounts_on_discord_id" ON "adiscord_accounts" ("discord_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "adiscord_accounts" ("id","user_id","discord_id","username","discriminator","avatar_url","email","verified","locale","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at")
+                     SELECT "id","user_id","discord_id","username","discriminator","avatar_url","email","verified","locale","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at" FROM "discord_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "discord_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "discord_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "discord_id" varchar, "username" varchar, "discriminator" varchar, "avatar_url" varchar, "email" varchar, "verified" boolean, "locale" varchar, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_75e145b9e9"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_discord_accounts_on_discord_id" ON "discord_accounts" ("discord_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_discord_accounts_on_user_id" ON "discord_accounts" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "discord_accounts" ("id","user_id","discord_id","username","discriminator","avatar_url","email","verified","locale","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at")
+                     SELECT "id","user_id","discord_id","username","discriminator","avatar_url","email","verified","locale","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at" FROM "adiscord_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "adiscord_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TEMPORARY TABLE "aepic_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "epic_id" varchar, "display_name" varchar, "email" varchar, "country" varchar, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_aepic_accounts_on_user_id" ON "aepic_accounts" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "tindex_aepic_accounts_on_epic_id" ON "aepic_accounts" ("epic_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "aepic_accounts" ("id","user_id","epic_id","display_name","email","country","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at")
+                     SELECT "id","user_id","epic_id","display_name","email","country","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at" FROM "epic_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "epic_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "epic_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "epic_id" varchar, "display_name" varchar, "email" varchar, "country" varchar, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_b7c2e0a813"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_epic_accounts_on_epic_id" ON "epic_accounts" ("epic_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_epic_accounts_on_user_id" ON "epic_accounts" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "epic_accounts" ("id","user_id","epic_id","display_name","email","country","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at")
+                     SELECT "id","user_id","epic_id","display_name","email","country","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at" FROM "aepic_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "aepic_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TEMPORARY TABLE "agoogle_analytics_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "property_id" varchar, "account_id" varchar, "property_name" varchar, "tracking_id" varchar, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_agoogle_analytics_accounts_on_user_id" ON "agoogle_analytics_accounts" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "tindex_agoogle_analytics_accounts_on_property_id" ON "agoogle_analytics_accounts" ("property_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "agoogle_analytics_accounts" ("id","user_id","property_id","account_id","property_name","tracking_id","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at")
+                     SELECT "id","user_id","property_id","account_id","property_name","tracking_id","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at" FROM "google_analytics_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "google_analytics_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "google_analytics_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "property_id" varchar, "account_id" varchar, "property_name" varchar, "tracking_id" varchar, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_30ae7b1b4e"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_google_analytics_accounts_on_property_id" ON "google_analytics_accounts" ("property_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_google_analytics_accounts_on_user_id" ON "google_analytics_accounts" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "google_analytics_accounts" ("id","user_id","property_id","account_id","property_name","tracking_id","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at")
+                     SELECT "id","user_id","property_id","account_id","property_name","tracking_id","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at" FROM "agoogle_analytics_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "agoogle_analytics_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TEMPORARY TABLE "ainstagram_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "instagram_id" varchar, "username" varchar, "full_name" varchar, "follower_count" integer, "media_count" integer, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_ainstagram_accounts_on_user_id" ON "ainstagram_accounts" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "tindex_ainstagram_accounts_on_instagram_id" ON "ainstagram_accounts" ("instagram_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "ainstagram_accounts" ("id","user_id","instagram_id","username","full_name","follower_count","media_count","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at")
+                     SELECT "id","user_id","instagram_id","username","full_name","follower_count","media_count","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at" FROM "instagram_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "instagram_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "instagram_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "instagram_id" varchar, "username" varchar, "full_name" varchar, "follower_count" integer, "media_count" integer, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_78959d1600"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_instagram_accounts_on_instagram_id" ON "instagram_accounts" ("instagram_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_instagram_accounts_on_user_id" ON "instagram_accounts" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "instagram_accounts" ("id","user_id","instagram_id","username","full_name","follower_count","media_count","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at")
+                     SELECT "id","user_id","instagram_id","username","full_name","follower_count","media_count","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at" FROM "ainstagram_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "ainstagram_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TEMPORARY TABLE "aintegration_privacy_settings" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "integration_type" varchar NOT NULL, "integration_id" integer NOT NULL, "user_id" integer NOT NULL, "settings" json DEFAULT '{}' NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_aintegration_privacy_settings_on_user_id" ON "aintegration_privacy_settings" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "tindex_privacy_unique_integration" ON "aintegration_privacy_settings" ("integration_type", "integration_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_privacy_on_integration" ON "aintegration_privacy_settings" ("integration_type", "integration_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "aintegration_privacy_settings" ("id","integration_type","integration_id","user_id","settings","created_at","updated_at")
+                     SELECT "id","integration_type","integration_id","user_id","settings","created_at","updated_at" FROM "integration_privacy_settings"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "integration_privacy_settings"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "integration_privacy_settings" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "integration_type" varchar NOT NULL, "integration_id" integer NOT NULL, "user_id" integer NOT NULL, "settings" json DEFAULT '{}' NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_384322586e"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_privacy_on_integration" ON "integration_privacy_settings" ("integration_type", "integration_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_privacy_unique_integration" ON "integration_privacy_settings" ("integration_type", "integration_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_integration_privacy_settings_on_user_id" ON "integration_privacy_settings" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "integration_privacy_settings" ("id","integration_type","integration_id","user_id","settings","created_at","updated_at")
+                     SELECT "id","integration_type","integration_id","user_id","settings","created_at","updated_at" FROM "aintegration_privacy_settings"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "aintegration_privacy_settings"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TEMPORARY TABLE "aloyalty_points" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "points" integer DEFAULT 0 NOT NULL, "level" integer DEFAULT 1 NOT NULL, "total_earned" integer DEFAULT 0 NOT NULL, "total_spent" integer DEFAULT 0 NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "tindex_aloyalty_points_on_user_id" ON "aloyalty_points" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "aloyalty_points" ("id","user_id","points","level","total_earned","total_spent","created_at","updated_at")
+                     SELECT "id","user_id","points","level","total_earned","total_spent","created_at","updated_at" FROM "loyalty_points"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "loyalty_points"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "loyalty_points" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "points" integer DEFAULT 0 NOT NULL, "level" integer DEFAULT 1 NOT NULL, "total_earned" integer DEFAULT 0 NOT NULL, "total_spent" integer DEFAULT 0 NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_935d276743"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_loyalty_points_on_user_id" ON "loyalty_points" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "loyalty_points" ("id","user_id","points","level","total_earned","total_spent","created_at","updated_at")
+                     SELECT "id","user_id","points","level","total_earned","total_spent","created_at","updated_at" FROM "aloyalty_points"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "aloyalty_points"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TEMPORARY TABLE "aloyalty_transactions" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "transaction_type" varchar NOT NULL, "amount" integer NOT NULL, "description" text, "metadata" json DEFAULT '{}', "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_aloyalty_transactions_on_user_id" ON "aloyalty_transactions" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_aloyalty_transactions_on_transaction_type" ON "aloyalty_transactions" ("transaction_type")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_aloyalty_transactions_on_created_at" ON "aloyalty_transactions" ("created_at")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "aloyalty_transactions" ("id","user_id","transaction_type","amount","description","metadata","created_at","updated_at")
+                     SELECT "id","user_id","transaction_type","amount","description","metadata","created_at","updated_at" FROM "loyalty_transactions"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "loyalty_transactions"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "loyalty_transactions" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "transaction_type" varchar NOT NULL, "amount" integer NOT NULL, "description" text, "metadata" json DEFAULT '{}', "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_0e1b477b1e"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_loyalty_transactions_on_created_at" ON "loyalty_transactions" ("created_at")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_loyalty_transactions_on_transaction_type" ON "loyalty_transactions" ("transaction_type")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_loyalty_transactions_on_user_id" ON "loyalty_transactions" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "loyalty_transactions" ("id","user_id","transaction_type","amount","description","metadata","created_at","updated_at")
+                     SELECT "id","user_id","transaction_type","amount","description","metadata","created_at","updated_at" FROM "aloyalty_transactions"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "aloyalty_transactions"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TEMPORARY TABLE "amini_game_sessions" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "game_type" varchar NOT NULL, "bet_amount" integer NOT NULL, "result" varchar NOT NULL, "winnings" integer DEFAULT 0 NOT NULL, "metadata" json DEFAULT '{}', "played_at" datetime(6) NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_amini_game_sessions_on_user_id" ON "amini_game_sessions" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_amini_game_sessions_on_user_id_and_played_at" ON "amini_game_sessions" ("user_id", "played_at")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_amini_game_sessions_on_played_at" ON "amini_game_sessions" ("played_at")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_amini_game_sessions_on_game_type" ON "amini_game_sessions" ("game_type")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "amini_game_sessions" ("id","user_id","game_type","bet_amount","result","winnings","metadata","played_at","created_at","updated_at")
+                     SELECT "id","user_id","game_type","bet_amount","result","winnings","metadata","played_at","created_at","updated_at" FROM "mini_game_sessions"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "mini_game_sessions"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "mini_game_sessions" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "game_type" varchar NOT NULL, "bet_amount" integer NOT NULL, "result" varchar NOT NULL, "winnings" integer DEFAULT 0 NOT NULL, "metadata" json DEFAULT '{}', "played_at" datetime(6) NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_c64ece2973"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_mini_game_sessions_on_game_type" ON "mini_game_sessions" ("game_type")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_mini_game_sessions_on_played_at" ON "mini_game_sessions" ("played_at")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_mini_game_sessions_on_user_id_and_played_at" ON "mini_game_sessions" ("user_id", "played_at")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_mini_game_sessions_on_user_id" ON "mini_game_sessions" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "mini_game_sessions" ("id","user_id","game_type","bet_amount","result","winnings","metadata","played_at","created_at","updated_at")
+                     SELECT "id","user_id","game_type","bet_amount","result","winnings","metadata","played_at","created_at","updated_at" FROM "amini_game_sessions"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "amini_game_sessions"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TEMPORARY TABLE "amoderation_actions" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "action_type" varchar NOT NULL, "target_user_id" integer, "moderator_discord_id" varchar NOT NULL, "target_discord_id" varchar NOT NULL, "reason" text, "metadata" json DEFAULT '{}', "guild_id" varchar NOT NULL, "performed_at" datetime(6) NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_amoderation_actions_on_user_id" ON "amoderation_actions" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_amoderation_actions_on_target_discord_id" ON "amoderation_actions" ("target_discord_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_amoderation_actions_on_performed_at" ON "amoderation_actions" ("performed_at")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_amoderation_actions_on_guild_id" ON "amoderation_actions" ("guild_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_amoderation_actions_on_action_type" ON "amoderation_actions" ("action_type")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "amoderation_actions" ("id","user_id","action_type","target_user_id","moderator_discord_id","target_discord_id","reason","metadata","guild_id","performed_at","created_at","updated_at")
+                     SELECT "id","user_id","action_type","target_user_id","moderator_discord_id","target_discord_id","reason","metadata","guild_id","performed_at","created_at","updated_at" FROM "moderation_actions"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "moderation_actions"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "moderation_actions" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "action_type" varchar NOT NULL, "target_user_id" integer, "moderator_discord_id" varchar NOT NULL, "target_discord_id" varchar NOT NULL, "reason" text, "metadata" json DEFAULT '{}', "guild_id" varchar NOT NULL, "performed_at" datetime(6) NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_27a2db9093"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_moderation_actions_on_action_type" ON "moderation_actions" ("action_type")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_moderation_actions_on_guild_id" ON "moderation_actions" ("guild_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_moderation_actions_on_performed_at" ON "moderation_actions" ("performed_at")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_moderation_actions_on_target_discord_id" ON "moderation_actions" ("target_discord_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_moderation_actions_on_user_id" ON "moderation_actions" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "moderation_actions" ("id","user_id","action_type","target_user_id","moderator_discord_id","target_discord_id","reason","metadata","guild_id","performed_at","created_at","updated_at")
+                     SELECT "id","user_id","action_type","target_user_id","moderator_discord_id","target_discord_id","reason","metadata","guild_id","performed_at","created_at","updated_at" FROM "amoderation_actions"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "amoderation_actions"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TEMPORARY TABLE "aobs_connections" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "obs_version" varchar, "platform" varchar, "ip_address" varchar, "last_connected_at" datetime(6), "access_token" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_aobs_connections_on_user_id" ON "aobs_connections" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "aobs_connections" ("id","user_id","obs_version","platform","ip_address","last_connected_at","access_token","created_at","updated_at")
+                     SELECT "id","user_id","obs_version","platform","ip_address","last_connected_at","access_token","created_at","updated_at" FROM "obs_connections"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "obs_connections"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "obs_connections" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "obs_version" varchar, "platform" varchar, "ip_address" varchar, "last_connected_at" datetime(6), "access_token" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_6a505a03a8"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_obs_connections_on_user_id" ON "obs_connections" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "obs_connections" ("id","user_id","obs_version","platform","ip_address","last_connected_at","access_token","created_at","updated_at")
+                     SELECT "id","user_id","obs_version","platform","ip_address","last_connected_at","access_token","created_at","updated_at" FROM "aobs_connections"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "aobs_connections"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TEMPORARY TABLE "aopenai_integrations" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "api_key" varchar, "organization_id" varchar, "usage_limit" integer, "usage_count" integer, "last_used_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_aopenai_integrations_on_user_id" ON "aopenai_integrations" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "aopenai_integrations" ("id","user_id","api_key","organization_id","usage_limit","usage_count","last_used_at","created_at","updated_at")
+                     SELECT "id","user_id","api_key","organization_id","usage_limit","usage_count","last_used_at","created_at","updated_at" FROM "openai_integrations"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "openai_integrations"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "openai_integrations" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "api_key" varchar, "organization_id" varchar, "usage_limit" integer, "usage_count" integer, "last_used_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_bd19ca614b"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_openai_integrations_on_user_id" ON "openai_integrations" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "openai_integrations" ("id","user_id","api_key","organization_id","usage_limit","usage_count","last_used_at","created_at","updated_at")
+                     SELECT "id","user_id","api_key","organization_id","usage_limit","usage_count","last_used_at","created_at","updated_at" FROM "aopenai_integrations"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "aopenai_integrations"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TEMPORARY TABLE "apayments" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "recipient_id" integer, "stripe_payment_intent_id" varchar, "stripe_charge_id" varchar, "stripe_transfer_id" varchar, "amount_cents" integer NOT NULL, "platform_fee_cents" integer DEFAULT 0, "recipient_amount_cents" integer, "currency" varchar DEFAULT 'usd' NOT NULL, "status" varchar DEFAULT 'pending' NOT NULL, "payment_type" varchar NOT NULL, "description" text, "metadata" json DEFAULT '{}', "refunded_at" datetime(6), "refund_amount_cents" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "paid_at" datetime(6))[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_apayments_on_user_id" ON "apayments" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_apayments_on_user_id_and_payment_type" ON "apayments" ("user_id", "payment_type")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "tindex_apayments_on_stripe_payment_intent_id" ON "apayments" ("stripe_payment_intent_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_apayments_on_stripe_charge_id" ON "apayments" ("stripe_charge_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_apayments_on_status" ON "apayments" ("status")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_apayments_on_recipient_id" ON "apayments" ("recipient_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_apayments_on_recipient_id_and_status" ON "apayments" ("recipient_id", "status")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_apayments_on_payment_type" ON "apayments" ("payment_type")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "apayments" ("id","user_id","recipient_id","stripe_payment_intent_id","stripe_charge_id","stripe_transfer_id","amount_cents","platform_fee_cents","recipient_amount_cents","currency","status","payment_type","description","metadata","refunded_at","refund_amount_cents","created_at","updated_at","paid_at")
+                     SELECT "id","user_id","recipient_id","stripe_payment_intent_id","stripe_charge_id","stripe_transfer_id","amount_cents","platform_fee_cents","recipient_amount_cents","currency","status","payment_type","description","metadata","refunded_at","refund_amount_cents","created_at","updated_at","paid_at" FROM "payments"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "payments"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "payments" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "recipient_id" integer, "stripe_payment_intent_id" varchar, "stripe_charge_id" varchar, "stripe_transfer_id" varchar, "amount_cents" integer NOT NULL, "platform_fee_cents" integer DEFAULT 0, "recipient_amount_cents" integer, "currency" varchar DEFAULT 'usd' NOT NULL, "status" varchar DEFAULT 'pending' NOT NULL, "payment_type" varchar NOT NULL, "description" text, "metadata" json DEFAULT '{}', "refunded_at" datetime(6), "refund_amount_cents" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "paid_at" datetime(6), CONSTRAINT "fk_rails_081dc04a02"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_payments_on_payment_type" ON "payments" ("payment_type")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_payments_on_recipient_id_and_status" ON "payments" ("recipient_id", "status")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_payments_on_recipient_id" ON "payments" ("recipient_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_payments_on_status" ON "payments" ("status")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_payments_on_stripe_charge_id" ON "payments" ("stripe_charge_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_payments_on_stripe_payment_intent_id" ON "payments" ("stripe_payment_intent_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_payments_on_user_id_and_payment_type" ON "payments" ("user_id", "payment_type")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_payments_on_user_id" ON "payments" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "payments" ("id","user_id","recipient_id","stripe_payment_intent_id","stripe_charge_id","stripe_transfer_id","amount_cents","platform_fee_cents","recipient_amount_cents","currency","status","payment_type","description","metadata","refunded_at","refund_amount_cents","created_at","updated_at","paid_at")
+                     SELECT "id","user_id","recipient_id","stripe_payment_intent_id","stripe_charge_id","stripe_transfer_id","amount_cents","platform_fee_cents","recipient_amount_cents","currency","status","payment_type","description","metadata","refunded_at","refund_amount_cents","created_at","updated_at","paid_at" FROM "apayments"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "apayments"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TEMPORARY TABLE "apayments" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "recipient_id" integer, "stripe_payment_intent_id" varchar, "stripe_charge_id" varchar, "stripe_transfer_id" varchar, "amount_cents" integer NOT NULL, "platform_fee_cents" integer DEFAULT 0, "recipient_amount_cents" integer, "currency" varchar DEFAULT 'usd' NOT NULL, "status" varchar DEFAULT 'pending' NOT NULL, "payment_type" varchar NOT NULL, "description" text, "metadata" json DEFAULT '{}', "refunded_at" datetime(6), "refund_amount_cents" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "paid_at" datetime(6))[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_apayments_on_user_id" ON "apayments" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_apayments_on_user_id_and_payment_type" ON "apayments" ("user_id", "payment_type")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "tindex_apayments_on_stripe_payment_intent_id" ON "apayments" ("stripe_payment_intent_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_apayments_on_stripe_charge_id" ON "apayments" ("stripe_charge_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_apayments_on_status" ON "apayments" ("status")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_apayments_on_recipient_id" ON "apayments" ("recipient_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_apayments_on_recipient_id_and_status" ON "apayments" ("recipient_id", "status")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_apayments_on_payment_type" ON "apayments" ("payment_type")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "apayments" ("id","user_id","recipient_id","stripe_payment_intent_id","stripe_charge_id","stripe_transfer_id","amount_cents","platform_fee_cents","recipient_amount_cents","currency","status","payment_type","description","metadata","refunded_at","refund_amount_cents","created_at","updated_at","paid_at")
+                     SELECT "id","user_id","recipient_id","stripe_payment_intent_id","stripe_charge_id","stripe_transfer_id","amount_cents","platform_fee_cents","recipient_amount_cents","currency","status","payment_type","description","metadata","refunded_at","refund_amount_cents","created_at","updated_at","paid_at" FROM "payments"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "payments"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "payments" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "recipient_id" integer, "stripe_payment_intent_id" varchar, "stripe_charge_id" varchar, "stripe_transfer_id" varchar, "amount_cents" integer NOT NULL, "platform_fee_cents" integer DEFAULT 0, "recipient_amount_cents" integer, "currency" varchar DEFAULT 'usd' NOT NULL, "status" varchar DEFAULT 'pending' NOT NULL, "payment_type" varchar NOT NULL, "description" text, "metadata" json DEFAULT '{}', "refunded_at" datetime(6), "refund_amount_cents" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "paid_at" datetime(6), CONSTRAINT "fk_rails_081dc04a02"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+, CONSTRAINT "fk_rails_571452d541"
+FOREIGN KEY ("recipient_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_payments_on_payment_type" ON "payments" ("payment_type")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_payments_on_recipient_id_and_status" ON "payments" ("recipient_id", "status")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_payments_on_recipient_id" ON "payments" ("recipient_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_payments_on_status" ON "payments" ("status")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_payments_on_stripe_charge_id" ON "payments" ("stripe_charge_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_payments_on_stripe_payment_intent_id" ON "payments" ("stripe_payment_intent_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_payments_on_user_id_and_payment_type" ON "payments" ("user_id", "payment_type")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_payments_on_user_id" ON "payments" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "payments" ("id","user_id","recipient_id","stripe_payment_intent_id","stripe_charge_id","stripe_transfer_id","amount_cents","platform_fee_cents","recipient_amount_cents","currency","status","payment_type","description","metadata","refunded_at","refund_amount_cents","created_at","updated_at","paid_at")
+                     SELECT "id","user_id","recipient_id","stripe_payment_intent_id","stripe_charge_id","stripe_transfer_id","amount_cents","platform_fee_cents","recipient_amount_cents","currency","status","payment_type","description","metadata","refunded_at","refund_amount_cents","created_at","updated_at","paid_at" FROM "apayments"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "apayments"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TEMPORARY TABLE "apaypal_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "paypal_id" varchar, "email" varchar, "verified" boolean, "account_type" varchar, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_apaypal_accounts_on_user_id" ON "apaypal_accounts" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "tindex_apaypal_accounts_on_paypal_id" ON "apaypal_accounts" ("paypal_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "apaypal_accounts" ("id","user_id","paypal_id","email","verified","account_type","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at")
+                     SELECT "id","user_id","paypal_id","email","verified","account_type","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at" FROM "paypal_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "paypal_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "paypal_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "paypal_id" varchar, "email" varchar, "verified" boolean, "account_type" varchar, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_cefa355ff3"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_paypal_accounts_on_paypal_id" ON "paypal_accounts" ("paypal_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_paypal_accounts_on_user_id" ON "paypal_accounts" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "paypal_accounts" ("id","user_id","paypal_id","email","verified","account_type","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at")
+                     SELECT "id","user_id","paypal_id","email","verified","account_type","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at" FROM "apaypal_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "apaypal_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TEMPORARY TABLE "aplaystation_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "psn_id" varchar, "online_id" varchar, "account_id" varchar, "region" varchar, "plus_status" varchar, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_aplaystation_accounts_on_user_id" ON "aplaystation_accounts" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "tindex_aplaystation_accounts_on_psn_id" ON "aplaystation_accounts" ("psn_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "aplaystation_accounts" ("id","user_id","psn_id","online_id","account_id","region","plus_status","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at")
+                     SELECT "id","user_id","psn_id","online_id","account_id","region","plus_status","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at" FROM "playstation_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "playstation_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "playstation_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "psn_id" varchar, "online_id" varchar, "account_id" varchar, "region" varchar, "plus_status" varchar, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_9861d59b4e"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_playstation_accounts_on_psn_id" ON "playstation_accounts" ("psn_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_playstation_accounts_on_user_id" ON "playstation_accounts" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "playstation_accounts" ("id","user_id","psn_id","online_id","account_id","region","plus_status","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at")
+                     SELECT "id","user_id","psn_id","online_id","account_id","region","plus_status","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at" FROM "aplaystation_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "aplaystation_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TEMPORARY TABLE "ariot_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "puuid" varchar, "game_name" varchar, "tag_line" varchar, "region" varchar, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_ariot_accounts_on_user_id" ON "ariot_accounts" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "tindex_ariot_accounts_on_puuid" ON "ariot_accounts" ("puuid")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "ariot_accounts" ("id","user_id","puuid","game_name","tag_line","region","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at")
+                     SELECT "id","user_id","puuid","game_name","tag_line","region","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at" FROM "riot_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "riot_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "riot_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "puuid" varchar, "game_name" varchar, "tag_line" varchar, "region" varchar, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_835df9f32e"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_riot_accounts_on_puuid" ON "riot_accounts" ("puuid")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_riot_accounts_on_user_id" ON "riot_accounts" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "riot_accounts" ("id","user_id","puuid","game_name","tag_line","region","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at")
+                     SELECT "id","user_id","puuid","game_name","tag_line","region","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at" FROM "ariot_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "ariot_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TEMPORARY TABLE "aspotify_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "spotify_id" varchar, "display_name" varchar, "email" varchar, "product" varchar, "country" varchar, "follower_count" integer, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_aspotify_accounts_on_user_id" ON "aspotify_accounts" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "tindex_aspotify_accounts_on_spotify_id" ON "aspotify_accounts" ("spotify_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "aspotify_accounts" ("id","user_id","spotify_id","display_name","email","product","country","follower_count","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at")
+                     SELECT "id","user_id","spotify_id","display_name","email","product","country","follower_count","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at" FROM "spotify_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "spotify_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "spotify_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "spotify_id" varchar, "display_name" varchar, "email" varchar, "product" varchar, "country" varchar, "follower_count" integer, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_f2f39d3641"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_spotify_accounts_on_spotify_id" ON "spotify_accounts" ("spotify_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_spotify_accounts_on_user_id" ON "spotify_accounts" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "spotify_accounts" ("id","user_id","spotify_id","display_name","email","product","country","follower_count","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at")
+                     SELECT "id","user_id","spotify_id","display_name","email","product","country","follower_count","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at" FROM "aspotify_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "aspotify_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TEMPORARY TABLE "asteam_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "steam_id" varchar, "persona_name" varchar, "profile_url" varchar, "avatar_url" varchar, "real_name" varchar, "country_code" varchar, "state_code" varchar, "visibility" integer, "time_created" integer, "last_logoff" integer, "level" integer, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_asteam_accounts_on_user_id" ON "asteam_accounts" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "tindex_asteam_accounts_on_steam_id" ON "asteam_accounts" ("steam_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "asteam_accounts" ("id","user_id","steam_id","persona_name","profile_url","avatar_url","real_name","country_code","state_code","visibility","time_created","last_logoff","level","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at")
+                     SELECT "id","user_id","steam_id","persona_name","profile_url","avatar_url","real_name","country_code","state_code","visibility","time_created","last_logoff","level","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at" FROM "steam_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "steam_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "steam_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "steam_id" varchar, "persona_name" varchar, "profile_url" varchar, "avatar_url" varchar, "real_name" varchar, "country_code" varchar, "state_code" varchar, "visibility" integer, "time_created" integer, "last_logoff" integer, "level" integer, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_1e8f3d8ac0"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_steam_accounts_on_steam_id" ON "steam_accounts" ("steam_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_steam_accounts_on_user_id" ON "steam_accounts" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "steam_accounts" ("id","user_id","steam_id","persona_name","profile_url","avatar_url","real_name","country_code","state_code","visibility","time_created","last_logoff","level","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at")
+                     SELECT "id","user_id","steam_id","persona_name","profile_url","avatar_url","real_name","country_code","state_code","visibility","time_created","last_logoff","level","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at" FROM "asteam_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "asteam_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TEMPORARY TABLE "astreams" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "title" varchar, "status" varchar, "stream_key" varchar, "playback_path" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_astreams_on_user_id" ON "astreams" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_astreams_on_stream_key" ON "astreams" ("stream_key")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "astreams" ("id","user_id","title","status","stream_key","playback_path","created_at","updated_at")
+                     SELECT "id","user_id","title","status","stream_key","playback_path","created_at","updated_at" FROM "streams"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "streams"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "streams" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "title" varchar, "status" varchar, "stream_key" varchar, "playback_path" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_bb64178f90"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_streams_on_stream_key" ON "streams" ("stream_key")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_streams_on_user_id" ON "streams" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "streams" ("id","user_id","title","status","stream_key","playback_path","created_at","updated_at")
+                     SELECT "id","user_id","title","status","stream_key","playback_path","created_at","updated_at" FROM "astreams"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "astreams"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TEMPORARY TABLE "astripe_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "stripe_id" varchar, "email" varchar, "account_type" varchar, "charges_enabled" boolean, "payouts_enabled" boolean, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_astripe_accounts_on_user_id" ON "astripe_accounts" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "tindex_astripe_accounts_on_stripe_id" ON "astripe_accounts" ("stripe_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "astripe_accounts" ("id","user_id","stripe_id","email","account_type","charges_enabled","payouts_enabled","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at")
+                     SELECT "id","user_id","stripe_id","email","account_type","charges_enabled","payouts_enabled","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at" FROM "stripe_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "stripe_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "stripe_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "stripe_id" varchar, "email" varchar, "account_type" varchar, "charges_enabled" boolean, "payouts_enabled" boolean, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_764fb7bcbe"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_stripe_accounts_on_stripe_id" ON "stripe_accounts" ("stripe_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_stripe_accounts_on_user_id" ON "stripe_accounts" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "stripe_accounts" ("id","user_id","stripe_id","email","account_type","charges_enabled","payouts_enabled","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at")
+                     SELECT "id","user_id","stripe_id","email","account_type","charges_enabled","payouts_enabled","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at" FROM "astripe_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "astripe_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TEMPORARY TABLE "asubscriptions" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "stripe_subscription_id" varchar NOT NULL, "stripe_customer_id" varchar NOT NULL, "status" varchar DEFAULT 'incomplete' NOT NULL, "plan" varchar NOT NULL, "current_period_start" datetime(6), "current_period_end" datetime(6), "cancel_at_period_end" boolean DEFAULT 0 NOT NULL, "canceled_at" datetime(6), "trial_start" datetime(6), "trial_end" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_asubscriptions_on_user_id" ON "asubscriptions" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "tindex_asubscriptions_on_stripe_subscription_id" ON "asubscriptions" ("stripe_subscription_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_asubscriptions_on_stripe_customer_id" ON "asubscriptions" ("stripe_customer_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_asubscriptions_on_status" ON "asubscriptions" ("status")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_asubscriptions_on_plan" ON "asubscriptions" ("plan")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "asubscriptions" ("id","user_id","stripe_subscription_id","stripe_customer_id","status","plan","current_period_start","current_period_end","cancel_at_period_end","canceled_at","trial_start","trial_end","created_at","updated_at")
+                     SELECT "id","user_id","stripe_subscription_id","stripe_customer_id","status","plan","current_period_start","current_period_end","cancel_at_period_end","canceled_at","trial_start","trial_end","created_at","updated_at" FROM "subscriptions"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "subscriptions"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "subscriptions" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "stripe_subscription_id" varchar NOT NULL, "stripe_customer_id" varchar NOT NULL, "status" varchar DEFAULT 'incomplete' NOT NULL, "plan" varchar NOT NULL, "current_period_start" datetime(6), "current_period_end" datetime(6), "cancel_at_period_end" boolean DEFAULT 0 NOT NULL, "canceled_at" datetime(6), "trial_start" datetime(6), "trial_end" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_933bdff476"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_subscriptions_on_plan" ON "subscriptions" ("plan")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_subscriptions_on_status" ON "subscriptions" ("status")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_subscriptions_on_stripe_customer_id" ON "subscriptions" ("stripe_customer_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_subscriptions_on_stripe_subscription_id" ON "subscriptions" ("stripe_subscription_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_subscriptions_on_user_id" ON "subscriptions" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "subscriptions" ("id","user_id","stripe_subscription_id","stripe_customer_id","status","plan","current_period_start","current_period_end","cancel_at_period_end","canceled_at","trial_start","trial_end","created_at","updated_at")
+                     SELECT "id","user_id","stripe_subscription_id","stripe_customer_id","status","plan","current_period_start","current_period_end","cancel_at_period_end","canceled_at","trial_start","trial_end","created_at","updated_at" FROM "asubscriptions"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "asubscriptions"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TEMPORARY TABLE "atiktok_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "tiktok_id" varchar, "username" varchar, "display_name" varchar, "follower_count" integer, "video_count" integer, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_atiktok_accounts_on_user_id" ON "atiktok_accounts" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "tindex_atiktok_accounts_on_tiktok_id" ON "atiktok_accounts" ("tiktok_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "atiktok_accounts" ("id","user_id","tiktok_id","username","display_name","follower_count","video_count","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at")
+                     SELECT "id","user_id","tiktok_id","username","display_name","follower_count","video_count","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at" FROM "tiktok_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "tiktok_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "tiktok_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "tiktok_id" varchar, "username" varchar, "display_name" varchar, "follower_count" integer, "video_count" integer, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_7558ed22a2"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_tiktok_accounts_on_tiktok_id" ON "tiktok_accounts" ("tiktok_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_tiktok_accounts_on_user_id" ON "tiktok_accounts" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "tiktok_accounts" ("id","user_id","tiktok_id","username","display_name","follower_count","video_count","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at")
+                     SELECT "id","user_id","tiktok_id","username","display_name","follower_count","video_count","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at" FROM "atiktok_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "atiktok_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TEMPORARY TABLE "atwitch_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "twitch_id" varchar, "login" varchar, "display_name" varchar, "broadcaster_type" varchar, "description" varchar, "profile_image_url" varchar, "view_count" integer, "follower_count" integer, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_atwitch_accounts_on_user_id" ON "atwitch_accounts" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "tindex_atwitch_accounts_on_twitch_id" ON "atwitch_accounts" ("twitch_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "atwitch_accounts" ("id","user_id","twitch_id","login","display_name","broadcaster_type","description","profile_image_url","view_count","follower_count","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at")
+                     SELECT "id","user_id","twitch_id","login","display_name","broadcaster_type","description","profile_image_url","view_count","follower_count","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at" FROM "twitch_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "twitch_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "twitch_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "twitch_id" varchar, "login" varchar, "display_name" varchar, "broadcaster_type" varchar, "description" varchar, "profile_image_url" varchar, "view_count" integer, "follower_count" integer, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_46a9570253"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_twitch_accounts_on_twitch_id" ON "twitch_accounts" ("twitch_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_twitch_accounts_on_user_id" ON "twitch_accounts" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "twitch_accounts" ("id","user_id","twitch_id","login","display_name","broadcaster_type","description","profile_image_url","view_count","follower_count","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at")
+                     SELECT "id","user_id","twitch_id","login","display_name","broadcaster_type","description","profile_image_url","view_count","follower_count","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at" FROM "atwitch_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "atwitch_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TEMPORARY TABLE "atwitter_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "twitter_id" varchar, "username" varchar, "name" varchar, "profile_image_url" varchar, "followers_count" integer, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_atwitter_accounts_on_user_id" ON "atwitter_accounts" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "tindex_atwitter_accounts_on_twitter_id" ON "atwitter_accounts" ("twitter_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "atwitter_accounts" ("id","user_id","twitter_id","username","name","profile_image_url","followers_count","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at")
+                     SELECT "id","user_id","twitter_id","username","name","profile_image_url","followers_count","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at" FROM "twitter_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "twitter_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "twitter_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "twitter_id" varchar, "username" varchar, "name" varchar, "profile_image_url" varchar, "followers_count" integer, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_287de1faaf"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_twitter_accounts_on_twitter_id" ON "twitter_accounts" ("twitter_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_twitter_accounts_on_user_id" ON "twitter_accounts" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "twitter_accounts" ("id","user_id","twitter_id","username","name","profile_image_url","followers_count","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at")
+                     SELECT "id","user_id","twitter_id","username","name","profile_image_url","followers_count","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at" FROM "atwitter_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "atwitter_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TEMPORARY TABLE "auser_achievements" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "achievement_id" integer NOT NULL, "earned_at" datetime(6), "progress" integer DEFAULT 0 NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_auser_achievements_on_user_id" ON "auser_achievements" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "tindex_auser_achievements_on_user_id_and_achievement_id" ON "auser_achievements" ("user_id", "achievement_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_auser_achievements_on_earned_at" ON "auser_achievements" ("earned_at")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_auser_achievements_on_achievement_id" ON "auser_achievements" ("achievement_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "auser_achievements" ("id","user_id","achievement_id","earned_at","progress","created_at","updated_at")
+                     SELECT "id","user_id","achievement_id","earned_at","progress","created_at","updated_at" FROM "user_achievements"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "user_achievements"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "user_achievements" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "achievement_id" integer NOT NULL, "earned_at" datetime(6), "progress" integer DEFAULT 0 NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_c44f5b3b25"
+FOREIGN KEY ("achievement_id")
+  REFERENCES "achievements" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_user_achievements_on_achievement_id" ON "user_achievements" ("achievement_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_user_achievements_on_earned_at" ON "user_achievements" ("earned_at")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_user_achievements_on_user_id_and_achievement_id" ON "user_achievements" ("user_id", "achievement_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_user_achievements_on_user_id" ON "user_achievements" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "user_achievements" ("id","user_id","achievement_id","earned_at","progress","created_at","updated_at")
+                     SELECT "id","user_id","achievement_id","earned_at","progress","created_at","updated_at" FROM "auser_achievements"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "auser_achievements"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TEMPORARY TABLE "auser_achievements" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "achievement_id" integer NOT NULL, "earned_at" datetime(6), "progress" integer DEFAULT 0 NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_auser_achievements_on_user_id" ON "auser_achievements" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "tindex_auser_achievements_on_user_id_and_achievement_id" ON "auser_achievements" ("user_id", "achievement_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_auser_achievements_on_earned_at" ON "auser_achievements" ("earned_at")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_auser_achievements_on_achievement_id" ON "auser_achievements" ("achievement_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "auser_achievements" ("id","user_id","achievement_id","earned_at","progress","created_at","updated_at")
+                     SELECT "id","user_id","achievement_id","earned_at","progress","created_at","updated_at" FROM "user_achievements"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "user_achievements"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "user_achievements" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "achievement_id" integer NOT NULL, "earned_at" datetime(6), "progress" integer DEFAULT 0 NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_c44f5b3b25"
+FOREIGN KEY ("achievement_id")
+  REFERENCES "achievements" ("id")
+, CONSTRAINT "fk_rails_4efde02858"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_user_achievements_on_achievement_id" ON "user_achievements" ("achievement_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_user_achievements_on_earned_at" ON "user_achievements" ("earned_at")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_user_achievements_on_user_id_and_achievement_id" ON "user_achievements" ("user_id", "achievement_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_user_achievements_on_user_id" ON "user_achievements" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "user_achievements" ("id","user_id","achievement_id","earned_at","progress","created_at","updated_at")
+                     SELECT "id","user_id","achievement_id","earned_at","progress","created_at","updated_at" FROM "auser_achievements"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "auser_achievements"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TEMPORARY TABLE "auser_mutes" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "discord_id" varchar NOT NULL, "moderator_discord_id" varchar NOT NULL, "guild_id" varchar NOT NULL, "reason" text, "muted_at" datetime(6) NOT NULL, "unmuted_at" datetime(6), "duration_minutes" integer NOT NULL, "active" boolean DEFAULT 1 NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_auser_mutes_on_user_id" ON "auser_mutes" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_auser_mutes_on_unmuted_at" ON "auser_mutes" ("unmuted_at")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_auser_mutes_on_guild_id" ON "auser_mutes" ("guild_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_auser_mutes_on_discord_id" ON "auser_mutes" ("discord_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_auser_mutes_on_discord_id_and_guild_id_and_active" ON "auser_mutes" ("discord_id", "guild_id", "active")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_auser_mutes_on_active" ON "auser_mutes" ("active")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "auser_mutes" ("id","user_id","discord_id","moderator_discord_id","guild_id","reason","muted_at","unmuted_at","duration_minutes","active","created_at","updated_at")
+                     SELECT "id","user_id","discord_id","moderator_discord_id","guild_id","reason","muted_at","unmuted_at","duration_minutes","active","created_at","updated_at" FROM "user_mutes"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "user_mutes"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "user_mutes" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "discord_id" varchar NOT NULL, "moderator_discord_id" varchar NOT NULL, "guild_id" varchar NOT NULL, "reason" text, "muted_at" datetime(6) NOT NULL, "unmuted_at" datetime(6), "duration_minutes" integer NOT NULL, "active" boolean DEFAULT 1 NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_2c90fe991b"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_user_mutes_on_active" ON "user_mutes" ("active")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_user_mutes_on_discord_id_and_guild_id_and_active" ON "user_mutes" ("discord_id", "guild_id", "active")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_user_mutes_on_discord_id" ON "user_mutes" ("discord_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_user_mutes_on_guild_id" ON "user_mutes" ("guild_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_user_mutes_on_unmuted_at" ON "user_mutes" ("unmuted_at")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_user_mutes_on_user_id" ON "user_mutes" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "user_mutes" ("id","user_id","discord_id","moderator_discord_id","guild_id","reason","muted_at","unmuted_at","duration_minutes","active","created_at","updated_at")
+                     SELECT "id","user_id","discord_id","moderator_discord_id","guild_id","reason","muted_at","unmuted_at","duration_minutes","active","created_at","updated_at" FROM "auser_mutes"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "auser_mutes"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TEMPORARY TABLE "auser_warnings" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "discord_id" varchar NOT NULL, "moderator_discord_id" varchar NOT NULL, "guild_id" varchar NOT NULL, "reason" text, "warned_at" datetime(6) NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_auser_warnings_on_warned_at" ON "auser_warnings" ("warned_at")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_auser_warnings_on_user_id" ON "auser_warnings" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_auser_warnings_on_guild_id" ON "auser_warnings" ("guild_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_auser_warnings_on_discord_id" ON "auser_warnings" ("discord_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_auser_warnings_on_discord_id_and_guild_id" ON "auser_warnings" ("discord_id", "guild_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "auser_warnings" ("id","user_id","discord_id","moderator_discord_id","guild_id","reason","warned_at","created_at","updated_at")
+                     SELECT "id","user_id","discord_id","moderator_discord_id","guild_id","reason","warned_at","created_at","updated_at" FROM "user_warnings"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "user_warnings"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "user_warnings" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "discord_id" varchar NOT NULL, "moderator_discord_id" varchar NOT NULL, "guild_id" varchar NOT NULL, "reason" text, "warned_at" datetime(6) NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_0918fc91d8"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_user_warnings_on_discord_id_and_guild_id" ON "user_warnings" ("discord_id", "guild_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_user_warnings_on_discord_id" ON "user_warnings" ("discord_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_user_warnings_on_guild_id" ON "user_warnings" ("guild_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_user_warnings_on_user_id" ON "user_warnings" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_user_warnings_on_warned_at" ON "user_warnings" ("warned_at")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "user_warnings" ("id","user_id","discord_id","moderator_discord_id","guild_id","reason","warned_at","created_at","updated_at")
+                     SELECT "id","user_id","discord_id","moderator_discord_id","guild_id","reason","warned_at","created_at","updated_at" FROM "auser_warnings"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "auser_warnings"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TEMPORARY TABLE "avc_queue_entries" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "discord_user_id" varchar NOT NULL, "priority" integer DEFAULT 0 NOT NULL, "position" integer NOT NULL, "status" varchar DEFAULT 'waiting' NOT NULL, "joined_at" datetime(6) NOT NULL, "left_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_avc_queue_entries_on_user_id" ON "avc_queue_entries" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_avc_queue_entries_on_status" ON "avc_queue_entries" ("status")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_vc_queue_on_status_priority_joined" ON "avc_queue_entries" ("status", "priority", "joined_at")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_avc_queue_entries_on_discord_user_id" ON "avc_queue_entries" ("discord_user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "avc_queue_entries" ("id","user_id","discord_user_id","priority","position","status","joined_at","left_at","created_at","updated_at")
+                     SELECT "id","user_id","discord_user_id","priority","position","status","joined_at","left_at","created_at","updated_at" FROM "vc_queue_entries"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "vc_queue_entries"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "vc_queue_entries" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "discord_user_id" varchar NOT NULL, "priority" integer DEFAULT 0 NOT NULL, "position" integer NOT NULL, "status" varchar DEFAULT 'waiting' NOT NULL, "joined_at" datetime(6) NOT NULL, "left_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_54dd4d1ff5"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_vc_queue_entries_on_discord_user_id" ON "vc_queue_entries" ("discord_user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_vc_queue_on_status_priority_joined" ON "vc_queue_entries" ("status", "priority", "joined_at")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_vc_queue_entries_on_status" ON "vc_queue_entries" ("status")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_vc_queue_entries_on_user_id" ON "vc_queue_entries" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "vc_queue_entries" ("id","user_id","discord_user_id","priority","position","status","joined_at","left_at","created_at","updated_at")
+                     SELECT "id","user_id","discord_user_id","priority","position","status","joined_at","left_at","created_at","updated_at" FROM "avc_queue_entries"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "avc_queue_entries"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TEMPORARY TABLE "axbox_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "xbox_id" varchar, "gamertag" varchar, "gamerscore" integer, "account_tier" varchar, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "tindex_axbox_accounts_on_xbox_id" ON "axbox_accounts" ("xbox_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_axbox_accounts_on_user_id" ON "axbox_accounts" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "axbox_accounts" ("id","user_id","xbox_id","gamertag","gamerscore","account_tier","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at")
+                     SELECT "id","user_id","xbox_id","gamertag","gamerscore","account_tier","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at" FROM "xbox_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "xbox_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "xbox_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "xbox_id" varchar, "gamertag" varchar, "gamerscore" integer, "account_tier" varchar, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_bead85ac11"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_xbox_accounts_on_user_id" ON "xbox_accounts" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_xbox_accounts_on_xbox_id" ON "xbox_accounts" ("xbox_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "xbox_accounts" ("id","user_id","xbox_id","gamertag","gamerscore","account_tier","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at")
+                     SELECT "id","user_id","xbox_id","gamertag","gamerscore","account_tier","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at" FROM "axbox_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "axbox_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TEMPORARY TABLE "ayoutube_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "youtube_id" varchar, "channel_title" varchar, "channel_url" varchar, "subscriber_count" integer, "video_count" integer, "thumbnail_url" varchar, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "tindex_ayoutube_accounts_on_youtube_id" ON "ayoutube_accounts" ("youtube_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_ayoutube_accounts_on_user_id" ON "ayoutube_accounts" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "ayoutube_accounts" ("id","user_id","youtube_id","channel_title","channel_url","subscriber_count","video_count","thumbnail_url","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at")
+                     SELECT "id","user_id","youtube_id","channel_title","channel_url","subscriber_count","video_count","thumbnail_url","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at" FROM "youtube_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "youtube_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "youtube_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "youtube_id" varchar, "channel_title" varchar, "channel_url" varchar, "subscriber_count" integer, "video_count" integer, "thumbnail_url" varchar, "access_token" varchar, "refresh_token" varchar, "token_expires_at" datetime(6), "last_synced_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_d69f838b8f"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_youtube_accounts_on_user_id" ON "youtube_accounts" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_youtube_accounts_on_youtube_id" ON "youtube_accounts" ("youtube_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "youtube_accounts" ("id","user_id","youtube_id","channel_title","channel_url","subscriber_count","video_count","thumbnail_url","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at")
+                     SELECT "id","user_id","youtube_id","channel_title","channel_url","subscriber_count","video_count","thumbnail_url","access_token","refresh_token","token_expires_at","last_synced_at","created_at","updated_at" FROM "ayoutube_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "ayoutube_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20251002202655)[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20251002202654),
+(20251002202642),
+(20251002202641),
+(20251002202631),
+(20251002202630),
+(20251002202621),
+(20251002202620),
+(20251002202619),
+(20251002202541),
+(20251002144007),
+(20251002143912),
+(20251002142054),
+(20251002141613),
+(20251002141349),
+(20251002133734),
+(20251002133621),
+(20251002133454),
+(20251002101306),
+(20251002101305),
+(20251002101251),
+(20251002101250),
+(20251002101249),
+(20251002101248),
+(20251002095719),
+(20251002095718),
+(20251002095707),
+(20251002095706),
+(20251002095656),
+(20251002095644),
+(20251002095402),
+(20251002094713),
+(20251002061012),
+(20251002043146),
+(20251002032721),
+(20251002025204);[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.0ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.0ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'test', '2025-10-02 21:07:35.779661', '2025-10-02 21:07:35.779661') RETURNING "key"[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.0ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.0ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.0ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('schema_sha1', '5184e0d842d61de3a83e7396de35c4f553b8d834', '2025-10-02 21:07:35.779955', '2025-10-02 21:07:35.779956') RETURNING "key"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m

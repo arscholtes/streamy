@@ -30,6 +30,23 @@ class UsersController < ApplicationController
     @achievements_count = @user.user_achievements.count
     @total_achievements = Achievement.count
 
+    # Steam data (if connected and privacy allows)
+    if @steam_connected && @user.steam_account
+      @steam_account = @user.steam_account
+      privacy = @steam_account.integration_privacy_setting
+
+      # Load top games if privacy allows
+      if privacy&.show?(:show_game_library)
+        @steam_top_games = @steam_account.steam_games
+                                         .where('playtime_forever > 0')
+                                         .order(playtime_forever: :desc)
+                                         .limit(6)
+      end
+
+      # Game count
+      @steam_game_count = @steam_account.steam_games.count
+    end
+
   rescue ActiveRecord::RecordNotFound
     redirect_to root_path, alert: 'User not found'
   end

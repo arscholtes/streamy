@@ -6,18 +6,22 @@ module Integrations
     OPENID_ENDPOINT = 'https://steamcommunity.com/openid/login'.freeze
     STEAM_API_BASE = 'https://api.steampowered.com'.freeze
 
-    def initialize
-      @api_key = ENV['STEAM_API_KEY']
-      @return_url = ENV['STEAM_RETURN_URL'] || "#{ENV['APP_URL']}/integrations/steam/callback"
+    def initialize(return_url = nil)
+      @api_key = CredentialsHelper.steam.api_key
+      @return_url = return_url
+    rescue CredentialsHelper::MissingCredentialsError
+      raise Integrations::AuthenticationError, "Missing Steam API key. Please configure credentials."
     end
 
     # Generate OpenID login URL
     def authorize_url
+      raise 'Return URL not configured' unless @return_url
+
       params = {
         'openid.ns' => 'http://specs.openid.net/auth/2.0',
         'openid.mode' => 'checkid_setup',
         'openid.return_to' => @return_url,
-        'openid.realm' => ENV['APP_URL'],
+        'openid.realm' => realm,
         'openid.identity' => 'http://specs.openid.net/auth/2.0/identifier_select',
         'openid.claimed_id' => 'http://specs.openid.net/auth/2.0/identifier_select'
       }
@@ -82,6 +86,17 @@ module Integrations
         refresh_token: nil,
         expires_at: 1.year.from_now
       }
+    end
+
+    private
+
+    # Extract realm (base URL) from return URL
+    def realm
+      return @realm if @realm
+      uri = URI.parse(@return_url)
+      @realm = "#{uri.scheme}://#{uri.host}"
+      @realm += ":#{uri.port}" if uri.port && ![80, 443].include?(uri.port)
+      @realm
     end
   end
 end

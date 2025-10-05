@@ -1,6 +1,11 @@
 class Stream < ApplicationRecord
   belongs_to :user
   has_many :chat_messages, dependent: :destroy
+  has_many :game_sessions, dependent: :destroy
+
+  # Callbacks
+  after_commit :start_game_detection, on: :update, if: :just_went_live?
+  after_commit :end_game_sessions, on: :update, if: :just_went_offline?
 
   # Validations
   validates :title, presence: true, length: { minimum: 3, maximum: 100 }
@@ -52,5 +57,30 @@ class Stream < ApplicationRecord
   def playback_url
     return nil unless live?
     playback_path || "http://localhost:8080/hls/#{stream_key}.m3u8"
+  end
+
+  private
+
+  # Check if stream just transitioned to live
+  def just_went_live?
+    saved_change_to_status? && status == 'live' && status_before_last_save == 'offline'
+  end
+
+  # Check if stream just transitioned to offline
+  def just_went_offline?
+    saved_change_to_status? && status == 'offline' && status_before_last_save == 'live'
+  end
+
+  # Start game detection when stream goes live
+  def start_game_detection
+    return unless user.steam_account.present?
+
+    # Start the detection job (it will re-enqueue itself every 30 seconds)
+    Integrations::DetectCurrentGameJob.perform_later(id)
+  end
+
+  # End all active game sessions when stream goes offline
+  def end_game_sessions
+    game_sessions.where(ended_at: nil).update_all(ended_at: Time.current)
   end
 end

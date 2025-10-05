@@ -89,6 +89,7 @@ Rails.application.routes.draw do
   # INTEGRATION ROUTES
   # Routes for third-party integrations (Steam, Discord, etc.)
   namespace :integrations do
+    # Tier 1 Integrations
     integration_routes :steam, controller: 'steam'
     integration_routes :discord, controller: 'discord'
     integration_routes :battlenet, controller: 'battlenet'
@@ -96,6 +97,23 @@ Rails.application.routes.draw do
     integration_routes :twitter, controller: 'twitter'
     integration_routes :youtube, controller: 'youtube'
     integration_routes :stripe, controller: 'stripe'
+
+    # Tier 2 Integrations
+    integration_routes :epic, controller: 'epic'
+    integration_routes :xbox, controller: 'xbox'
+    integration_routes :playstation, controller: 'playstation'
+    integration_routes :spotify, controller: 'spotify'
+    integration_routes :tiktok, controller: 'tiktok'
+    integration_routes :instagram, controller: 'instagram'
+    integration_routes :twitch, controller: 'twitch'
+    integration_routes :paypal, controller: 'paypal'
+    integration_routes :google_analytics, controller: 'google_analytics'
+
+    # OpenAI uses API key, not OAuth
+    get 'openai/connect', to: 'openai#connect', as: :openai_connect
+    post 'openai/create', to: 'openai#create', as: :openai_create
+    delete 'openai/disconnect', to: 'openai#disconnect', as: :openai_disconnect
+
     # OBS uses WebSocket connection, different routing
     get 'obs/setup', to: 'obs#setup', as: :obs_setup
     post 'obs/connect', to: 'obs#connect', as: :obs_connect

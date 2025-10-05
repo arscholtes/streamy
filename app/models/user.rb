@@ -12,7 +12,7 @@ class User < ApplicationRecord
   # This prevents orphaned records in the database
   has_many :streams, dependent: :destroy
 
-  # Integration associations
+  # Integration associations - Tier 1
   has_one :steam_account, dependent: :destroy
   has_one :discord_account, dependent: :destroy
   has_one :battlenet_account, dependent: :destroy
@@ -21,6 +21,18 @@ class User < ApplicationRecord
   has_one :youtube_account, dependent: :destroy
   has_one :stripe_account, dependent: :destroy
   has_one :obs_connection, dependent: :destroy
+
+  # Integration associations - Tier 2
+  has_one :epic_account, dependent: :destroy
+  has_one :xbox_account, dependent: :destroy
+  has_one :playstation_account, dependent: :destroy
+  has_one :spotify_account, dependent: :destroy
+  has_one :tiktok_account, dependent: :destroy
+  has_one :instagram_account, dependent: :destroy
+  has_one :twitch_account, dependent: :destroy
+  has_one :paypal_account, dependent: :destroy
+  has_one :google_analytics_account, dependent: :destroy
+  has_one :openai_integration, dependent: :destroy
 
   # Discord bot associations
   has_one :loyalty_point, dependent: :destroy

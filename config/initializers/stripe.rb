@@ -1,11 +1,13 @@
 # Stripe configuration
 # Documentation: https://stripe.com/docs/api
 
+require Rails.root.join('lib/credentials_helper')
+
 Rails.configuration.stripe = {
-  publishable_key: ENV['STRIPE_PUBLISHABLE_KEY'],
-  secret_key: ENV['STRIPE_SECRET_KEY'],
-  signing_secret: ENV['STRIPE_WEBHOOK_SECRET'],
-  connect_client_id: ENV['STRIPE_CONNECT_CLIENT_ID']
+  publishable_key: CredentialsHelper.stripe.publishable_key,
+  secret_key: CredentialsHelper.stripe.secret_key,
+  signing_secret: CredentialsHelper.stripe.signing_secret,
+  connect_client_id: CredentialsHelper.stripe.connect_client_id
 }
 
 Stripe.api_key = Rails.configuration.stripe[:secret_key]

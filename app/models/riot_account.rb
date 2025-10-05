@@ -32,4 +32,16 @@ class RiotAccount < ApplicationRecord
       ]
     }
   end
+
+  def default_privacy_settings
+    {
+      show_game_name: true,
+      show_tag_line: true,
+      show_lol_rank: true,
+      show_lol_champions: true,
+      show_lol_match_history: true,
+      show_valorant_rank: true,
+      show_valorant_agents: true
+    }
+  end
 end

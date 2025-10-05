@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_02_144007) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_02_202655) do
   create_table "achievements", force: :cascade do |t|
     t.string "name", null: false
     t.text "description", null: false
@@ -66,6 +66,55 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_02_144007) do
     t.datetime "updated_at", null: false
     t.index ["discord_id"], name: "index_discord_accounts_on_discord_id", unique: true
     t.index ["user_id"], name: "index_discord_accounts_on_user_id"
+  end
+
+  create_table "epic_accounts", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "epic_id"
+    t.string "display_name"
+    t.string "email"
+    t.string "country"
+    t.string "access_token"
+    t.string "refresh_token"
+    t.datetime "token_expires_at"
+    t.datetime "last_synced_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["epic_id"], name: "index_epic_accounts_on_epic_id", unique: true
+    t.index ["user_id"], name: "index_epic_accounts_on_user_id"
+  end
+
+  create_table "google_analytics_accounts", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "property_id"
+    t.string "account_id"
+    t.string "property_name"
+    t.string "tracking_id"
+    t.string "access_token"
+    t.string "refresh_token"
+    t.datetime "token_expires_at"
+    t.datetime "last_synced_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["property_id"], name: "index_google_analytics_accounts_on_property_id", unique: true
+    t.index ["user_id"], name: "index_google_analytics_accounts_on_user_id"
+  end
+
+  create_table "instagram_accounts", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "instagram_id"
+    t.string "username"
+    t.string "full_name"
+    t.integer "follower_count"
+    t.integer "media_count"
+    t.string "access_token"
+    t.string "refresh_token"
+    t.datetime "token_expires_at"
+    t.datetime "last_synced_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["instagram_id"], name: "index_instagram_accounts_on_instagram_id", unique: true
+    t.index ["user_id"], name: "index_instagram_accounts_on_user_id"
   end
 
   create_table "integration_privacy_settings", force: :cascade do |t|
@@ -151,6 +200,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_02_144007) do
     t.index ["user_id"], name: "index_obs_connections_on_user_id"
   end
 
+  create_table "openai_integrations", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "api_key"
+    t.string "organization_id"
+    t.integer "usage_limit"
+    t.integer "usage_count"
+    t.datetime "last_used_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_openai_integrations_on_user_id"
+  end
+
   create_table "payments", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "recipient_id"
@@ -180,6 +241,39 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_02_144007) do
     t.index ["user_id"], name: "index_payments_on_user_id"
   end
 
+  create_table "paypal_accounts", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "paypal_id"
+    t.string "email"
+    t.boolean "verified"
+    t.string "account_type"
+    t.string "access_token"
+    t.string "refresh_token"
+    t.datetime "token_expires_at"
+    t.datetime "last_synced_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["paypal_id"], name: "index_paypal_accounts_on_paypal_id", unique: true
+    t.index ["user_id"], name: "index_paypal_accounts_on_user_id"
+  end
+
+  create_table "playstation_accounts", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "psn_id"
+    t.string "online_id"
+    t.string "account_id"
+    t.string "region"
+    t.string "plus_status"
+    t.string "access_token"
+    t.string "refresh_token"
+    t.datetime "token_expires_at"
+    t.datetime "last_synced_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["psn_id"], name: "index_playstation_accounts_on_psn_id", unique: true
+    t.index ["user_id"], name: "index_playstation_accounts_on_user_id"
+  end
+
   create_table "riot_accounts", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "puuid"
@@ -194,6 +288,24 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_02_144007) do
     t.datetime "updated_at", null: false
     t.index ["puuid"], name: "index_riot_accounts_on_puuid", unique: true
     t.index ["user_id"], name: "index_riot_accounts_on_user_id"
+  end
+
+  create_table "spotify_accounts", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "spotify_id"
+    t.string "display_name"
+    t.string "email"
+    t.string "product"
+    t.string "country"
+    t.integer "follower_count"
+    t.string "access_token"
+    t.string "refresh_token"
+    t.datetime "token_expires_at"
+    t.datetime "last_synced_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["spotify_id"], name: "index_spotify_accounts_on_spotify_id", unique: true
+    t.index ["user_id"], name: "index_spotify_accounts_on_user_id"
   end
 
   create_table "steam_accounts", force: :cascade do |t|
@@ -267,6 +379,43 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_02_144007) do
     t.index ["stripe_customer_id"], name: "index_subscriptions_on_stripe_customer_id"
     t.index ["stripe_subscription_id"], name: "index_subscriptions_on_stripe_subscription_id", unique: true
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
+  end
+
+  create_table "tiktok_accounts", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "tiktok_id"
+    t.string "username"
+    t.string "display_name"
+    t.integer "follower_count"
+    t.integer "video_count"
+    t.string "access_token"
+    t.string "refresh_token"
+    t.datetime "token_expires_at"
+    t.datetime "last_synced_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tiktok_id"], name: "index_tiktok_accounts_on_tiktok_id", unique: true
+    t.index ["user_id"], name: "index_tiktok_accounts_on_user_id"
+  end
+
+  create_table "twitch_accounts", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "twitch_id"
+    t.string "login"
+    t.string "display_name"
+    t.string "broadcaster_type"
+    t.string "description"
+    t.string "profile_image_url"
+    t.integer "view_count"
+    t.integer "follower_count"
+    t.string "access_token"
+    t.string "refresh_token"
+    t.datetime "token_expires_at"
+    t.datetime "last_synced_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["twitch_id"], name: "index_twitch_accounts_on_twitch_id", unique: true
+    t.index ["user_id"], name: "index_twitch_accounts_on_user_id"
   end
 
   create_table "twitter_accounts", force: :cascade do |t|
@@ -367,6 +516,22 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_02_144007) do
     t.index ["user_id"], name: "index_vc_queue_entries_on_user_id"
   end
 
+  create_table "xbox_accounts", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "xbox_id"
+    t.string "gamertag"
+    t.integer "gamerscore"
+    t.string "account_tier"
+    t.string "access_token"
+    t.string "refresh_token"
+    t.datetime "token_expires_at"
+    t.datetime "last_synced_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_xbox_accounts_on_user_id"
+    t.index ["xbox_id"], name: "index_xbox_accounts_on_xbox_id", unique: true
+  end
+
   create_table "youtube_accounts", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "youtube_id"
@@ -389,24 +554,34 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_02_144007) do
   add_foreign_key "chat_messages", "streams"
   add_foreign_key "chat_messages", "users"
   add_foreign_key "discord_accounts", "users"
+  add_foreign_key "epic_accounts", "users"
+  add_foreign_key "google_analytics_accounts", "users"
+  add_foreign_key "instagram_accounts", "users"
   add_foreign_key "integration_privacy_settings", "users"
   add_foreign_key "loyalty_points", "users"
   add_foreign_key "loyalty_transactions", "users"
   add_foreign_key "mini_game_sessions", "users"
   add_foreign_key "moderation_actions", "users"
   add_foreign_key "obs_connections", "users"
+  add_foreign_key "openai_integrations", "users"
   add_foreign_key "payments", "users"
   add_foreign_key "payments", "users", column: "recipient_id"
+  add_foreign_key "paypal_accounts", "users"
+  add_foreign_key "playstation_accounts", "users"
   add_foreign_key "riot_accounts", "users"
+  add_foreign_key "spotify_accounts", "users"
   add_foreign_key "steam_accounts", "users"
   add_foreign_key "streams", "users"
   add_foreign_key "stripe_accounts", "users"
   add_foreign_key "subscriptions", "users"
+  add_foreign_key "tiktok_accounts", "users"
+  add_foreign_key "twitch_accounts", "users"
   add_foreign_key "twitter_accounts", "users"
   add_foreign_key "user_achievements", "achievements"
   add_foreign_key "user_achievements", "users"
   add_foreign_key "user_mutes", "users"
   add_foreign_key "user_warnings", "users"
   add_foreign_key "vc_queue_entries", "users"
+  add_foreign_key "xbox_accounts", "users"
   add_foreign_key "youtube_accounts", "users"
 end

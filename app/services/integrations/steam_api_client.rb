@@ -6,10 +6,12 @@ module Integrations
 
     def initialize(steam_account)
       @steam_account = steam_account
-      @api_key = ENV['STEAM_API_KEY']
+      @api_key = CredentialsHelper.steam.api_key
       @steam_id = steam_account.steam_id
       # Steam doesn't have traditional rate limits, but we'll be conservative
       @rate_limiter = RateLimiter.new(requests_per_second: 10, burst: 50)
+    rescue CredentialsHelper::MissingCredentialsError
+      raise Integrations::APIError, "Missing Steam API key. Please configure credentials."
     end
 
     # Get owned games

@@ -1,170 +1,122 @@
-# app/services/integrations/base_api_client.rb
-# Base API client for making authenticated requests to external APIs
-# Includes rate limiting, error handling, and automatic token refresh
-
 module Integrations
   class BaseApiClient
     include HTTParty
 
-    attr_reader :access_token, :integration_account
+    attr_reader :integration_account, :access_token
 
     def initialize(integration_account)
       @integration_account = integration_account
       @access_token = integration_account.access_token
-      @rate_limiter = RateLimiter.new(rate_limit_config)
+      setup_client
     end
 
-    # Make GET request
-    # @param endpoint [String] API endpoint path
-    # @param params [Hash] Query parameters
-    # @return [Hash] Parsed JSON response
+    # GET request
     def get(endpoint, params: {})
-      make_request(:get, endpoint, params: params)
+      make_request(:get, endpoint, query: params)
     end
 
-    # Make POST request
-    # @param endpoint [String] API endpoint path
-    # @param body [Hash] Request body
-    # @return [Hash] Parsed JSON response
-    def post(endpoint, body: {})
-      make_request(:post, endpoint, body: body)
+    # POST request
+    def post(endpoint, body: {}, params: {})
+      make_request(:post, endpoint, body: body, query: params)
     end
 
-    # Make PUT request
-    # @param endpoint [String] API endpoint path
-    # @param body [Hash] Request body
-    # @return [Hash] Parsed JSON response
-    def put(endpoint, body: {})
-      make_request(:put, endpoint, body: body)
+    # PUT request
+    def put(endpoint, body: {}, params: {})
+      make_request(:put, endpoint, body: body, query: params)
     end
 
-    # Make DELETE request
-    # @param endpoint [String] API endpoint path
-    # @return [Hash] Parsed JSON response
-    def delete(endpoint)
-      make_request(:delete, endpoint)
+    # DELETE request
+    def delete(endpoint, params: {})
+      make_request(:delete, endpoint, query: params)
     end
 
-    private
+    protected
 
-    # Make HTTP request with rate limiting, auth, and error handling
-    def make_request(method, endpoint, params: {}, body: {}, retry_count: 0)
-      # Wait if rate limited
-      @rate_limiter.wait_if_needed
-
-      # Ensure token is valid
-      integration_account.ensure_valid_token!
-
-      # Make request
-      response = self.class.send(
-        method,
-        build_url(endpoint),
-        headers: default_headers,
-        query: params,
-        body: body.to_json
-      )
-
-      handle_response(response)
-    rescue RateLimitError => e
-      # Exponential backoff for rate limits
-      if retry_count < 3
-        sleep_time = 2 ** retry_count
-        Rails.logger.warn("Rate limited, retrying in #{sleep_time}s...")
-        sleep(sleep_time)
-        make_request(method, endpoint, params: params, body: body, retry_count: retry_count + 1)
-      else
-        raise e
-      end
-    rescue TokenExpiredError => e
-      # Token refresh failed, need re-authentication
-      raise APIError, "Token expired and refresh failed. Re-authentication required."
+    # Override in subclass to set base_uri, etc.
+    def setup_client
+      # Example:
+      # self.class.base_uri 'https://api.example.com'
+      # self.class.headers 'User-Agent' => 'StreamHub/1.0'
     end
 
-    # Build full URL from endpoint
-    def build_url(endpoint)
-      "#{base_url}#{endpoint}"
+    # Override to customize API endpoint URL
+    def api_base_url
+      raise NotImplementedError, "#{self.class} must define api_base_url"
     end
 
-    # Default request headers
+    # Default headers for all requests
     def default_headers
       {
         'Authorization' => "Bearer #{access_token}",
         'Content-Type' => 'application/json',
-        'Accept' => 'application/json',
-        'User-Agent' => 'StreamHub/1.0'
+        'Accept' => 'application/json'
       }
     end
 
-    # Handle API response
+    # Make HTTP request with error handling
+    def make_request(method, endpoint, options = {})
+      # Ensure token is valid before making request
+      integration_account.ensure_valid_token!
+
+      # Build full URL
+      url = build_url(endpoint)
+
+      # Merge headers
+      options[:headers] = default_headers.merge(options[:headers] || {})
+
+      # Convert body to JSON if present
+      options[:body] = options[:body].to_json if options[:body] && !options[:body].is_a?(String)
+
+      # Make request
+      response = self.class.send(method, url, options)
+
+      handle_response(response)
+    rescue StandardError => e
+      handle_error(e)
+    end
+
+    def build_url(endpoint)
+      endpoint.start_with?('http') ? endpoint : "#{api_base_url}#{endpoint}"
+    end
+
     def handle_response(response)
       case response.code
       when 200..299
-        # Success
         parse_response(response)
-      when 429
-        # Rate limited
-        retry_after = response.headers['Retry-After']&.to_i || 60
-        Rails.logger.warn("Rate limited by API, retry after #{retry_after}s")
-        raise RateLimitError.new("Rate limited", retry_after: retry_after)
       when 401
-        # Unauthorized - token might be expired
-        Rails.logger.warn("Unauthorized response, attempting token refresh")
-        if integration_account.refresh_token!
-          @access_token = integration_account.access_token
-          raise TokenExpiredError, "Token refreshed, retry request"
-        else
-          raise APIError, "Authentication failed"
-        end
+        raise UnauthorizedError, "Invalid or expired access token"
       when 403
-        # Forbidden
-        raise APIError, "Access forbidden: #{response.body}"
+        raise ForbiddenError, "Access forbidden"
       when 404
-        # Not found
-        raise APIError, "Resource not found: #{response.code}"
+        raise NotFoundError, "Resource not found"
+      when 429
+        raise RateLimitError, "Rate limit exceeded"
       when 500..599
-        # Server error
-        raise APIError, "Server error (#{response.code}): #{response.body}"
+        raise ServerError, "Server error: #{response.code}"
       else
-        raise APIError, "Unexpected response (#{response.code}): #{response.body}"
+        raise APIError, "Request failed with status #{response.code}: #{response.body}"
       end
     end
 
-    # Parse JSON response
     def parse_response(response)
-      return {} if response.body.blank?
+      return nil if response.body.blank?
+
       JSON.parse(response.body, symbolize_names: true)
-    rescue JSON::ParserError => e
-      Rails.logger.error("JSON parse error: #{e.message}")
-      raise APIError, "Invalid JSON response"
+    rescue JSON::ParserError
+      response.body
     end
 
-    # Override in subclasses to specify base URL
-    def base_url
-      raise NotImplementedError, "#{self.class.name} must implement #base_url"
-    end
-
-    # Override in subclasses to configure rate limits
-    # @return [Hash] Rate limit configuration
-    def rate_limit_config
-      {
-        requests_per_second: 10,
-        burst: 50,
-        key_prefix: self.class.name.demodulize.underscore
-      }
+    def handle_error(error)
+      Rails.logger.error("API request failed: #{error.class} - #{error.message}")
+      raise error
     end
   end
 
-  # Custom errors
+  # Custom exceptions
   class APIError < StandardError; end
-
-  class RateLimitError < StandardError
-    attr_reader :retry_after
-
-    def initialize(message, retry_after: 60)
-      super(message)
-      @retry_after = retry_after
-    end
-  end
-
-  class TokenExpiredError < StandardError; end
+  class UnauthorizedError < APIError; end
+  class ForbiddenError < APIError; end
+  class NotFoundError < APIError; end
+  class RateLimitError < APIError; end
+  class ServerError < APIError; end
 end

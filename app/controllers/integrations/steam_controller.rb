@@ -4,17 +4,53 @@ module Integrations
   class SteamController < ApplicationController
     include IntegrationController
 
-    before_action :set_steam_account, only: [:disconnect, :sync, :privacy_settings, :update_privacy_settings]
+    before_action :set_steam_account, only: [:disconnect, :sync, :update_privacy_settings]
 
-    private
+    # Override callback to handle OpenID params
+    def callback
+      begin
+        user_data = fetch_user_data(params)
 
-    def set_steam_account
-      @integration_account = current_user.steam_account
-      redirect_to settings_path, alert: 'Steam account not connected' unless @integration_account
+        # Generate pseudo-tokens for Steam (since it doesn't use OAuth)
+        tokens = oauth_service.generate_pseudo_tokens(user_data[:steam_id])
+
+        integration_account = create_or_update_integration_account(user_data, tokens)
+
+        redirect_to privacy_settings_path, notice: 'Steam account connected successfully!'
+      rescue Integrations::AuthenticationError => e
+        redirect_to settings_path, alert: "Steam authentication failed: #{e.message}"
+      rescue Integrations::APIError => e
+        redirect_to settings_path, alert: "Failed to connect Steam account: #{e.message}"
+      rescue StandardError => e
+        Rails.logger.error("Steam callback error: #{e.message}\n#{e.backtrace.join("\n")}")
+        redirect_to settings_path, alert: 'An unexpected error occurred. Please try again.'
+      end
     end
 
+    # Public action for updating privacy settings
+    def update_privacy_settings
+      privacy_setting = @integration_account.integration_privacy_setting
+
+      # Update all settings from form params
+      settings_hash = {}
+      params[:privacy_settings]&.each do |key, value|
+        settings_hash[key] = value == 'true' || value == '1'
+      end
+
+      privacy_setting.update!(settings: privacy_setting.settings.merge(settings_hash))
+
+      redirect_to settings_path, notice: 'Steam privacy settings updated successfully!'
+    rescue StandardError => e
+      redirect_to integrations_steam_privacy_settings_path, alert: "Failed to update settings: #{e.message}"
+    end
+
+    protected
+
     def oauth_service
-      @oauth_service ||= SteamOauthService.new
+      @oauth_service ||= begin
+        callback_url = url_for(controller: 'integrations/steam', action: 'callback', only_path: false)
+        SteamOauthService.new(callback_url)
+      end
     end
 
     def oauth_authorize_url
@@ -64,41 +100,11 @@ module Integrations
       SteamAccount.privacy_settings_schema
     end
 
-    # Override callback to handle OpenID params
-    def callback
-      begin
-        user_data = fetch_user_data(params)
+    private
 
-        # Generate pseudo-tokens for Steam (since it doesn't use OAuth)
-        tokens = oauth_service.generate_pseudo_tokens(user_data[:steam_id])
-
-        integration_account = create_or_update_integration_account(user_data, tokens)
-
-        redirect_to privacy_settings_path, notice: 'Steam account connected successfully!'
-      rescue Integrations::AuthenticationError => e
-        redirect_to settings_path, alert: "Steam authentication failed: #{e.message}"
-      rescue Integrations::APIError => e
-        redirect_to settings_path, alert: "Failed to connect Steam account: #{e.message}"
-      rescue StandardError => e
-        Rails.logger.error("Steam callback error: #{e.message}\n#{e.backtrace.join("\n")}")
-        redirect_to settings_path, alert: 'An unexpected error occurred. Please try again.'
-      end
-    end
-
-    def update_privacy_settings
-      privacy_setting = @integration_account.integration_privacy_setting
-
-      # Update all settings from form params
-      settings_hash = {}
-      params[:privacy_settings]&.each do |key, value|
-        settings_hash[key] = value == 'true' || value == '1'
-      end
-
-      privacy_setting.update!(settings: privacy_setting.settings.merge(settings_hash))
-
-      redirect_to settings_path, notice: 'Steam privacy settings updated successfully!'
-    rescue StandardError => e
-      redirect_to integrations_steam_privacy_settings_path, alert: "Failed to update settings: #{e.message}"
+    def set_steam_account
+      @integration_account = current_user.steam_account
+      redirect_to settings_path, alert: 'Steam account not connected' unless @integration_account
     end
   end
 end

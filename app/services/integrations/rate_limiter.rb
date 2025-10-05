@@ -1,83 +1,71 @@
-# app/services/integrations/rate_limiter.rb
-# Token bucket rate limiter using Redis
-# Prevents API rate limit violations by tracking and throttling requests
-
 module Integrations
   class RateLimiter
-    attr_reader :requests_per_second, :burst, :key_prefix
+    attr_reader :key, :limit, :period
 
-    def initialize(config)
-      @requests_per_second = config[:requests_per_second] || 10
-      @burst = config[:burst] || 50
-      @key_prefix = config[:key_prefix] || 'rate_limit'
-      @redis = Redis.new
+    def initialize(key:, limit:, period: 60)
+      @key = "rate_limit:#{key}"
+      @limit = limit
+      @period = period
     end
 
-    # Wait if necessary to stay within rate limits
-    # Uses token bucket algorithm
+    # Check if request is allowed
+    def allowed?
+      current_count < limit
+    end
+
+    # Increment counter and check if allowed
+    def check!
+      return true if allowed?
+
+      wait_time = time_until_reset
+      raise RateLimitExceededError, "Rate limit exceeded. Try again in #{wait_time} seconds"
+    end
+
+    # Wait if needed before making request
     def wait_if_needed
-      loop do
-        if can_make_request?
-          consume_token
-          break
-        else
-          sleep(sleep_duration)
-        end
-      end
+      return if allowed?
+
+      wait_time = time_until_reset
+      Rails.logger.warn("Rate limit reached for #{key}. Waiting #{wait_time} seconds...")
+      sleep(wait_time)
     end
 
-    # Check if request can be made without blocking
-    # @return [Boolean]
-    def can_make_request?
-      current_tokens >= 1
+    # Record a request
+    def record!
+      increment_counter
+    end
+
+    # Get current request count
+    def current_count
+      Rails.cache.read(key) || 0
+    end
+
+    # Time until rate limit resets
+    def time_until_reset
+      ttl = Rails.cache.read("#{key}:ttl")
+      return 0 unless ttl
+
+      (ttl - Time.current).to_i.clamp(0, period)
     end
 
     private
 
-    # Get current number of available tokens
-    def current_tokens
-      now = Time.current.to_f
-      last_update = last_update_time
+    def increment_counter
+      count = current_count
+      new_count = count + 1
 
-      # Calculate tokens to add since last update
-      time_passed = now - last_update
-      tokens_to_add = time_passed * requests_per_second
+      if count == 0
+        # First request in this period - set expiration
+        Rails.cache.write(key, new_count, expires_in: period)
+        Rails.cache.write("#{key}:ttl", period.seconds.from_now, expires_in: period)
+      else
+        # Increment existing counter
+        Rails.cache.write(key, new_count)
+      end
 
-      # Get current token count
-      current = @redis.get(tokens_key).to_f
-
-      # Add new tokens, capped at burst
-      new_tokens = [current + tokens_to_add, burst.to_f].min
-
-      # Update Redis
-      @redis.set(tokens_key, new_tokens)
-      @redis.set(last_update_key, now)
-
-      new_tokens
-    end
-
-    # Consume one token
-    def consume_token
-      @redis.decrbyfloat(tokens_key, 1.0)
-    end
-
-    # Get last update timestamp
-    def last_update_time
-      @redis.get(last_update_key).to_f || Time.current.to_f
-    end
-
-    # Calculate how long to sleep
-    def sleep_duration
-      1.0 / requests_per_second
-    end
-
-    # Redis keys
-    def tokens_key
-      "#{key_prefix}:tokens"
-    end
-
-    def last_update_key
-      "#{key_prefix}:last_update"
+      new_count
     end
   end
+
+  class RateLimitExceededError < StandardError; end
 end

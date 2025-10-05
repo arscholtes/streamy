@@ -28,4 +28,14 @@ class BattlenetAccount < ApplicationRecord
       ]
     }
   end
+
+  def default_privacy_settings
+    {
+      show_battletag: true,
+      show_region: true,
+      show_wow_characters: true,
+      show_overwatch_stats: true,
+      show_diablo_characters: true
+    }
+  end
 end

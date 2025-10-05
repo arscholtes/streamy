@@ -23,15 +23,15 @@ module Integrations
     private
 
     def sync_profile
-      user_data = @api_client.get_current_user
+      user_data = @api_client.fetch_user_profile
 
       discord_account.update!(
-        username: user_data['username'],
-        discriminator: user_data['discriminator'],
-        avatar_url: user_data['avatar'] ? "https://cdn.discordapp.com/avatars/#{user_data['id']}/#{user_data['avatar']}.png" : nil,
-        email: user_data['email'],
-        verified: user_data['verified'],
-        locale: user_data['locale']
+        username: user_data[:username],
+        discriminator: user_data[:discriminator],
+        avatar_url: user_data[:avatar] ? "https://cdn.discordapp.com/avatars/#{user_data[:id]}/#{user_data[:avatar]}.png" : nil,
+        email: user_data[:email],
+        verified: user_data[:verified],
+        locale: user_data[:locale]
       )
     end
   end
