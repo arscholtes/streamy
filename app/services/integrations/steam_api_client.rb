@@ -1,5 +1,7 @@
 # app/services/integrations/steam_api_client.rb
 # Steam Web API client for fetching games, achievements, etc.
+require_relative 'errors'
+
 module Integrations
   class SteamApiClient < BaseApiClient
     BASE_URL = 'https://api.steampowered.com'.freeze

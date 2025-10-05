@@ -1,3 +1,5 @@
+require_relative 'errors'
+
 module Integrations
   class RateLimiter
     attr_reader :key, :limit, :period

@@ -1,6 +1,8 @@
 # app/services/integrations/steam_oauth_service.rb
 # Steam OpenID 2.0 authentication service
 # Steam uses OpenID instead of OAuth 2.0
+require_relative 'errors'
+
 module Integrations
   class SteamOauthService
     OPENID_ENDPOINT = 'https://steamcommunity.com/openid/login'.freeze
@@ -32,7 +34,8 @@ module Integrations
     # Verify OpenID response and extract Steam ID
     def verify_and_extract_steam_id(params)
       # Verify the signature
-      verification_params = params.dup
+      # Convert ActionController::Parameters to hash for OpenID verification
+      verification_params = params.respond_to?(:to_unsafe_h) ? params.to_unsafe_h : params.to_h
       verification_params['openid.mode'] = 'check_authentication'
 
       response = HTTParty.get(OPENID_ENDPOINT, query: verification_params)
@@ -43,7 +46,8 @@ module Integrations
 
       # Extract Steam ID from claimed_id
       # Format: https://steamcommunity.com/openid/id/76561197960435530
-      claimed_id = params['openid.claimed_id']
+      params_hash = params.respond_to?(:to_unsafe_h) ? params.to_unsafe_h : params.to_h
+      claimed_id = params_hash['openid.claimed_id']
       steam_id = claimed_id.split('/').last
 
       steam_id

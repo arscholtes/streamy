@@ -5276,3 +5276,542 @@ Finished "/cable" [WebSocket] for ::1 at 2025-10-05 18:48:53 -0400
 [ActiveJob] [Integrations::BaseSyncJob] [8d5ed026-7d25-4ee2-9f58-1b6d42ce5c0f]   ↳ app/jobs/integrations/base_sync_job.rb:30:in `perform'
 [ActiveJob] [Integrations::BaseSyncJob] [8d5ed026-7d25-4ee2-9f58-1b6d42ce5c0f] Completed sync for DiscordAccount#1
 [ActiveJob] [Integrations::BaseSyncJob] [8d5ed026-7d25-4ee2-9f58-1b6d42ce5c0f] Performed Integrations::BaseSyncJob (Job ID: 8d5ed026-7d25-4ee2-9f58-1b6d42ce5c0f) from Async(default) in 156.74ms
+Started GET "/integrations/steam/connect" for ::1 at 2025-10-05 18:50:40 -0400
+Processing by Integrations::SteamController#connect as HTML
+  [1m[36mUser Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='connect',application='RubymineTestProject1',controller='steam'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+Redirected to https://steamcommunity.com/openid/login?openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.mode=checkid_setup&openid.return_to=http%3A%2F%2Flocalhost%3A3000%2Fintegrations%2Fsteam%2Fcallback&openid.realm=http%3A%2F%2Flocalhost%3A3000&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select
+Completed 302 Found in 25ms (ActiveRecord: 0.9ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/integrations/steam/connect" for ::1 at 2025-10-05 18:50:40 -0400
+Processing by Integrations::SteamController#connect as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='connect',application='RubymineTestProject1',controller='steam'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+Redirected to https://steamcommunity.com/openid/login?openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.mode=checkid_setup&openid.return_to=http%3A%2F%2Flocalhost%3A3000%2Fintegrations%2Fsteam%2Fcallback&openid.realm=http%3A%2F%2Flocalhost%3A3000&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select
+Completed 302 Found in 27ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 6.7ms)
+
+
+Started GET "/integrations/steam/callback?openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.mode=id_res&openid.op_endpoint=https%3A%2F%2Fsteamcommunity.com%2Fopenid%2Flogin&openid.claimed_id=https%3A%2F%2Fsteamcommunity.com%2Fopenid%2Fid%2F76561198108458272&openid.identity=https%3A%2F%2Fsteamcommunity.com%2Fopenid%2Fid%2F76561198108458272&openid.return_to=http%3A%2F%2Flocalhost%3A3000%2Fintegrations%2Fsteam%2Fcallback&openid.response_nonce=2025-10-05T22%3A50%3A43Zlxho7oTcoOYgoIQuFhx18QvOuuA%3D&openid.assoc_handle=1234567890&openid.signed=signed%2Cop_endpoint%2Cclaimed_id%2Cidentity%2Creturn_to%2Cresponse_nonce%2Cassoc_handle&openid.sig=0MKEqOj2QkOGPCfXzv%2F%2BV8qQWaM%3D" for ::1 at 2025-10-05 18:50:43 -0400
+Processing by Integrations::SteamController#callback as HTML
+  Parameters: {"openid.ns"=>"http://specs.openid.net/auth/2.0", "openid.mode"=>"id_res", "openid.op_endpoint"=>"https://steamcommunity.com/openid/login", "openid.claimed_id"=>"https://steamcommunity.com/openid/id/76561198108458272", "openid.identity"=>"https://steamcommunity.com/openid/id/76561198108458272", "openid.return_to"=>"http://localhost:3000/integrations/steam/callback", "openid.response_nonce"=>"2025-10-05T22:50:43Zlxho7oTcoOYgoIQuFhx18QvOuuA=", "openid.assoc_handle"=>"1234567890", "openid.signed"=>"signed,op_endpoint,claimed_id,identity,return_to,response_nonce,assoc_handle", "openid.sig"=>"0MKEqOj2QkOGPCfXzv/+V8qQWaM="}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='callback',application='RubymineTestProject1',controller='steam'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+Completed 500 Internal Server Error in 22ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.3ms)
+
+
+  
+NameError (uninitialized constant Integrations::AuthenticationError)
+Caused by: ActionController::UnfilteredParameters (unable to convert unpermitted parameters to hash)
+
+Information for: NameError (uninitialized constant Integrations::AuthenticationError):
+  
+app/controllers/integrations/steam_controller.rb:20:in `rescue in callback'
+app/controllers/integrations/steam_controller.rb:10:in `callback'
+
+Information for cause: ActionController::UnfilteredParameters (unable to convert unpermitted parameters to hash):
+  
+app/services/integrations/steam_oauth_service.rb:38:in `verify_and_extract_steam_id'
+app/controllers/integrations/steam_controller.rb:62:in `fetch_user_data'
+app/controllers/integrations/steam_controller.rb:12:in `callback'
+Started GET "/integrations/steam/callback?openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.mode=id_res&openid.op_endpoint=https%3A%2F%2Fsteamcommunity.com%2Fopenid%2Flogin&openid.claimed_id=https%3A%2F%2Fsteamcommunity.com%2Fopenid%2Fid%2F76561198108458272&openid.identity=https%3A%2F%2Fsteamcommunity.com%2Fopenid%2Fid%2F76561198108458272&openid.return_to=http%3A%2F%2Flocalhost%3A3000%2Fintegrations%2Fsteam%2Fcallback&openid.response_nonce=2025-10-05T22%3A54%3A46ZPGQP0otokf2FxXShL1pypAgjaTk%3D&openid.assoc_handle=1234567890&openid.signed=signed%2Cop_endpoint%2Cclaimed_id%2Cidentity%2Creturn_to%2Cresponse_nonce%2Cassoc_handle&openid.sig=I1ObUvvkQ0rgeP8rbXZ7KyX8KYo%3D" for ::1 at 2025-10-05 18:54:46 -0400
+Processing by Integrations::SteamController#callback as HTML
+  Parameters: {"openid.ns"=>"http://specs.openid.net/auth/2.0", "openid.mode"=>"id_res", "openid.op_endpoint"=>"https://steamcommunity.com/openid/login", "openid.claimed_id"=>"https://steamcommunity.com/openid/id/76561198108458272", "openid.identity"=>"https://steamcommunity.com/openid/id/76561198108458272", "openid.return_to"=>"http://localhost:3000/integrations/steam/callback", "openid.response_nonce"=>"2025-10-05T22:54:46ZPGQP0otokf2FxXShL1pypAgjaTk=", "openid.assoc_handle"=>"1234567890", "openid.signed"=>"signed,op_endpoint,claimed_id,identity,return_to,response_nonce,assoc_handle", "openid.sig"=>"I1ObUvvkQ0rgeP8rbXZ7KyX8KYo="}
+  [1m[36mUser Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='callback',application='RubymineTestProject1',controller='steam'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+Completed 500 Internal Server Error in 553ms (ActiveRecord: 0.8ms (1 query, 0 cached) | GC: 2.1ms)
+
+
+  
+NameError (uninitialized constant Integrations::AuthenticationError)
+Caused by: NameError (uninitialized constant Integrations::APIError)
+
+Information for: NameError (uninitialized constant Integrations::AuthenticationError):
+  
+app/controllers/integrations/steam_controller.rb:20:in `rescue in callback'
+app/controllers/integrations/steam_controller.rb:10:in `callback'
+
+Information for cause: NameError (uninitialized constant Integrations::APIError):
+  
+app/services/integrations/steam_oauth_service.rb:79:in `fetch_user_data'
+app/controllers/integrations/steam_controller.rb:65:in `fetch_user_data'
+app/controllers/integrations/steam_controller.rb:12:in `callback'
+Started GET "/cable" for ::1 at 2025-10-05 18:54:53 -0400
+Started GET "/cable" [WebSocket] for ::1 at 2025-10-05 18:54:53 -0400
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  ↳ app/channels/application_cable/connection.rb:13:in `find_verified_user'
+An unauthorized connection attempt was rejected
+Finished "/cable" [WebSocket] for ::1 at 2025-10-05 18:54:53 -0400
+Started GET "/integrations/steam/connect" for ::1 at 2025-10-05 18:55:10 -0400
+Processing by Integrations::SteamController#connect as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='connect',application='RubymineTestProject1',controller='steam'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+Redirected to https://steamcommunity.com/openid/login?openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.mode=checkid_setup&openid.return_to=http%3A%2F%2Flocalhost%3A3000%2Fintegrations%2Fsteam%2Fcallback&openid.realm=http%3A%2F%2Flocalhost%3A3000&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select
+Completed 302 Found in 19ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/integrations/steam/connect" for ::1 at 2025-10-05 18:55:11 -0400
+Processing by Integrations::SteamController#connect as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='connect',application='RubymineTestProject1',controller='steam'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+Redirected to https://steamcommunity.com/openid/login?openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.mode=checkid_setup&openid.return_to=http%3A%2F%2Flocalhost%3A3000%2Fintegrations%2Fsteam%2Fcallback&openid.realm=http%3A%2F%2Flocalhost%3A3000&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select
+Completed 302 Found in 22ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/integrations/steam/callback?openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.mode=id_res&openid.op_endpoint=https%3A%2F%2Fsteamcommunity.com%2Fopenid%2Flogin&openid.claimed_id=https%3A%2F%2Fsteamcommunity.com%2Fopenid%2Fid%2F76561198108458272&openid.identity=https%3A%2F%2Fsteamcommunity.com%2Fopenid%2Fid%2F76561198108458272&openid.return_to=http%3A%2F%2Flocalhost%3A3000%2Fintegrations%2Fsteam%2Fcallback&openid.response_nonce=2025-10-05T22%3A55%3A12ZIEZUDNDf3uHY7LGSSTvtI734MjE%3D&openid.assoc_handle=1234567890&openid.signed=signed%2Cop_endpoint%2Cclaimed_id%2Cidentity%2Creturn_to%2Cresponse_nonce%2Cassoc_handle&openid.sig=Xud7hfX4BAQdPhI46HftDcrr9%2Bg%3D" for ::1 at 2025-10-05 18:55:13 -0400
+Processing by Integrations::SteamController#callback as HTML
+  Parameters: {"openid.ns"=>"http://specs.openid.net/auth/2.0", "openid.mode"=>"id_res", "openid.op_endpoint"=>"https://steamcommunity.com/openid/login", "openid.claimed_id"=>"https://steamcommunity.com/openid/id/76561198108458272", "openid.identity"=>"https://steamcommunity.com/openid/id/76561198108458272", "openid.return_to"=>"http://localhost:3000/integrations/steam/callback", "openid.response_nonce"=>"2025-10-05T22:55:12ZIEZUDNDf3uHY7LGSSTvtI734MjE=", "openid.assoc_handle"=>"1234567890", "openid.signed"=>"signed,op_endpoint,claimed_id,identity,return_to,response_nonce,assoc_handle", "openid.sig"=>"Xud7hfX4BAQdPhI46HftDcrr9+g="}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='callback',application='RubymineTestProject1',controller='steam'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+Completed 500 Internal Server Error in 989ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+  
+NameError (uninitialized constant Integrations::AuthenticationError)
+Caused by: NameError (uninitialized constant Integrations::APIError)
+
+Information for: NameError (uninitialized constant Integrations::AuthenticationError):
+  
+app/controllers/integrations/steam_controller.rb:20:in `rescue in callback'
+app/controllers/integrations/steam_controller.rb:10:in `callback'
+
+Information for cause: NameError (uninitialized constant Integrations::APIError):
+  
+app/services/integrations/steam_oauth_service.rb:79:in `fetch_user_data'
+app/controllers/integrations/steam_controller.rb:65:in `fetch_user_data'
+app/controllers/integrations/steam_controller.rb:12:in `callback'
+Started GET "/cable" for ::1 at 2025-10-05 18:55:34 -0400
+Started GET "/cable" [WebSocket] for ::1 at 2025-10-05 18:55:34 -0400
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  ↳ app/channels/application_cable/connection.rb:13:in `find_verified_user'
+An unauthorized connection attempt was rejected
+Finished "/cable" [WebSocket] for ::1 at 2025-10-05 18:55:34 -0400
+Started GET "/settings" for ::1 at 2025-10-05 18:58:45 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='RubymineTestProject1'*/[0m
+Processing by SettingsController#index as HTML
+  [1m[36mUser Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  Rendering layout layouts/application.html.erb
+  Rendering settings/index.html.erb within layouts/application
+  [1m[36mSteamAccount Load (0.1ms)[0m  [1m[34mSELECT "steam_accounts".* FROM "steam_accounts" WHERE "steam_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:53
+  [1m[36mDiscordAccount Load (0.0ms)[0m  [1m[34mSELECT "discord_accounts".* FROM "discord_accounts" WHERE "discord_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:54
+  [1m[36mBattlenetAccount Load (0.0ms)[0m  [1m[34mSELECT "battlenet_accounts".* FROM "battlenet_accounts" WHERE "battlenet_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:55
+  [1m[36mRiotAccount Load (0.0ms)[0m  [1m[34mSELECT "riot_accounts".* FROM "riot_accounts" WHERE "riot_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:56
+  [1m[36mSpotifyAccount Load (0.0ms)[0m  [1m[34mSELECT "spotify_accounts".* FROM "spotify_accounts" WHERE "spotify_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:57
+  Rendered settings/index.html.erb within layouts/application (Duration: 30.0ms | GC: 7.3ms)
+  Rendered layout layouts/application.html.erb (Duration: 38.1ms | GC: 7.3ms)
+Completed 200 OK in 183ms (Views: 39.0ms | ActiveRecord: 2.3ms (6 queries, 0 cached) | GC: 30.4ms)
+
+
+Started GET "/cable" for ::1 at 2025-10-05 18:58:45 -0400
+Started GET "/cable" [WebSocket] for ::1 at 2025-10-05 18:58:45 -0400
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  ↳ app/channels/application_cable/connection.rb:13:in `find_verified_user'
+An unauthorized connection attempt was rejected
+Finished "/cable" [WebSocket] for ::1 at 2025-10-05 18:58:45 -0400
+Started GET "/integrations/steam/connect" for ::1 at 2025-10-05 18:58:47 -0400
+Processing by Integrations::SteamController#connect as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='connect',application='RubymineTestProject1',controller='steam'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+Redirected to https://steamcommunity.com/openid/login?openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.mode=checkid_setup&openid.return_to=http%3A%2F%2Flocalhost%3A3000%2Fintegrations%2Fsteam%2Fcallback&openid.realm=http%3A%2F%2Flocalhost%3A3000&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select
+Completed 302 Found in 21ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/integrations/steam/connect" for ::1 at 2025-10-05 18:58:47 -0400
+Processing by Integrations::SteamController#connect as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='connect',application='RubymineTestProject1',controller='steam'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+Redirected to https://steamcommunity.com/openid/login?openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.mode=checkid_setup&openid.return_to=http%3A%2F%2Flocalhost%3A3000%2Fintegrations%2Fsteam%2Fcallback&openid.realm=http%3A%2F%2Flocalhost%3A3000&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select
+Completed 302 Found in 19ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/integrations/steam/callback?openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.mode=id_res&openid.op_endpoint=https%3A%2F%2Fsteamcommunity.com%2Fopenid%2Flogin&openid.claimed_id=https%3A%2F%2Fsteamcommunity.com%2Fopenid%2Fid%2F76561198108458272&openid.identity=https%3A%2F%2Fsteamcommunity.com%2Fopenid%2Fid%2F76561198108458272&openid.return_to=http%3A%2F%2Flocalhost%3A3000%2Fintegrations%2Fsteam%2Fcallback&openid.response_nonce=2025-10-05T22%3A58%3A50ZZFcfJsUWyCqeBM%2FYVIyAbxNnOtw%3D&openid.assoc_handle=1234567890&openid.signed=signed%2Cop_endpoint%2Cclaimed_id%2Cidentity%2Creturn_to%2Cresponse_nonce%2Cassoc_handle&openid.sig=nnZWfpRXrMraLlwYkKqJH0Um8jE%3D" for ::1 at 2025-10-05 18:58:50 -0400
+Processing by Integrations::SteamController#callback as HTML
+  Parameters: {"openid.ns"=>"http://specs.openid.net/auth/2.0", "openid.mode"=>"id_res", "openid.op_endpoint"=>"https://steamcommunity.com/openid/login", "openid.claimed_id"=>"https://steamcommunity.com/openid/id/76561198108458272", "openid.identity"=>"https://steamcommunity.com/openid/id/76561198108458272", "openid.return_to"=>"http://localhost:3000/integrations/steam/callback", "openid.response_nonce"=>"2025-10-05T22:58:50ZZFcfJsUWyCqeBM/YVIyAbxNnOtw=", "openid.assoc_handle"=>"1234567890", "openid.signed"=>"signed,op_endpoint,claimed_id,identity,return_to,response_nonce,assoc_handle", "openid.sig"=>"nnZWfpRXrMraLlwYkKqJH0Um8jE="}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='callback',application='RubymineTestProject1',controller='steam'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+Redirected to http://localhost:3000/settings
+Completed 302 Found in 700ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/settings" for ::1 at 2025-10-05 18:58:51 -0400
+Processing by SettingsController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  Rendering layout layouts/application.html.erb
+  Rendering settings/index.html.erb within layouts/application
+  [1m[36mSteamAccount Load (0.0ms)[0m  [1m[34mSELECT "steam_accounts".* FROM "steam_accounts" WHERE "steam_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:53
+  [1m[36mDiscordAccount Load (0.0ms)[0m  [1m[34mSELECT "discord_accounts".* FROM "discord_accounts" WHERE "discord_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:54
+  [1m[36mBattlenetAccount Load (0.0ms)[0m  [1m[34mSELECT "battlenet_accounts".* FROM "battlenet_accounts" WHERE "battlenet_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:55
+  [1m[36mRiotAccount Load (0.0ms)[0m  [1m[34mSELECT "riot_accounts".* FROM "riot_accounts" WHERE "riot_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:56
+  [1m[36mSpotifyAccount Load (0.0ms)[0m  [1m[34mSELECT "spotify_accounts".* FROM "spotify_accounts" WHERE "spotify_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:57
+  Rendered settings/index.html.erb within layouts/application (Duration: 2.8ms | GC: 0.3ms)
+  Rendered layout layouts/application.html.erb (Duration: 3.2ms | GC: 0.3ms)
+Completed 200 OK in 23ms (Views: 3.2ms | ActiveRecord: 0.2ms (6 queries, 0 cached) | GC: 0.3ms)
+
+
+Started GET "/cable" for ::1 at 2025-10-05 18:58:51 -0400
+Started GET "/cable" [WebSocket] for ::1 at 2025-10-05 18:58:51 -0400
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  ↳ app/channels/application_cable/connection.rb:13:in `find_verified_user'
+An unauthorized connection attempt was rejected
+Finished "/cable" [WebSocket] for ::1 at 2025-10-05 18:58:51 -0400
+Started GET "/settings" for ::1 at 2025-10-05 19:06:01 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='RubymineTestProject1'*/[0m
+Processing by SettingsController#index as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  Rendering layout layouts/application.html.erb
+  Rendering settings/index.html.erb within layouts/application
+  [1m[36mSteamAccount Load (0.1ms)[0m  [1m[34mSELECT "steam_accounts".* FROM "steam_accounts" WHERE "steam_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:53
+  [1m[36mDiscordAccount Load (0.3ms)[0m  [1m[34mSELECT "discord_accounts".* FROM "discord_accounts" WHERE "discord_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:54
+  [1m[36mBattlenetAccount Load (0.0ms)[0m  [1m[34mSELECT "battlenet_accounts".* FROM "battlenet_accounts" WHERE "battlenet_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:55
+  [1m[36mRiotAccount Load (0.0ms)[0m  [1m[34mSELECT "riot_accounts".* FROM "riot_accounts" WHERE "riot_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:56
+  [1m[36mSpotifyAccount Load (0.3ms)[0m  [1m[34mSELECT "spotify_accounts".* FROM "spotify_accounts" WHERE "spotify_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:57
+  Rendered settings/index.html.erb within layouts/application (Duration: 27.4ms | GC: 6.9ms)
+  Rendered layout layouts/application.html.erb (Duration: 34.7ms | GC: 6.9ms)
+Completed 200 OK in 175ms (Views: 34.8ms | ActiveRecord: 3.0ms (6 queries, 0 cached) | GC: 29.4ms)
+
+
+Started GET "/cable" for ::1 at 2025-10-05 19:06:01 -0400
+Started GET "/cable" [WebSocket] for ::1 at 2025-10-05 19:06:01 -0400
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  ↳ app/channels/application_cable/connection.rb:13:in `find_verified_user'
+An unauthorized connection attempt was rejected
+Finished "/cable" [WebSocket] for ::1 at 2025-10-05 19:06:01 -0400
+Started GET "/integrations/steam/connect" for ::1 at 2025-10-05 19:06:04 -0400
+Processing by Integrations::SteamController#connect as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='connect',application='RubymineTestProject1',controller='steam'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+Redirected to https://steamcommunity.com/openid/login?openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.mode=checkid_setup&openid.return_to=http%3A%2F%2Flocalhost%3A3000%2Fintegrations%2Fsteam%2Fcallback&openid.realm=http%3A%2F%2Flocalhost%3A3000&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select
+Completed 302 Found in 21ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/integrations/steam/connect" for ::1 at 2025-10-05 19:06:04 -0400
+Processing by Integrations::SteamController#connect as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='connect',application='RubymineTestProject1',controller='steam'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+Redirected to https://steamcommunity.com/openid/login?openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.mode=checkid_setup&openid.return_to=http%3A%2F%2Flocalhost%3A3000%2Fintegrations%2Fsteam%2Fcallback&openid.realm=http%3A%2F%2Flocalhost%3A3000&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select
+Completed 302 Found in 19ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/integrations/steam/callback?openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.mode=id_res&openid.op_endpoint=https%3A%2F%2Fsteamcommunity.com%2Fopenid%2Flogin&openid.claimed_id=https%3A%2F%2Fsteamcommunity.com%2Fopenid%2Fid%2F76561198108458272&openid.identity=https%3A%2F%2Fsteamcommunity.com%2Fopenid%2Fid%2F76561198108458272&openid.return_to=http%3A%2F%2Flocalhost%3A3000%2Fintegrations%2Fsteam%2Fcallback&openid.response_nonce=2025-10-05T23%3A06%3A07ZC9XC%2BDzUMqqv05COeKczfmfHDcc%3D&openid.assoc_handle=1234567890&openid.signed=signed%2Cop_endpoint%2Cclaimed_id%2Cidentity%2Creturn_to%2Cresponse_nonce%2Cassoc_handle&openid.sig=hkpLFFFf0ppTx5yABsjh0STtiwQ%3D" for ::1 at 2025-10-05 19:06:07 -0400
+Processing by Integrations::SteamController#callback as HTML
+  Parameters: {"openid.ns"=>"http://specs.openid.net/auth/2.0", "openid.mode"=>"id_res", "openid.op_endpoint"=>"https://steamcommunity.com/openid/login", "openid.claimed_id"=>"https://steamcommunity.com/openid/id/76561198108458272", "openid.identity"=>"https://steamcommunity.com/openid/id/76561198108458272", "openid.return_to"=>"http://localhost:3000/integrations/steam/callback", "openid.response_nonce"=>"2025-10-05T23:06:07ZC9XC+DzUMqqv05COeKczfmfHDcc=", "openid.assoc_handle"=>"1234567890", "openid.signed"=>"signed,op_endpoint,claimed_id,identity,return_to,response_nonce,assoc_handle", "openid.sig"=>"hkpLFFFf0ppTx5yABsjh0STtiwQ="}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='callback',application='RubymineTestProject1',controller='steam'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  [1m[36mSteamAccount Load (0.4ms)[0m  [1m[34mSELECT "steam_accounts".* FROM "steam_accounts" WHERE "steam_accounts"."user_id" = 1 LIMIT 1 /*action='callback',application='RubymineTestProject1',controller='steam'*/[0m
+  ↳ app/controllers/integrations/steam_controller.rb:71:in `create_or_update_integration_account'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*action='callback',application='RubymineTestProject1',controller='steam'*/[0m
+  ↳ app/controllers/integrations/steam_controller.rb:89:in `create_or_update_integration_account'
+  [1m[36mSteamAccount Exists? (1.1ms)[0m  [1m[34mSELECT 1 AS one FROM "steam_accounts" WHERE "steam_accounts"."steam_id" = '76561198108458272' LIMIT 1 /*action='callback',application='RubymineTestProject1',controller='steam'*/[0m
+  ↳ app/controllers/integrations/steam_controller.rb:89:in `create_or_update_integration_account'
+  [1m[36mSteamAccount Create (0.2ms)[0m  [1m[32mINSERT INTO "steam_accounts" ("user_id", "steam_id", "persona_name", "profile_url", "avatar_url", "real_name", "country_code", "state_code", "visibility", "time_created", "last_logoff", "level", "access_token", "refresh_token", "token_expires_at", "last_synced_at", "created_at", "updated_at") VALUES (1, '76561198108458272', 'Th3MFG', 'https://steamcommunity.com/id/Th3MFG/', 'https://avatars.steamstatic.com/c56c312fb8484499359f1a1af769d19d491553c1_full.jpg', NULL, 'US', 'IN', 3, 1380122081, 1756948997, NULL, '{"p":"chrcLD3TFG55lTpS4nzg4JCQldq/vh+HjWnv0IagwZi+xUYgg9ApomPg6vWnHYry5bP2/GG1R2o=","h":{"iv":"F50gkVhOLCrQsAGb","at":"/8tN4YBbKjQ8MKGqhDz7vg=="}}', NULL, '2026-10-05 23:06:08.599270', NULL, '2025-10-05 23:06:08.611617', '2025-10-05 23:06:08.611617') RETURNING "id" /*action='callback',application='RubymineTestProject1',controller='steam'*/[0m
+  ↳ app/controllers/integrations/steam_controller.rb:89:in `create_or_update_integration_account'
+  [1m[36mIntegrationPrivacySetting Load (0.0ms)[0m  [1m[34mSELECT "integration_privacy_settings".* FROM "integration_privacy_settings" WHERE "integration_privacy_settings"."integration_id" = 1 AND "integration_privacy_settings"."integration_type" = 'SteamAccount' LIMIT 1 /*action='callback',application='RubymineTestProject1',controller='steam'*/[0m
+  ↳ app/models/concerns/integration_account.rb:66:in `create_default_privacy_settings'
+  [1m[36mIntegrationPrivacySetting Create (0.1ms)[0m  [1m[32mINSERT INTO "integration_privacy_settings" ("integration_type", "integration_id", "user_id", "settings", "created_at", "updated_at") VALUES ('SteamAccount', 1, 1, '"{\"show_profile\":true,\"show_persona_name\":true,\"show_avatar\":true,\"show_real_name\":false,\"show_country\":true,\"show_level\":true,\"show_owned_games\":true,\"show_recent_games\":true,\"show_playtime\":true,\"show_achievements\":true,\"show_online_status\":true,\"show_current_game\":true,\"show_last_logoff\":false}"', '2025-10-05 23:06:08.640731', '2025-10-05 23:06:08.640731') RETURNING "id" /*action='callback',application='RubymineTestProject1',controller='steam'*/[0m
+  ↳ app/models/concerns/integration_account.rb:68:in `create_default_privacy_settings'
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT TRANSACTION /*action='callback',application='RubymineTestProject1',controller='steam'*/[0m
+  ↳ app/controllers/integrations/steam_controller.rb:89:in `create_or_update_integration_account'
+Redirected to http://localhost:3000/integrations/steam/privacy-settings
+Completed 302 Found in 1423ms (ActiveRecord: 2.3ms (6 queries, 0 cached) | GC: 11.3ms)
+
+
+Started GET "/integrations/steam/privacy-settings" for ::1 at 2025-10-05 19:06:08 -0400
+Processing by Integrations::SteamController#privacy_settings as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='privacy_settings',application='RubymineTestProject1',controller='steam'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  Rendering layout layouts/application.html.erb
+  Rendering integrations/steam/privacy_settings.html.erb within layouts/application
+  Rendered integrations/steam/privacy_settings.html.erb within layouts/application (Duration: 4.4ms | GC: 3.1ms)
+  Rendered layout layouts/application.html.erb (Duration: 4.5ms | GC: 3.1ms)
+Completed 500 Internal Server Error in 25ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 6.7ms)
+
+
+  
+ActionView::Template::Error (undefined method `[]' for nil)
+Caused by: NoMethodError (undefined method `[]' for nil)
+
+Information for: ActionView::Template::Error (undefined method `[]' for nil):
+    26:             <h4 style="color: var(--text-primary); margin-bottom: 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 0.5rem;">
+    27:               Profile Information
+    28:             </h4>
+    29:             <% @settings_schema[:profile].each do |setting| %>
+    30:               <div class="form-check mb-3">
+    31:                 <%= check_box_tag(
+    32:                   "privacy_settings[#{setting[:key]}]",
+  
+app/views/integrations/steam/privacy_settings.html.erb:29
+app/views/integrations/steam/privacy_settings.html.erb:23
+
+Information for cause: NoMethodError (undefined method `[]' for nil):
+  
+app/views/integrations/steam/privacy_settings.html.erb:29
+app/views/integrations/steam/privacy_settings.html.erb:23
+Started GET "/integrations/steam/privacy-settings" for ::1 at 2025-10-05 19:07:15 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='RubymineTestProject1'*/[0m
+Processing by Integrations::SteamController#privacy_settings as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='privacy_settings',application='RubymineTestProject1',controller='steam'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  Rendering layout layouts/application.html.erb
+  Rendering integrations/steam/privacy_settings.html.erb within layouts/application
+  Rendered integrations/steam/privacy_settings.html.erb within layouts/application (Duration: 1.1ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.2ms | GC: 0.0ms)
+Completed 500 Internal Server Error in 46ms (ActiveRecord: 1.3ms (1 query, 0 cached) | GC: 6.8ms)
+
+
+  
+ActionView::Template::Error (undefined method `[]' for nil)
+Caused by: NoMethodError (undefined method `[]' for nil)
+
+Information for: ActionView::Template::Error (undefined method `[]' for nil):
+    26:             <h4 style="color: var(--text-primary); margin-bottom: 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 0.5rem;">
+    27:               Profile Information
+    28:             </h4>
+    29:             <% @settings_schema[:profile].each do |setting| %>
+    30:               <div class="form-check mb-3">
+    31:                 <%= check_box_tag(
+    32:                   "privacy_settings[#{setting[:key]}]",
+  
+app/views/integrations/steam/privacy_settings.html.erb:29
+app/views/integrations/steam/privacy_settings.html.erb:23
+
+Information for cause: NoMethodError (undefined method `[]' for nil):
+  
+app/views/integrations/steam/privacy_settings.html.erb:29
+app/views/integrations/steam/privacy_settings.html.erb:23
+Started GET "/cable" for ::1 at 2025-10-05 19:07:25 -0400
+Started GET "/cable" [WebSocket] for ::1 at 2025-10-05 19:07:25 -0400
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  ↳ app/channels/application_cable/connection.rb:13:in `find_verified_user'
+An unauthorized connection attempt was rejected
+Finished "/cable" [WebSocket] for ::1 at 2025-10-05 19:07:25 -0400
+Started GET "/integrations/steam/connect" for ::1 at 2025-10-05 19:07:28 -0400
+Processing by Integrations::SteamController#connect as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='connect',application='RubymineTestProject1',controller='steam'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+Redirected to https://steamcommunity.com/openid/login?openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.mode=checkid_setup&openid.return_to=http%3A%2F%2Flocalhost%3A3000%2Fintegrations%2Fsteam%2Fcallback&openid.realm=http%3A%2F%2Flocalhost%3A3000&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select
+Completed 302 Found in 23ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/integrations/steam/connect" for ::1 at 2025-10-05 19:07:29 -0400
+Processing by Integrations::SteamController#connect as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='connect',application='RubymineTestProject1',controller='steam'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+Redirected to https://steamcommunity.com/openid/login?openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.mode=checkid_setup&openid.return_to=http%3A%2F%2Flocalhost%3A3000%2Fintegrations%2Fsteam%2Fcallback&openid.realm=http%3A%2F%2Flocalhost%3A3000&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select
+Completed 302 Found in 18ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/integrations/steam/callback?openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.mode=id_res&openid.op_endpoint=https%3A%2F%2Fsteamcommunity.com%2Fopenid%2Flogin&openid.claimed_id=https%3A%2F%2Fsteamcommunity.com%2Fopenid%2Fid%2F76561198108458272&openid.identity=https%3A%2F%2Fsteamcommunity.com%2Fopenid%2Fid%2F76561198108458272&openid.return_to=http%3A%2F%2Flocalhost%3A3000%2Fintegrations%2Fsteam%2Fcallback&openid.response_nonce=2025-10-05T23%3A07%3A30ZClUL3VG5jMbHIq%2Fcp3iFy94kbkA%3D&openid.assoc_handle=1234567890&openid.signed=signed%2Cop_endpoint%2Cclaimed_id%2Cidentity%2Creturn_to%2Cresponse_nonce%2Cassoc_handle&openid.sig=A3fYlEDSFbEepq5LUHchpw87YGs%3D" for ::1 at 2025-10-05 19:07:30 -0400
+Processing by Integrations::SteamController#callback as HTML
+  Parameters: {"openid.ns"=>"http://specs.openid.net/auth/2.0", "openid.mode"=>"id_res", "openid.op_endpoint"=>"https://steamcommunity.com/openid/login", "openid.claimed_id"=>"https://steamcommunity.com/openid/id/76561198108458272", "openid.identity"=>"https://steamcommunity.com/openid/id/76561198108458272", "openid.return_to"=>"http://localhost:3000/integrations/steam/callback", "openid.response_nonce"=>"2025-10-05T23:07:30ZClUL3VG5jMbHIq/cp3iFy94kbkA=", "openid.assoc_handle"=>"1234567890", "openid.signed"=>"signed,op_endpoint,claimed_id,identity,return_to,response_nonce,assoc_handle", "openid.sig"=>"A3fYlEDSFbEepq5LUHchpw87YGs="}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='callback',application='RubymineTestProject1',controller='steam'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  [1m[36mSteamAccount Load (0.0ms)[0m  [1m[34mSELECT "steam_accounts".* FROM "steam_accounts" WHERE "steam_accounts"."user_id" = 1 LIMIT 1 /*action='callback',application='RubymineTestProject1',controller='steam'*/[0m
+  ↳ app/controllers/integrations/steam_controller.rb:71:in `create_or_update_integration_account'
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*action='callback',application='RubymineTestProject1',controller='steam'*/[0m
+  ↳ app/controllers/integrations/steam_controller.rb:89:in `create_or_update_integration_account'
+  [1m[36mSteamAccount Update (0.1ms)[0m  [1m[33mUPDATE "steam_accounts" SET "access_token" = '{"p":"GJ0GZ8B88B0+i/qmUVRXTXAkBD/UJuA2aXD6YhJxg68z5/yjlZIUXZPSyG1CGeEQLcpn3Md+ok0=","h":{"iv":"2kohvb1AZTSyKhm7","at":"VMR1RCNx6I6fdhclhItKAw=="}}', "token_expires_at" = '2026-10-05 23:07:31.418372', "updated_at" = '2025-10-05 23:07:31.445987' WHERE "steam_accounts"."id" = 1 /*action='callback',application='RubymineTestProject1',controller='steam'*/[0m
+  ↳ app/controllers/integrations/steam_controller.rb:89:in `create_or_update_integration_account'
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT TRANSACTION /*action='callback',application='RubymineTestProject1',controller='steam'*/[0m
+  ↳ app/controllers/integrations/steam_controller.rb:89:in `create_or_update_integration_account'
+Redirected to http://localhost:3000/integrations/steam/privacy-settings
+Completed 302 Found in 592ms (ActiveRecord: 1.2ms (3 queries, 0 cached) | GC: 2.7ms)
+
+
+Started GET "/integrations/steam/privacy-settings" for ::1 at 2025-10-05 19:07:31 -0400
+Processing by Integrations::SteamController#privacy_settings as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='privacy_settings',application='RubymineTestProject1',controller='steam'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  Rendering layout layouts/application.html.erb
+  Rendering integrations/steam/privacy_settings.html.erb within layouts/application
+  Rendered integrations/steam/privacy_settings.html.erb within layouts/application (Duration: 0.2ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 0.3ms | GC: 0.0ms)
+Completed 500 Internal Server Error in 18ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+  
+ActionView::Template::Error (undefined method `[]' for nil)
+Caused by: NoMethodError (undefined method `[]' for nil)
+
+Information for: ActionView::Template::Error (undefined method `[]' for nil):
+    26:             <h4 style="color: var(--text-primary); margin-bottom: 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 0.5rem;">
+    27:               Profile Information
+    28:             </h4>
+    29:             <% @settings_schema[:profile].each do |setting| %>
+    30:               <div class="form-check mb-3">
+    31:                 <%= check_box_tag(
+    32:                   "privacy_settings[#{setting[:key]}]",
+  
+app/views/integrations/steam/privacy_settings.html.erb:29
+app/views/integrations/steam/privacy_settings.html.erb:23
+
+Information for cause: NoMethodError (undefined method `[]' for nil):
+  
+app/views/integrations/steam/privacy_settings.html.erb:29
+app/views/integrations/steam/privacy_settings.html.erb:23
+Started GET "/integrations/steam/connect" for ::1 at 2025-10-05 19:10:59 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='RubymineTestProject1'*/[0m
+Processing by Integrations::SteamController#connect as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='connect',application='RubymineTestProject1',controller='steam'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+Redirected to https://steamcommunity.com/openid/login?openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.mode=checkid_setup&openid.return_to=http%3A%2F%2Flocalhost%3A3000%2Fintegrations%2Fsteam%2Fcallback&openid.realm=http%3A%2F%2Flocalhost%3A3000&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select
+Completed 302 Found in 34ms (ActiveRecord: 1.7ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/integrations/steam/callback?openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.mode=id_res&openid.op_endpoint=https%3A%2F%2Fsteamcommunity.com%2Fopenid%2Flogin&openid.claimed_id=https%3A%2F%2Fsteamcommunity.com%2Fopenid%2Fid%2F76561198108458272&openid.identity=https%3A%2F%2Fsteamcommunity.com%2Fopenid%2Fid%2F76561198108458272&openid.return_to=http%3A%2F%2Flocalhost%3A3000%2Fintegrations%2Fsteam%2Fcallback&openid.response_nonce=2025-10-05T23%3A12%3A20ZHWEkroCGBBtRj5jzia3hunu8eJw%3D&openid.assoc_handle=1234567890&openid.signed=signed%2Cop_endpoint%2Cclaimed_id%2Cidentity%2Creturn_to%2Cresponse_nonce%2Cassoc_handle&openid.sig=88I3CnkmQOwgUn4o1x3ztU2aUhc%3D" for ::1 at 2025-10-05 19:12:20 -0400
+Processing by Integrations::SteamController#callback as HTML
+  Parameters: {"openid.ns"=>"http://specs.openid.net/auth/2.0", "openid.mode"=>"id_res", "openid.op_endpoint"=>"https://steamcommunity.com/openid/login", "openid.claimed_id"=>"https://steamcommunity.com/openid/id/76561198108458272", "openid.identity"=>"https://steamcommunity.com/openid/id/76561198108458272", "openid.return_to"=>"http://localhost:3000/integrations/steam/callback", "openid.response_nonce"=>"2025-10-05T23:12:20ZHWEkroCGBBtRj5jzia3hunu8eJw=", "openid.assoc_handle"=>"1234567890", "openid.signed"=>"signed,op_endpoint,claimed_id,identity,return_to,response_nonce,assoc_handle", "openid.sig"=>"88I3CnkmQOwgUn4o1x3ztU2aUhc="}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='callback',application='RubymineTestProject1',controller='steam'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  [1m[36mSteamAccount Load (0.1ms)[0m  [1m[34mSELECT "steam_accounts".* FROM "steam_accounts" WHERE "steam_accounts"."user_id" = 1 LIMIT 1 /*action='callback',application='RubymineTestProject1',controller='steam'*/[0m
+  ↳ app/controllers/integrations/steam_controller.rb:77:in `create_or_update_integration_account'
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*action='callback',application='RubymineTestProject1',controller='steam'*/[0m
+  ↳ app/controllers/integrations/steam_controller.rb:95:in `create_or_update_integration_account'
+  [1m[36mSteamAccount Update (0.4ms)[0m  [1m[33mUPDATE "steam_accounts" SET "access_token" = '{"p":"MwE2fthlrtjNnMjtYOMB8cLnlpov/mU9vyRRgchWZkSvSE77fgQuT3oFriYMnD8rszmI/Y0zPE0=","h":{"iv":"6Uv+UkL3OALyQc4N","at":"p/ER9uQ4cZWXnq0ck6H0WQ=="}}', "token_expires_at" = '2026-10-05 23:12:21.233199', "updated_at" = '2025-10-05 23:12:21.268810' WHERE "steam_accounts"."id" = 1 /*action='callback',application='RubymineTestProject1',controller='steam'*/[0m
+  ↳ app/controllers/integrations/steam_controller.rb:95:in `create_or_update_integration_account'
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT TRANSACTION /*action='callback',application='RubymineTestProject1',controller='steam'*/[0m
+  ↳ app/controllers/integrations/steam_controller.rb:95:in `create_or_update_integration_account'
+Redirected to http://localhost:3000/integrations/steam/privacy-settings
+Completed 302 Found in 704ms (ActiveRecord: 1.7ms (3 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/integrations/steam/privacy-settings" for ::1 at 2025-10-05 19:12:21 -0400
+Processing by Integrations::SteamController#privacy_settings as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='privacy_settings',application='RubymineTestProject1',controller='steam'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  [1m[36mSteamAccount Load (0.0ms)[0m  [1m[34mSELECT "steam_accounts".* FROM "steam_accounts" WHERE "steam_accounts"."user_id" = 1 LIMIT 1 /*action='privacy_settings',application='RubymineTestProject1',controller='steam'*/[0m
+  ↳ app/controllers/integrations/steam_controller.rb:114:in `set_steam_account'
+  [1m[36mIntegrationPrivacySetting Load (0.2ms)[0m  [1m[34mSELECT "integration_privacy_settings".* FROM "integration_privacy_settings" WHERE "integration_privacy_settings"."integration_id" = 1 AND "integration_privacy_settings"."integration_type" = 'SteamAccount' LIMIT 1 /*action='privacy_settings',application='RubymineTestProject1',controller='steam'*/[0m
+  ↳ app/controllers/integrations/steam_controller.rb:14:in `privacy_settings'
+  Rendering layout layouts/application.html.erb
+  Rendering integrations/steam/privacy_settings.html.erb within layouts/application
+  Rendered integrations/steam/privacy_settings.html.erb within layouts/application (Duration: 0.9ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 7.8ms | GC: 0.0ms)
+Completed 200 OK in 150ms (Views: 9.4ms | ActiveRecord: 0.5ms (3 queries, 0 cached) | GC: 38.0ms)
+
+
+Started GET "/cable" for ::1 at 2025-10-05 19:12:22 -0400
+Started GET "/cable" [WebSocket] for ::1 at 2025-10-05 19:12:22 -0400
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  ↳ app/channels/application_cable/connection.rb:13:in `find_verified_user'
+An unauthorized connection attempt was rejected
+Finished "/cable" [WebSocket] for ::1 at 2025-10-05 19:12:22 -0400
+Started POST "/integrations/steam/privacy-settings" for ::1 at 2025-10-05 19:12:32 -0400
+Processing by Integrations::SteamController#update_privacy_settings as TURBO_STREAM
+  Parameters: {"authenticity_token"=>"[FILTERED]", "privacy_settings"=>{"show_profile"=>"true", "show_persona_name"=>"true", "show_avatar"=>"true", "show_country"=>"true", "show_level"=>"true", "show_owned_games"=>"true", "show_recent_games"=>"true", "show_playtime"=>"true", "show_achievements"=>"true", "show_online_status"=>"true", "show_current_game"=>"true"}, "commit"=>"Save Privacy Settings"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='update_privacy_settings',application='RubymineTestProject1',controller='steam'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  [1m[36mSteamAccount Load (0.1ms)[0m  [1m[34mSELECT "steam_accounts".* FROM "steam_accounts" WHERE "steam_accounts"."user_id" = 1 LIMIT 1 /*action='update_privacy_settings',application='RubymineTestProject1',controller='steam'*/[0m
+  ↳ app/controllers/integrations/steam_controller.rb:114:in `set_steam_account'
+  [1m[36mIntegrationPrivacySetting Load (0.0ms)[0m  [1m[34mSELECT "integration_privacy_settings".* FROM "integration_privacy_settings" WHERE "integration_privacy_settings"."integration_id" = 1 AND "integration_privacy_settings"."integration_type" = 'SteamAccount' LIMIT 1 /*action='update_privacy_settings',application='RubymineTestProject1',controller='steam'*/[0m
+  ↳ app/controllers/integrations/steam_controller.rb:40:in `update_privacy_settings'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1[0m
+  ↳ app/controllers/integrations/steam_controller.rb:48:in `update_privacy_settings'
+Redirected to http://localhost:3000/settings
+Completed 302 Found in 25ms (ActiveRecord: 0.2ms (4 queries, 1 cached) | GC: 5.8ms)
+
+
+Started GET "/settings" for ::1 at 2025-10-05 19:12:32 -0400
+Processing by SettingsController#index as TURBO_STREAM
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  Rendering layout layouts/application.html.erb
+  Rendering settings/index.html.erb within layouts/application
+  [1m[36mSteamAccount Load (0.0ms)[0m  [1m[34mSELECT "steam_accounts".* FROM "steam_accounts" WHERE "steam_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:53
+  [1m[36mDiscordAccount Load (0.3ms)[0m  [1m[34mSELECT "discord_accounts".* FROM "discord_accounts" WHERE "discord_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:54
+  [1m[36mBattlenetAccount Load (0.0ms)[0m  [1m[34mSELECT "battlenet_accounts".* FROM "battlenet_accounts" WHERE "battlenet_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:55
+  [1m[36mRiotAccount Load (0.0ms)[0m  [1m[34mSELECT "riot_accounts".* FROM "riot_accounts" WHERE "riot_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:56
+  [1m[36mSpotifyAccount Load (0.3ms)[0m  [1m[34mSELECT "spotify_accounts".* FROM "spotify_accounts" WHERE "spotify_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:57
+  Rendered settings/index.html.erb within layouts/application (Duration: 12.8ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 13.1ms | GC: 0.0ms)
+Completed 200 OK in 30ms (Views: 12.4ms | ActiveRecord: 1.1ms (6 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/integrations/battlenet/connect" for ::1 at 2025-10-05 19:12:52 -0400
+  
+AbstractController::ActionNotFound (The action 'connect' could not be found for Integrations::BattlenetController):
+  
+actionpack (8.0.3) lib/abstract_controller/base.rb:147:in `process'
+actionview (8.0.3) lib/action_view/rendering.rb:40:in `process'
+actionpack (8.0.3) lib/action_controller/metal.rb:252:in `dispatch'
+actionpack (8.0.3) lib/action_controller/metal.rb:335:in `dispatch'
+actionpack (8.0.3) lib/action_dispatch/routing/route_set.rb:67:in `dispatch'
+actionpack (8.0.3) lib/action_dispatch/routing/route_set.rb:50:in `serve'
+actionpack (8.0.3) lib/action_dispatch/journey/router.rb:53:in `block in serve'
+actionpack (8.0.3) lib/action_dispatch/journey/router.rb:133:in `block in find_routes'
+actionpack (8.0.3) lib/action_dispatch/journey/router.rb:126:in `each'
+actionpack (8.0.3) lib/action_dispatch/journey/router.rb:126:in `find_routes'
+actionpack (8.0.3) lib/action_dispatch/journey/router.rb:34:in `serve'
+actionpack (8.0.3) lib/action_dispatch/routing/route_set.rb:908:in `call'
+rack (3.2.1) lib/rack/tempfile_reaper.rb:20:in `call'
+rack (3.2.1) lib/rack/etag.rb:29:in `call'
+rack (3.2.1) lib/rack/conditional_get.rb:31:in `call'
+rack (3.2.1) lib/rack/head.rb:15:in `call'
+actionpack (8.0.3) lib/action_dispatch/http/permissions_policy.rb:38:in `call'
+actionpack (8.0.3) lib/action_dispatch/http/content_security_policy.rb:38:in `call'
+rack-session (2.1.1) lib/rack/session/abstract/id.rb:274:in `context'
+rack-session (2.1.1) lib/rack/session/abstract/id.rb:268:in `call'
+actionpack (8.0.3) lib/action_dispatch/middleware/cookies.rb:706:in `call'
+activerecord (8.0.3) lib/active_record/migration.rb:670:in `call'
+actionpack (8.0.3) lib/action_dispatch/middleware/callbacks.rb:31:in `block in call'
+activesupport (8.0.3) lib/active_support/callbacks.rb:100:in `run_callbacks'
+actionpack (8.0.3) lib/action_dispatch/middleware/callbacks.rb:30:in `call'
+actionpack (8.0.3) lib/action_dispatch/middleware/executor.rb:16:in `call'
+actionpack (8.0.3) lib/action_dispatch/middleware/actionable_exceptions.rb:18:in `call'
+actionpack (8.0.3) lib/action_dispatch/middleware/debug_exceptions.rb:31:in `call'
+web-console (4.2.1) lib/web_console/middleware.rb:132:in `call_app'
+web-console (4.2.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `catch'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `call'
+actionpack (8.0.3) lib/action_dispatch/middleware/show_exceptions.rb:32:in `call'
+railties (8.0.3) lib/rails/rack/logger.rb:41:in `call_app'
+railties (8.0.3) lib/rails/rack/logger.rb:29:in `call'
+actionpack (8.0.3) lib/action_dispatch/middleware/remote_ip.rb:96:in `call'
+actionpack (8.0.3) lib/action_dispatch/middleware/request_id.rb:34:in `call'
+rack (3.2.1) lib/rack/method_override.rb:28:in `call'
+rack (3.2.1) lib/rack/runtime.rb:24:in `call'
+actionpack (8.0.3) lib/action_dispatch/middleware/server_timing.rb:61:in `block in call'
+actionpack (8.0.3) lib/action_dispatch/middleware/server_timing.rb:26:in `collect_events'
+actionpack (8.0.3) lib/action_dispatch/middleware/server_timing.rb:60:in `call'
+actionpack (8.0.3) lib/action_dispatch/middleware/executor.rb:16:in `call'
+propshaft (1.3.1) lib/propshaft/server.rb:37:in `call'
+actionpack (8.0.3) lib/action_dispatch/middleware/static.rb:27:in `call'
+rack (3.2.1) lib/rack/sendfile.rb:114:in `call'
+actionpack (8.0.3) lib/action_dispatch/middleware/host_authorization.rb:143:in `call'
+railties (8.0.3) lib/rails/engine.rb:535:in `call'
+puma (7.0.4) lib/puma/configuration.rb:299:in `call'
+puma (7.0.4) lib/puma/request.rb:101:in `block in handle_request'
+puma (7.0.4) lib/puma/thread_pool.rb:346:in `with_force_shutdown'
+puma (7.0.4) lib/puma/request.rb:100:in `handle_request'
+puma (7.0.4) lib/puma/server.rb:506:in `process_client'
+puma (7.0.4) lib/puma/server.rb:265:in `block in run'
+puma (7.0.4) lib/puma/thread_pool.rb:173:in `block in spawn_thread'

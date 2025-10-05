@@ -1,3 +1,5 @@
+require_relative 'errors'
+
 module Integrations
   class BaseOauthService
     include HTTParty

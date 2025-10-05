@@ -1,3 +1,5 @@
+require_relative 'errors'
+
 module Integrations
   class BaseApiClient
     include HTTParty

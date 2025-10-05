@@ -1,10 +1,18 @@
 # app/controllers/integrations/steam_controller.rb
 # Handles Steam integration OAuth flow and management
+require_relative '../../services/integrations/errors'
+
 module Integrations
   class SteamController < ApplicationController
     include IntegrationController
 
-    before_action :set_steam_account, only: [:disconnect, :sync, :update_privacy_settings]
+    before_action :set_steam_account, only: [:privacy_settings, :disconnect, :sync, :update_privacy_settings]
+
+    # GET /integrations/steam/privacy-settings
+    def privacy_settings
+      @settings_schema = SteamAccount.privacy_settings_schema
+      @privacy_setting = @integration_account.integration_privacy_setting
+    end
 
     # Override callback to handle OpenID params
     def callback
