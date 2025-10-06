@@ -3,11 +3,12 @@
 
 require Rails.root.join('lib/credentials_helper')
 
+stripe_creds = CredentialsHelper.stripe
+
 Rails.configuration.stripe = {
-  publishable_key: CredentialsHelper.stripe.publishable_key,
-  secret_key: CredentialsHelper.stripe.secret_key,
-  signing_secret: CredentialsHelper.stripe.signing_secret,
-  connect_client_id: CredentialsHelper.stripe.connect_client_id
+  publishable_key: stripe_creds.publishable_key,
+  secret_key: stripe_creds.secret_key,
+  webhook_secret: stripe_creds.webhook_secret
 }
 
 Stripe.api_key = Rails.configuration.stripe[:secret_key]

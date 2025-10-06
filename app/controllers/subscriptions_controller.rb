@@ -3,8 +3,7 @@ class SubscriptionsController < ApplicationController
 
   # GET /subscriptions/new
   def new
-    @plans = Subscription::PLANS
-    @current_subscription = current_user.active_subscription
+    redirect_to settings_path(tab: 'billing')
   end
 
   # POST /subscriptions
@@ -13,13 +12,13 @@ class SubscriptionsController < ApplicationController
 
     unless Subscription::PLANS.key?(plan) && plan != 'free'
       flash[:error] = "Invalid subscription plan"
-      redirect_to new_subscription_path and return
+      redirect_to settings_path(tab: 'billing') and return
     end
 
     # Check if user already has active subscription
     if current_user.active_subscription
       flash[:error] = "You already have an active subscription"
-      redirect_to subscription_path and return
+      redirect_to settings_path(tab: 'billing') and return
     end
 
     service = SubscriptionService.new(current_user)
@@ -27,15 +26,15 @@ class SubscriptionsController < ApplicationController
     begin
       session = service.create_checkout_session(
         plan: plan,
-        success_url: subscription_success_url,
-        cancel_url: new_subscription_url
+        success_url: success_subscription_url,
+        cancel_url: settings_url(tab: 'billing')
       )
 
       redirect_to session.url, allow_other_host: true
     rescue => e
       Rails.logger.error("Subscription creation error: #{e.message}")
       flash[:error] = "Failed to create checkout session. Please try again."
-      redirect_to new_subscription_path
+      redirect_to settings_path(tab: 'billing')
     end
   end
 
@@ -45,10 +44,10 @@ class SubscriptionsController < ApplicationController
 
     unless @subscription
       flash[:notice] = "You don't have any subscriptions yet"
-      redirect_to new_subscription_path and return
+      redirect_to settings_path(tab: 'billing') and return
     end
 
-    @payments = current_user.payments.subscriptions.recent.limit(10)
+    @payments = current_user.payments.subscriptions.recent.limit(10) if current_user.respond_to?(:payments)
   end
 
   # GET /subscriptions/success

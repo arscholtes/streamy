@@ -68,6 +68,4 @@ module Integrations
       new_count
     end
   end
-
-  class RateLimitExceededError < StandardError; end
 end

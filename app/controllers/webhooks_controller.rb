@@ -1,7 +1,6 @@
 class WebhooksController < ApplicationController
   # Skip CSRF verification for webhooks from Stripe
   skip_before_action :verify_authenticity_token
-  skip_before_action :require_login
 
   # POST /webhooks/stripe
   def stripe
@@ -12,7 +11,7 @@ class WebhooksController < ApplicationController
       event = Stripe::Webhook.construct_event(
         payload,
         sig_header,
-        Rails.configuration.stripe[:signing_secret]
+        Rails.configuration.stripe[:webhook_secret]
       )
     rescue JSON::ParserError => e
       Rails.logger.error("Webhook JSON parsing error: #{e.message}")
@@ -52,7 +51,8 @@ class WebhooksController < ApplicationController
   def handle_checkout_completed(session)
     return unless session.mode == 'subscription'
 
-    user = User.find_by(id: session.metadata.user_id)
+    metadata = session.metadata.to_h.stringify_keys
+    user = User.find_by(id: metadata['user_id'])
     return unless user
 
     # Subscription will be created via customer.subscription.created event
@@ -115,14 +115,15 @@ class WebhooksController < ApplicationController
 
   def handle_payment_succeeded(payment_intent)
     # Handle one-time payments (donations, tips)
-    return unless payment_intent.metadata.user_id
+    metadata = payment_intent.metadata.to_h.stringify_keys
+    return unless metadata['user_id']
 
-    user = User.find_by(id: payment_intent.metadata.user_id)
+    user = User.find_by(id: metadata['user_id'])
     return unless user
 
-    recipient = User.find_by(id: payment_intent.metadata.recipient_id) if payment_intent.metadata.recipient_id
+    recipient = User.find_by(id: metadata['recipient_id']) if metadata['recipient_id']
 
-    payment_type = payment_intent.metadata.payment_type || 'donation'
+    payment_type = metadata['payment_type'] || 'donation'
     amount_cents = payment_intent.amount
 
     platform_fee = payment_intent.application_fee_amount || 0
@@ -139,7 +140,7 @@ class WebhooksController < ApplicationController
       payment_type: payment_type,
       status: 'succeeded',
       paid_at: Time.current,
-      metadata: payment_intent.metadata.to_h
+      metadata: metadata
     )
 
     Rails.logger.info("Created payment #{payment.id} for user #{user.id}")
@@ -148,21 +149,22 @@ class WebhooksController < ApplicationController
   end
 
   def handle_payment_failed(payment_intent)
-    return unless payment_intent.metadata.user_id
+    metadata = payment_intent.metadata.to_h.stringify_keys
+    return unless metadata['user_id']
 
-    user = User.find_by(id: payment_intent.metadata.user_id)
+    user = User.find_by(id: metadata['user_id'])
     return unless user
 
-    recipient = User.find_by(id: payment_intent.metadata.recipient_id) if payment_intent.metadata.recipient_id
+    recipient = User.find_by(id: metadata['recipient_id']) if metadata['recipient_id']
 
     payment = user.payments.create!(
       stripe_payment_intent_id: payment_intent.id,
       recipient: recipient,
       amount_cents: payment_intent.amount,
       currency: payment_intent.currency,
-      payment_type: payment_intent.metadata.payment_type || 'donation',
+      payment_type: metadata['payment_type'] || 'donation',
       status: 'failed',
-      metadata: payment_intent.metadata.to_h
+      metadata: metadata
     )
 
     Rails.logger.info("Payment failed for user #{user.id}: #{payment_intent.last_payment_error&.message}")
@@ -209,7 +211,9 @@ class WebhooksController < ApplicationController
     price_id = stripe_subscription.items.data.first&.price&.id
 
     Subscription::PLANS.each do |plan_key, plan_data|
-      return plan_key if plan_data[:stripe_price_id] == price_id
+      plan_price_id = plan_data[:stripe_price_id]
+      plan_price_id = plan_price_id.call if plan_price_id.respond_to?(:call)
+      return plan_key if plan_price_id == price_id
     end
 
     'free' # Default fallback

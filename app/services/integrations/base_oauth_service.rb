@@ -148,6 +148,4 @@ module Integrations
       end
     end
   end
-
-  class OAuthError < StandardError; end
 end

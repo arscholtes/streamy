@@ -2,6 +2,15 @@ module Integrations
   class BattlenetController < ApplicationController
     include IntegrationController
 
+    # Override connect to allow region selection
+    def connect
+      # Store region preference for callback
+      region = params[:region] || 'us'
+      session[:battlenet_region] = region
+
+      redirect_to oauth_authorize_url, allow_other_host: true
+    end
+
     protected
 
     def oauth_service_class
@@ -29,15 +38,6 @@ module Integrations
         battletag: account_info[:battletag],
         region: region
       }
-    end
-
-    # Override connect to allow region selection
-    def connect
-      # Store region preference for callback
-      region = params[:region] || 'us'
-      session[:battlenet_region] = region
-
-      redirect_to oauth_authorize_url, allow_other_host: true
     end
 
     private

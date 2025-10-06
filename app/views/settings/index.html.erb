@@ -322,9 +322,7 @@
                   <% if @user.subscription_tier == "pro" %>
                     <span class="badge-pro">ACTIVE</span>
                   <% else %>
-                    <button class="btn-gradient-primary btn-sm" disabled style="padding: 0.5rem 1.5rem;">
-                      Coming Soon
-                    </button>
+                    <%= button_to "Upgrade to Pro", subscriptions_path(plan: 'pro'), method: :post, class: "btn-gradient-primary btn-sm", style: "padding: 0.5rem 1.5rem;" %>
                   <% end %>
                 </div>
               </div>
@@ -354,26 +352,33 @@
                   <div style="font-size: 2rem; font-weight: 700; line-height: 1; margin-bottom: 0.5rem; color: var(--text-primary);">
                     $99<span style="font-size: 0.875rem; color: var(--text-muted);">/mo</span>
                   </div>
-                  <button class="btn-outline-gradient btn-sm" disabled style="padding: 0.5rem 1.5rem; font-size: 0.875rem;">
-                    Contact Sales
-                  </button>
+                  <% if @user.subscription_tier == "enterprise" %>
+                    <span class="badge-pro">ACTIVE</span>
+                  <% else %>
+                    <%= button_to "Upgrade to Enterprise", subscriptions_path(plan: 'enterprise'), method: :post, class: "btn-outline-gradient btn-sm", style: "padding: 0.5rem 1.5rem; font-size: 0.875rem;" %>
+                  <% end %>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: var(--radius-md); padding: 1.5rem; margin-top: 2rem;">
-          <div style="display: flex; align-items: start; gap: 1rem;">
-            <i class="bi bi-info-circle" style="color: var(--accent-blue); font-size: 1.5rem; flex-shrink: 0;"></i>
-            <div>
-              <strong style="color: var(--accent-blue); font-size: 1.125rem;">Payment Integration Coming Soon!</strong>
-              <p style="color: var(--text-secondary); margin: 0.5rem 0 0; line-height: 1.6;">
-                We're integrating Stripe for secure payment processing. You'll soon be able to upgrade your plan and manage billing directly from this page.
-              </p>
+        <% if @user.subscription_tier != 'free' %>
+          <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(34, 197, 94, 0.1) 100%); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: var(--radius-md); padding: 1.5rem; margin-top: 2rem;">
+            <div style="display: flex; align-items: start; gap: 1rem;">
+              <i class="bi bi-shield-check" style="color: var(--accent-green); font-size: 1.5rem; flex-shrink: 0;"></i>
+              <div style="flex: 1;">
+                <strong style="color: var(--accent-green); font-size: 1.125rem;">Manage Your Subscription</strong>
+                <p style="color: var(--text-secondary); margin: 0.5rem 0 1rem; line-height: 1.6;">
+                  Update payment methods, view invoices, and manage your subscription through Stripe's secure billing portal.
+                </p>
+                <%= link_to portal_subscription_path, class: "btn-gradient-primary btn-sm" do %>
+                  <i class="bi bi-box-arrow-up-right"></i> Open Billing Portal
+                <% end %>
+              </div>
             </div>
           </div>
-        </div>
+        <% end %>
       </div>
     </div>
 
@@ -424,7 +429,7 @@
         <div class="glass-card mb-3" style="border: 1px solid <%= current_user.steam_account.present? ? 'rgba(139, 92, 246, 0.5)' : 'rgba(255, 255, 255, 0.1)' %>; <%= current_user.steam_account.present? ? 'box-shadow: 0 4px 20px rgba(139, 92, 246, 0.2);' : '' %>">
           <div style="display: flex; align-items: center; gap: 1.5rem;">
             <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #1b2838, #2a475e); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 2rem; flex-shrink: 0;">
-              🎮
+              <img src="https://cdn.simpleicons.org/steam/white" alt="Steam" style="width: 32px; height: 32px;">
             </div>
             <div style="flex: 1;">
               <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
@@ -463,7 +468,7 @@
         <div class="glass-card mb-3" style="border: 1px solid <%= current_user.discord_account.present? ? 'rgba(139, 92, 246, 0.5)' : 'rgba(255, 255, 255, 0.1)' %>; <%= current_user.discord_account.present? ? 'box-shadow: 0 4px 20px rgba(139, 92, 246, 0.2);' : '' %>">
           <div style="display: flex; align-items: center; gap: 1.5rem;">
             <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #5865F2, #7289DA); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 2rem; flex-shrink: 0;">
-              💬
+              <img src="https://cdn.simpleicons.org/discord/white" alt="Discord" style="width: 32px; height: 32px;">
             </div>
             <div style="flex: 1;">
               <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
@@ -502,7 +507,7 @@
         <div class="glass-card mb-3" style="border: 1px solid <%= current_user.battlenet_account.present? ? 'rgba(139, 92, 246, 0.5)' : 'rgba(255, 255, 255, 0.1)' %>; <%= current_user.battlenet_account.present? ? 'box-shadow: 0 4px 20px rgba(139, 92, 246, 0.2);' : '' %>">
           <div style="display: flex; align-items: center; gap: 1.5rem;">
             <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #148eff, #0074e4); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 2rem; flex-shrink: 0;">
-              ⚔️
+              <img src="https://cdn.simpleicons.org/battlenet/white" alt="Battle.net" style="width: 32px; height: 32px;">
             </div>
             <div style="flex: 1;">
               <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
@@ -541,7 +546,7 @@
         <div class="glass-card mb-3" style="border: 1px solid <%= current_user.riot_account.present? ? 'rgba(139, 92, 246, 0.5)' : 'rgba(255, 255, 255, 0.1)' %>; <%= current_user.riot_account.present? ? 'box-shadow: 0 4px 20px rgba(139, 92, 246, 0.2);' : '' %>">
           <div style="display: flex; align-items: center; gap: 1.5rem;">
             <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #d13639, #eb0029); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 2rem; flex-shrink: 0;">
-              🎯
+              <img src="https://cdn.simpleicons.org/riotgames/white" alt="Riot Games" style="width: 32px; height: 32px;">
             </div>
             <div style="flex: 1;">
               <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
@@ -587,7 +592,7 @@
         <div class="glass-card mb-3" style="border: 1px solid <%= current_user.spotify_account.present? ? 'rgba(139, 92, 246, 0.5)' : 'rgba(255, 255, 255, 0.1)' %>; <%= current_user.spotify_account.present? ? 'box-shadow: 0 4px 20px rgba(139, 92, 246, 0.2);' : '' %>">
           <div style="display: flex; align-items: center; gap: 1.5rem;">
             <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #1DB954, #1ed760); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 2rem; flex-shrink: 0;">
-              🎵
+              <img src="https://cdn.simpleicons.org/spotify/white" alt="Spotify" style="width: 32px; height: 32px;">
             </div>
             <div style="flex: 1;">
               <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">

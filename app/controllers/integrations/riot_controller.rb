@@ -2,6 +2,15 @@ module Integrations
   class RiotController < ApplicationController
     include IntegrationController
 
+    # Override connect to allow region selection
+    def connect
+      # Store region preference for callback
+      region = params[:region] || 'na1'
+      session[:riot_region] = region
+
+      redirect_to oauth_authorize_url, allow_other_host: true
+    end
+
     protected
 
     def oauth_service_class
@@ -30,15 +39,6 @@ module Integrations
         tag_line: account_info[:tagLine],
         region: region
       }
-    end
-
-    # Override connect to allow region selection
-    def connect
-      # Store region preference for callback
-      region = params[:region] || 'na1'
-      session[:riot_region] = region
-
-      redirect_to oauth_authorize_url, allow_other_host: true
     end
   end
 end

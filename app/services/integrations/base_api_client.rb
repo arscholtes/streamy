@@ -113,12 +113,4 @@ module Integrations
       raise error
     end
   end
-
-  # Custom exceptions
-  class APIError < StandardError; end
-  class UnauthorizedError < APIError; end
-  class ForbiddenError < APIError; end
-  class NotFoundError < APIError; end
-  class RateLimitError < APIError; end
-  class ServerError < APIError; end
 end

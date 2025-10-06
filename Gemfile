@@ -78,4 +78,6 @@ group :test do
   gem "selenium-webdriver"
   # WebMock for stubbing HTTP requests in tests
   gem "webmock"
+  # SimpleCov for code coverage analysis
+  gem "simplecov", require: false
 end

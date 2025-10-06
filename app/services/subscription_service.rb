@@ -11,7 +11,8 @@ class SubscriptionService
     raise ArgumentError, "Invalid plan" unless Subscription::PLANS.key?(plan)
     raise ArgumentError, "Plan must be pro or enterprise" if plan == 'free'
 
-    price_id = Subscription::PLANS.dig(plan, :stripe_price_id)
+    price_id_value = Subscription::PLANS.dig(plan, :stripe_price_id)
+    price_id = price_id_value.respond_to?(:call) ? price_id_value.call : price_id_value
     raise ArgumentError, "Stripe price ID not configured for #{plan}" unless price_id
 
     # Get or create Stripe customer
@@ -98,7 +99,8 @@ class SubscriptionService
     subscription = user.active_subscription
     return false unless subscription
 
-    new_price_id = Subscription::PLANS.dig(new_plan, :stripe_price_id)
+    new_price_id_value = Subscription::PLANS.dig(new_plan, :stripe_price_id)
+    new_price_id = new_price_id_value.respond_to?(:call) ? new_price_id_value.call : new_price_id_value
     raise ArgumentError, "Stripe price ID not configured for #{new_plan}" unless new_price_id
 
     # Update subscription in Stripe

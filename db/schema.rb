@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_02_202655) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_06_001433) do
   create_table "achievements", force: :cascade do |t|
     t.string "name", null: false
     t.text "description", null: false
@@ -493,6 +493,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_02_202655) do
     t.datetime "updated_at", null: false
     t.string "subscription_tier", default: "free", null: false
     t.string "stripe_customer_id"
+    t.string "stripe_subscription_id"
+    t.string "subscription_status"
+    t.datetime "current_period_end"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["stream_key"], name: "index_users_on_stream_key", unique: true
     t.index ["stripe_customer_id"], name: "index_users_on_stripe_customer_id", unique: true

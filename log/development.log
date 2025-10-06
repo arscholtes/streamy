@@ -5815,3 +5815,1287 @@ puma (7.0.4) lib/puma/request.rb:100:in `handle_request'
 puma (7.0.4) lib/puma/server.rb:506:in `process_client'
 puma (7.0.4) lib/puma/server.rb:265:in `block in run'
 puma (7.0.4) lib/puma/thread_pool.rb:173:in `block in spawn_thread'
+Started GET "/apple-touch-icon.png" for ::1 at 2025-10-05 19:18:40 -0400
+Started GET "/apple-touch-icon-precomposed.png" for ::1 at 2025-10-05 19:18:40 -0400
+Started GET "/favicon.ico" for ::1 at 2025-10-05 19:18:40 -0400
+  
+ActionController::RoutingError (No route matches [GET] "/favicon.ico"):
+  
+  
+ActionController::RoutingError (No route matches [GET] "/apple-touch-icon.png"):
+  
+  
+ActionController::RoutingError (No route matches [GET] "/apple-touch-icon-precomposed.png"):
+  
+Started GET "/settings" for ::1 at 2025-10-05 19:27:28 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='RubymineTestProject1'*/[0m
+Processing by SettingsController#index as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  Rendering layout layouts/application.html.erb
+  Rendering settings/index.html.erb within layouts/application
+  [1m[36mSteamAccount Load (0.1ms)[0m  [1m[34mSELECT "steam_accounts".* FROM "steam_accounts" WHERE "steam_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:53
+  [1m[36mDiscordAccount Load (0.2ms)[0m  [1m[34mSELECT "discord_accounts".* FROM "discord_accounts" WHERE "discord_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:54
+  [1m[36mBattlenetAccount Load (0.0ms)[0m  [1m[34mSELECT "battlenet_accounts".* FROM "battlenet_accounts" WHERE "battlenet_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:55
+  [1m[36mRiotAccount Load (0.2ms)[0m  [1m[34mSELECT "riot_accounts".* FROM "riot_accounts" WHERE "riot_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:56
+  [1m[36mSpotifyAccount Load (0.2ms)[0m  [1m[34mSELECT "spotify_accounts".* FROM "spotify_accounts" WHERE "spotify_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:57
+  Rendered settings/index.html.erb within layouts/application (Duration: 27.9ms | GC: 6.4ms)
+  Rendered layout layouts/application.html.erb (Duration: 35.1ms | GC: 6.4ms)
+Completed 200 OK in 175ms (Views: 35.4ms | ActiveRecord: 2.8ms (6 queries, 0 cached) | GC: 26.7ms)
+
+
+Started GET "/cable" for ::1 at 2025-10-05 19:27:28 -0400
+Started GET "/cable" [WebSocket] for ::1 at 2025-10-05 19:27:28 -0400
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  ↳ app/channels/application_cable/connection.rb:13:in `find_verified_user'
+An unauthorized connection attempt was rejected
+Finished "/cable" [WebSocket] for ::1 at 2025-10-05 19:27:28 -0400
+Started GET "/integrations/battlenet/connect" for ::1 at 2025-10-05 19:27:33 -0400
+  
+AbstractController::ActionNotFound (The action 'connect' could not be found for Integrations::BattlenetController):
+  
+actionpack (8.0.3) lib/abstract_controller/base.rb:147:in `process'
+actionview (8.0.3) lib/action_view/rendering.rb:40:in `process'
+actionpack (8.0.3) lib/action_controller/metal.rb:252:in `dispatch'
+actionpack (8.0.3) lib/action_controller/metal.rb:335:in `dispatch'
+actionpack (8.0.3) lib/action_dispatch/routing/route_set.rb:67:in `dispatch'
+actionpack (8.0.3) lib/action_dispatch/routing/route_set.rb:50:in `serve'
+actionpack (8.0.3) lib/action_dispatch/journey/router.rb:53:in `block in serve'
+actionpack (8.0.3) lib/action_dispatch/journey/router.rb:133:in `block in find_routes'
+actionpack (8.0.3) lib/action_dispatch/journey/router.rb:126:in `each'
+actionpack (8.0.3) lib/action_dispatch/journey/router.rb:126:in `find_routes'
+actionpack (8.0.3) lib/action_dispatch/journey/router.rb:34:in `serve'
+actionpack (8.0.3) lib/action_dispatch/routing/route_set.rb:908:in `call'
+rack (3.2.1) lib/rack/tempfile_reaper.rb:20:in `call'
+rack (3.2.1) lib/rack/etag.rb:29:in `call'
+rack (3.2.1) lib/rack/conditional_get.rb:31:in `call'
+rack (3.2.1) lib/rack/head.rb:15:in `call'
+actionpack (8.0.3) lib/action_dispatch/http/permissions_policy.rb:38:in `call'
+actionpack (8.0.3) lib/action_dispatch/http/content_security_policy.rb:38:in `call'
+rack-session (2.1.1) lib/rack/session/abstract/id.rb:274:in `context'
+rack-session (2.1.1) lib/rack/session/abstract/id.rb:268:in `call'
+actionpack (8.0.3) lib/action_dispatch/middleware/cookies.rb:706:in `call'
+activerecord (8.0.3) lib/active_record/migration.rb:670:in `call'
+actionpack (8.0.3) lib/action_dispatch/middleware/callbacks.rb:31:in `block in call'
+activesupport (8.0.3) lib/active_support/callbacks.rb:100:in `run_callbacks'
+actionpack (8.0.3) lib/action_dispatch/middleware/callbacks.rb:30:in `call'
+actionpack (8.0.3) lib/action_dispatch/middleware/executor.rb:16:in `call'
+actionpack (8.0.3) lib/action_dispatch/middleware/actionable_exceptions.rb:18:in `call'
+actionpack (8.0.3) lib/action_dispatch/middleware/debug_exceptions.rb:31:in `call'
+web-console (4.2.1) lib/web_console/middleware.rb:132:in `call_app'
+web-console (4.2.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `catch'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `call'
+actionpack (8.0.3) lib/action_dispatch/middleware/show_exceptions.rb:32:in `call'
+railties (8.0.3) lib/rails/rack/logger.rb:41:in `call_app'
+railties (8.0.3) lib/rails/rack/logger.rb:29:in `call'
+actionpack (8.0.3) lib/action_dispatch/middleware/remote_ip.rb:96:in `call'
+actionpack (8.0.3) lib/action_dispatch/middleware/request_id.rb:34:in `call'
+rack (3.2.1) lib/rack/method_override.rb:28:in `call'
+rack (3.2.1) lib/rack/runtime.rb:24:in `call'
+actionpack (8.0.3) lib/action_dispatch/middleware/server_timing.rb:61:in `block in call'
+actionpack (8.0.3) lib/action_dispatch/middleware/server_timing.rb:26:in `collect_events'
+actionpack (8.0.3) lib/action_dispatch/middleware/server_timing.rb:60:in `call'
+actionpack (8.0.3) lib/action_dispatch/middleware/executor.rb:16:in `call'
+propshaft (1.3.1) lib/propshaft/server.rb:37:in `call'
+actionpack (8.0.3) lib/action_dispatch/middleware/static.rb:27:in `call'
+rack (3.2.1) lib/rack/sendfile.rb:114:in `call'
+actionpack (8.0.3) lib/action_dispatch/middleware/host_authorization.rb:143:in `call'
+railties (8.0.3) lib/rails/engine.rb:535:in `call'
+puma (7.0.4) lib/puma/configuration.rb:299:in `call'
+puma (7.0.4) lib/puma/request.rb:101:in `block in handle_request'
+puma (7.0.4) lib/puma/thread_pool.rb:346:in `with_force_shutdown'
+puma (7.0.4) lib/puma/request.rb:100:in `handle_request'
+puma (7.0.4) lib/puma/server.rb:506:in `process_client'
+puma (7.0.4) lib/puma/server.rb:265:in `block in run'
+puma (7.0.4) lib/puma/thread_pool.rb:173:in `block in spawn_thread'
+Started GET "/settings" for ::1 at 2025-10-05 19:28:25 -0400
+Processing by SettingsController#index as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  Rendering layout layouts/application.html.erb
+  Rendering settings/index.html.erb within layouts/application
+  [1m[36mSteamAccount Load (0.2ms)[0m  [1m[34mSELECT "steam_accounts".* FROM "steam_accounts" WHERE "steam_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:53
+  [1m[36mDiscordAccount Load (0.1ms)[0m  [1m[34mSELECT "discord_accounts".* FROM "discord_accounts" WHERE "discord_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:54
+  [1m[36mBattlenetAccount Load (0.1ms)[0m  [1m[34mSELECT "battlenet_accounts".* FROM "battlenet_accounts" WHERE "battlenet_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:55
+  [1m[36mRiotAccount Load (0.1ms)[0m  [1m[34mSELECT "riot_accounts".* FROM "riot_accounts" WHERE "riot_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:56
+  [1m[36mSpotifyAccount Load (0.1ms)[0m  [1m[34mSELECT "spotify_accounts".* FROM "spotify_accounts" WHERE "spotify_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:57
+  Rendered settings/index.html.erb within layouts/application (Duration: 6.5ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 7.3ms | GC: 0.2ms)
+Completed 200 OK in 29ms (Views: 7.0ms | ActiveRecord: 0.7ms (6 queries, 0 cached) | GC: 0.2ms)
+
+
+Started GET "/cable" for ::1 at 2025-10-05 19:28:25 -0400
+Started GET "/cable" [WebSocket] for ::1 at 2025-10-05 19:28:25 -0400
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  ↳ app/channels/application_cable/connection.rb:13:in `find_verified_user'
+An unauthorized connection attempt was rejected
+Finished "/cable" [WebSocket] for ::1 at 2025-10-05 19:28:25 -0400
+Started GET "/settings" for ::1 at 2025-10-05 19:32:34 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='RubymineTestProject1'*/[0m
+Processing by SettingsController#index as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  Rendering layout layouts/application.html.erb
+  Rendering settings/index.html.erb within layouts/application
+  [1m[36mSteamAccount Load (0.0ms)[0m  [1m[34mSELECT "steam_accounts".* FROM "steam_accounts" WHERE "steam_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:53
+  [1m[36mDiscordAccount Load (0.3ms)[0m  [1m[34mSELECT "discord_accounts".* FROM "discord_accounts" WHERE "discord_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:54
+  [1m[36mBattlenetAccount Load (0.0ms)[0m  [1m[34mSELECT "battlenet_accounts".* FROM "battlenet_accounts" WHERE "battlenet_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:55
+  [1m[36mRiotAccount Load (0.0ms)[0m  [1m[34mSELECT "riot_accounts".* FROM "riot_accounts" WHERE "riot_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:56
+  [1m[36mSpotifyAccount Load (0.3ms)[0m  [1m[34mSELECT "spotify_accounts".* FROM "spotify_accounts" WHERE "spotify_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:57
+  Rendered settings/index.html.erb within layouts/application (Duration: 29.8ms | GC: 7.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 36.6ms | GC: 7.0ms)
+Completed 200 OK in 185ms (Views: 36.9ms | ActiveRecord: 3.0ms (6 queries, 0 cached) | GC: 30.5ms)
+
+
+Started GET "/cable" for ::1 at 2025-10-05 19:32:35 -0400
+Started GET "/cable" [WebSocket] for ::1 at 2025-10-05 19:32:35 -0400
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  ↳ app/channels/application_cable/connection.rb:13:in `find_verified_user'
+An unauthorized connection attempt was rejected
+Finished "/cable" [WebSocket] for ::1 at 2025-10-05 19:32:35 -0400
+Started GET "/integrations/battlenet/connect" for ::1 at 2025-10-05 19:32:37 -0400
+Processing by Integrations::BattlenetController#connect as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='connect',application='RubymineTestProject1',controller='battlenet'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+Completed 500 Internal Server Error in 33ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 8.5ms)
+
+
+  
+TypeError (superclass mismatch for class OAuthError):
+  
+app/services/integrations/base_oauth_service.rb:152:in `<module:Integrations>'
+app/services/integrations/base_oauth_service.rb:3:in `<main>'
+app/services/integrations/battlenet_oauth_service.rb:2:in `<module:Integrations>'
+app/services/integrations/battlenet_oauth_service.rb:1:in `<main>'
+app/controllers/integrations/battlenet_controller.rb:47:in `oauth_service'
+app/controllers/concerns/integration_controller.rb:130:in `oauth_authorize_url'
+app/controllers/integrations/battlenet_controller.rb:11:in `connect'
+Started PUT "/__web_console/repl_sessions/8cf0e239f62f89fd8bec749e500bc80a" for ::1 at 2025-10-05 19:33:03 -0400
+Started PUT "/__web_console/repl_sessions/8cf0e239f62f89fd8bec749e500bc80a" for ::1 at 2025-10-05 19:33:05 -0400
+Started PUT "/__web_console/repl_sessions/8cf0e239f62f89fd8bec749e500bc80a" for ::1 at 2025-10-05 19:33:13 -0400
+Started PUT "/__web_console/repl_sessions/8cf0e239f62f89fd8bec749e500bc80a" for ::1 at 2025-10-05 19:33:21 -0400
+Started PUT "/__web_console/repl_sessions/8cf0e239f62f89fd8bec749e500bc80a" for ::1 at 2025-10-05 19:33:23 -0400
+Started PUT "/__web_console/repl_sessions/8cf0e239f62f89fd8bec749e500bc80a" for ::1 at 2025-10-05 19:33:28 -0400
+Started GET "/settings" for ::1 at 2025-10-05 19:34:32 -0400
+Processing by SettingsController#index as HTML
+  [1m[36mUser Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  Rendering layout layouts/application.html.erb
+  Rendering settings/index.html.erb within layouts/application
+  [1m[36mSteamAccount Load (0.1ms)[0m  [1m[34mSELECT "steam_accounts".* FROM "steam_accounts" WHERE "steam_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:53
+  [1m[36mDiscordAccount Load (0.0ms)[0m  [1m[34mSELECT "discord_accounts".* FROM "discord_accounts" WHERE "discord_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:54
+  [1m[36mBattlenetAccount Load (0.0ms)[0m  [1m[34mSELECT "battlenet_accounts".* FROM "battlenet_accounts" WHERE "battlenet_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:55
+  [1m[36mRiotAccount Load (0.0ms)[0m  [1m[34mSELECT "riot_accounts".* FROM "riot_accounts" WHERE "riot_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:56
+  [1m[36mSpotifyAccount Load (0.1ms)[0m  [1m[34mSELECT "spotify_accounts".* FROM "spotify_accounts" WHERE "spotify_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:57
+  Rendered settings/index.html.erb within layouts/application (Duration: 115.3ms | GC: 3.3ms)
+  Rendered layout layouts/application.html.erb (Duration: 117.3ms | GC: 3.6ms)
+Completed 200 OK in 142ms (Views: 116.9ms | ActiveRecord: 2.4ms (6 queries, 0 cached) | GC: 3.6ms)
+
+
+Started GET "/cable" for ::1 at 2025-10-05 19:34:33 -0400
+Started GET "/cable" [WebSocket] for ::1 at 2025-10-05 19:34:33 -0400
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  ↳ app/channels/application_cable/connection.rb:13:in `find_verified_user'
+An unauthorized connection attempt was rejected
+Finished "/cable" [WebSocket] for ::1 at 2025-10-05 19:34:33 -0400
+Started GET "/" for ::1 at 2025-10-05 19:34:35 -0400
+Processing by DashboardController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='dashboard'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  [1m[36mStream Load (0.0ms)[0m  [1m[34mSELECT "streams".* FROM "streams" WHERE "streams"."user_id" = 1 ORDER BY "streams"."id" ASC LIMIT 1 /*action='index',application='RubymineTestProject1',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:21:in `index'
+  [1m[36mStream Count (0.7ms)[0m  [1m[34mSELECT COUNT(*) FROM "streams" WHERE "streams"."user_id" = 1 /*action='index',application='RubymineTestProject1',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:28:in `index'
+  [1m[36mStream Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "streams" WHERE "streams"."user_id" = 1 AND "streams"."status" = 'live' /*action='index',application='RubymineTestProject1',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:29:in `index'
+  [1m[36mSteamAccount Load (0.0ms)[0m  [1m[34mSELECT "steam_accounts".* FROM "steam_accounts" WHERE "steam_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:35:in `index'
+  [1m[36mDiscordAccount Load (0.0ms)[0m  [1m[34mSELECT "discord_accounts".* FROM "discord_accounts" WHERE "discord_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:36:in `index'
+  Rendering layout layouts/application.html.erb
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (Duration: 1.5ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 2.1ms | GC: 0.2ms)
+Completed 200 OK in 33ms (Views: 2.7ms | ActiveRecord: 1.1ms (6 queries, 0 cached) | GC: 3.1ms)
+
+
+Started GET "/settings" for ::1 at 2025-10-05 19:34:50 -0400
+Processing by SettingsController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  Rendering layout layouts/application.html.erb
+  Rendering settings/index.html.erb within layouts/application
+  [1m[36mSteamAccount Load (0.1ms)[0m  [1m[34mSELECT "steam_accounts".* FROM "steam_accounts" WHERE "steam_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:53
+  [1m[36mDiscordAccount Load (0.0ms)[0m  [1m[34mSELECT "discord_accounts".* FROM "discord_accounts" WHERE "discord_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:54
+  [1m[36mBattlenetAccount Load (0.0ms)[0m  [1m[34mSELECT "battlenet_accounts".* FROM "battlenet_accounts" WHERE "battlenet_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:55
+  [1m[36mRiotAccount Load (0.0ms)[0m  [1m[34mSELECT "riot_accounts".* FROM "riot_accounts" WHERE "riot_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:56
+  [1m[36mSpotifyAccount Load (0.0ms)[0m  [1m[34mSELECT "spotify_accounts".* FROM "spotify_accounts" WHERE "spotify_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:57
+  Rendered settings/index.html.erb within layouts/application (Duration: 3.2ms | GC: 0.1ms)
+  Rendered layout layouts/application.html.erb (Duration: 3.7ms | GC: 0.1ms)
+Completed 200 OK in 25ms (Views: 3.7ms | ActiveRecord: 0.3ms (6 queries, 0 cached) | GC: 0.1ms)
+
+
+Started GET "/integrations/battlenet/connect" for ::1 at 2025-10-05 19:34:56 -0400
+Processing by Integrations::BattlenetController#connect as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='connect',application='RubymineTestProject1',controller='battlenet'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+Redirected to https://oauth.battle.net/authorize?client_id=1a966ded90fe43268c3bb718234fec07&redirect_uri=http%3A%2F%2F127.0.0.1%3A3000%2Fintegrations%2Fbattlenet%2Fcallback&response_type=code&scope=wow.profile+sc2.profile+d3.profile+openid&state=fF2eRglXTRlFxmUflK2zaNTm1ZkqxoSxXE7iw8xAYCk
+Completed 302 Found in 21ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.3ms)
+
+
+Started GET "/integrations/spotify/connect" for ::1 at 2025-10-05 19:34:58 -0400
+Processing by Integrations::SpotifyController#connect as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='connect',application='RubymineTestProject1',controller='spotify'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+Redirected to https://accounts.spotify.com/authorize?client_id=your_spotify_client_id&redirect_uri=http%3A%2F%2F127.0.0.1%3A3000%2Fintegrations%2Fspotify%2Fcallback&response_type=code&scope=user-read-private+user-read-email+user-read-currently-playing+user-read-recently-played+user-top-read+user-read-playback-state&state=fQ6HcVXjZL2sbwyWXwyJwNjdsvIOpB3Y70Q1QrLB-pM
+Completed 302 Found in 21ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/integrations/spotify/connect" for ::1 at 2025-10-05 19:34:59 -0400
+Processing by Integrations::SpotifyController#connect as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='connect',application='RubymineTestProject1',controller='spotify'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+Redirected to https://accounts.spotify.com/authorize?client_id=your_spotify_client_id&redirect_uri=http%3A%2F%2F127.0.0.1%3A3000%2Fintegrations%2Fspotify%2Fcallback&response_type=code&scope=user-read-private+user-read-email+user-read-currently-playing+user-read-recently-played+user-top-read+user-read-playback-state&state=C8bMZHB4ZhN1NdEwoVggFic8fbTP1EayEwBpSz6PV1Q
+Completed 302 Found in 18ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/integrations/riot/connect" for ::1 at 2025-10-05 19:35:05 -0400
+Processing by Integrations::RiotController#connect as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='connect',application='RubymineTestProject1',controller='riot'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+Redirected to https://auth.riotgames.com/authorize?client_id=your_riot_client_id&redirect_uri=http%3A%2F%2F127.0.0.1%3A3000%2Fintegrations%2Friot%2Fcallback&response_type=code&scope=openid+offline_access+account+summoner&state=myFP4u7INBhFBoOXZBlFt3G3rekcLl7lTaj72c5aYgE
+Completed 302 Found in 20ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/integrations/riot/connect" for ::1 at 2025-10-05 19:35:06 -0400
+Processing by Integrations::RiotController#connect as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='connect',application='RubymineTestProject1',controller='riot'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+Redirected to https://auth.riotgames.com/authorize?client_id=your_riot_client_id&redirect_uri=http%3A%2F%2F127.0.0.1%3A3000%2Fintegrations%2Friot%2Fcallback&response_type=code&scope=openid+offline_access+account+summoner&state=ElIiJ0dr_rk-rbmvEDhMqceZ4nX-WqlXSCOOlnLTKGw
+Completed 302 Found in 17ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/integrations/battlenet/connect" for ::1 at 2025-10-05 19:35:12 -0400
+Processing by Integrations::BattlenetController#connect as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='connect',application='RubymineTestProject1',controller='battlenet'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+Redirected to https://oauth.battle.net/authorize?client_id=1a966ded90fe43268c3bb718234fec07&redirect_uri=http%3A%2F%2F127.0.0.1%3A3000%2Fintegrations%2Fbattlenet%2Fcallback&response_type=code&scope=wow.profile+sc2.profile+d3.profile+openid&state=7kM1Ol30YWx1BkLCnFn_0QkNI36xgBufNxtr8vSAybk
+Completed 302 Found in 18ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/integrations/battlenet/connect" for ::1 at 2025-10-05 19:35:13 -0400
+Processing by Integrations::BattlenetController#connect as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='connect',application='RubymineTestProject1',controller='battlenet'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+Redirected to https://oauth.battle.net/authorize?client_id=1a966ded90fe43268c3bb718234fec07&redirect_uri=http%3A%2F%2F127.0.0.1%3A3000%2Fintegrations%2Fbattlenet%2Fcallback&response_type=code&scope=wow.profile+sc2.profile+d3.profile+openid&state=mi1n3pJ_nKgjHbslwmsXQ7u18fi9T8C3olnBGJkFIjw
+Completed 302 Found in 20ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.3ms)
+
+
+Started GET "/integrations/battlenet/callback?code=USD9QINS2A9P2A90HNFPOO2ILSOSULHLTN&state=mi1n3pJ_nKgjHbslwmsXQ7u18fi9T8C3olnBGJkFIjw" for 127.0.0.1 at 2025-10-05 19:35:37 -0400
+Processing by Integrations::BattlenetController#callback as HTML
+  Parameters: {"code"=>"USD9QINS2A9P2A90HNFPOO2ILSOSULHLTN", "state"=>"mi1n3pJ_nKgjHbslwmsXQ7u18fi9T8C3olnBGJkFIjw"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='callback',application='RubymineTestProject1',controller='battlenet'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+API request failed: Integrations::NotFoundError - Resource not found
+Battlenet connection error: Resource not found
+Redirected to http://127.0.0.1:3000/settings
+Completed 302 Found in 772ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/settings" for 127.0.0.1 at 2025-10-05 19:35:38 -0400
+Processing by SettingsController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  Rendering layout layouts/application.html.erb
+  Rendering settings/index.html.erb within layouts/application
+  [1m[36mSteamAccount Load (0.1ms)[0m  [1m[34mSELECT "steam_accounts".* FROM "steam_accounts" WHERE "steam_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:53
+  [1m[36mDiscordAccount Load (0.0ms)[0m  [1m[34mSELECT "discord_accounts".* FROM "discord_accounts" WHERE "discord_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:54
+  [1m[36mBattlenetAccount Load (0.0ms)[0m  [1m[34mSELECT "battlenet_accounts".* FROM "battlenet_accounts" WHERE "battlenet_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:55
+  [1m[36mRiotAccount Load (0.0ms)[0m  [1m[34mSELECT "riot_accounts".* FROM "riot_accounts" WHERE "riot_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:56
+  [1m[36mSpotifyAccount Load (0.0ms)[0m  [1m[34mSELECT "spotify_accounts".* FROM "spotify_accounts" WHERE "spotify_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:57
+  Rendered settings/index.html.erb within layouts/application (Duration: 5.6ms | GC: 2.9ms)
+  Rendered layout layouts/application.html.erb (Duration: 6.0ms | GC: 2.9ms)
+Completed 200 OK in 27ms (Views: 6.0ms | ActiveRecord: 0.3ms (6 queries, 0 cached) | GC: 2.9ms)
+
+
+Started GET "/cable" for 127.0.0.1 at 2025-10-05 19:35:38 -0400
+Started GET "/cable" [WebSocket] for 127.0.0.1 at 2025-10-05 19:35:38 -0400
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  ↳ app/channels/application_cable/connection.rb:13:in `find_verified_user'
+An unauthorized connection attempt was rejected
+Finished "/cable" [WebSocket] for 127.0.0.1 at 2025-10-05 19:35:38 -0400
+Started GET "/integrations/battlenet/connect" for 127.0.0.1 at 2025-10-05 19:36:07 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='RubymineTestProject1'*/[0m
+Processing by Integrations::BattlenetController#connect as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='connect',application='RubymineTestProject1',controller='battlenet'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+Redirected to https://oauth.battle.net/authorize?client_id=1a966ded90fe43268c3bb718234fec07&redirect_uri=http%3A%2F%2F127.0.0.1%3A3000%2Fintegrations%2Fbattlenet%2Fcallback&response_type=code&scope=wow.profile+sc2.profile+d3.profile+openid&state=GTpqP5wHKH9eJLcOJYSDCFo3UugBbPQFoInFLT8Qigc
+Completed 302 Found in 50ms (ActiveRecord: 1.6ms (1 query, 0 cached) | GC: 11.3ms)
+
+
+Started GET "/integrations/battlenet/connect" for 127.0.0.1 at 2025-10-05 19:36:07 -0400
+Processing by Integrations::BattlenetController#connect as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='connect',application='RubymineTestProject1',controller='battlenet'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+Redirected to https://oauth.battle.net/authorize?client_id=1a966ded90fe43268c3bb718234fec07&redirect_uri=http%3A%2F%2F127.0.0.1%3A3000%2Fintegrations%2Fbattlenet%2Fcallback&response_type=code&scope=wow.profile+sc2.profile+d3.profile+openid&state=dYgwy02FXqyWZNGcSTLMUZwDzacOCziHjIZfrPUkcAg
+Completed 302 Found in 24ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/integrations/battlenet/callback?code=US2JIDEQTDLFHWWOD9RUOKMDNNEDUQDKG5&state=dYgwy02FXqyWZNGcSTLMUZwDzacOCziHjIZfrPUkcAg" for 127.0.0.1 at 2025-10-05 19:36:07 -0400
+Processing by Integrations::BattlenetController#callback as HTML
+  Parameters: {"code"=>"US2JIDEQTDLFHWWOD9RUOKMDNNEDUQDKG5", "state"=>"dYgwy02FXqyWZNGcSTLMUZwDzacOCziHjIZfrPUkcAg"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='callback',application='RubymineTestProject1',controller='battlenet'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+API request failed: Integrations::NotFoundError - Resource not found
+Battlenet connection error: Resource not found
+Redirected to http://127.0.0.1:3000/settings
+Completed 302 Found in 825ms (ActiveRecord: 0.4ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/settings" for 127.0.0.1 at 2025-10-05 19:36:08 -0400
+Processing by SettingsController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  Rendering layout layouts/application.html.erb
+  Rendering settings/index.html.erb within layouts/application
+  [1m[36mSteamAccount Load (0.0ms)[0m  [1m[34mSELECT "steam_accounts".* FROM "steam_accounts" WHERE "steam_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:53
+  [1m[36mDiscordAccount Load (0.0ms)[0m  [1m[34mSELECT "discord_accounts".* FROM "discord_accounts" WHERE "discord_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:54
+  [1m[36mBattlenetAccount Load (0.0ms)[0m  [1m[34mSELECT "battlenet_accounts".* FROM "battlenet_accounts" WHERE "battlenet_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:55
+  [1m[36mRiotAccount Load (0.0ms)[0m  [1m[34mSELECT "riot_accounts".* FROM "riot_accounts" WHERE "riot_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:56
+  [1m[36mSpotifyAccount Load (0.0ms)[0m  [1m[34mSELECT "spotify_accounts".* FROM "spotify_accounts" WHERE "spotify_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:57
+  Rendered settings/index.html.erb within layouts/application (Duration: 17.8ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 25.4ms | GC: 0.0ms)
+Completed 200 OK in 146ms (Views: 26.7ms | ActiveRecord: 0.7ms (6 queries, 0 cached) | GC: 12.8ms)
+
+
+Started GET "/cable" for 127.0.0.1 at 2025-10-05 19:36:08 -0400
+Started GET "/cable" [WebSocket] for 127.0.0.1 at 2025-10-05 19:36:08 -0400
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  ↳ app/channels/application_cable/connection.rb:13:in `find_verified_user'
+An unauthorized connection attempt was rejected
+Finished "/cable" [WebSocket] for 127.0.0.1 at 2025-10-05 19:36:08 -0400
+Started GET "/integrations/battlenet/connect" for 127.0.0.1 at 2025-10-05 19:36:14 -0400
+Processing by Integrations::BattlenetController#connect as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='connect',application='RubymineTestProject1',controller='battlenet'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+Redirected to https://oauth.battle.net/authorize?client_id=1a966ded90fe43268c3bb718234fec07&redirect_uri=http%3A%2F%2F127.0.0.1%3A3000%2Fintegrations%2Fbattlenet%2Fcallback&response_type=code&scope=wow.profile+sc2.profile+d3.profile+openid&state=JX_x2kgttmcjTIX-ruW9wKYdqQoPWDwdIYdatYExIHc
+Completed 302 Found in 18ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/integrations/battlenet/connect" for 127.0.0.1 at 2025-10-05 19:36:15 -0400
+Processing by Integrations::BattlenetController#connect as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='connect',application='RubymineTestProject1',controller='battlenet'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+Redirected to https://oauth.battle.net/authorize?client_id=1a966ded90fe43268c3bb718234fec07&redirect_uri=http%3A%2F%2F127.0.0.1%3A3000%2Fintegrations%2Fbattlenet%2Fcallback&response_type=code&scope=wow.profile+sc2.profile+d3.profile+openid&state=P0aKtswGrY-AbTp5SRyuLteu5JD_eCVZQzQc109hXGM
+Completed 302 Found in 21ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/integrations/battlenet/callback?code=USPZHLFZHW3OKQLJJVPL46OIZOGFX6BUTV&state=P0aKtswGrY-AbTp5SRyuLteu5JD_eCVZQzQc109hXGM" for 127.0.0.1 at 2025-10-05 19:36:15 -0400
+Processing by Integrations::BattlenetController#callback as HTML
+  Parameters: {"code"=>"USPZHLFZHW3OKQLJJVPL46OIZOGFX6BUTV", "state"=>"P0aKtswGrY-AbTp5SRyuLteu5JD_eCVZQzQc109hXGM"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='callback',application='RubymineTestProject1',controller='battlenet'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+API request failed: Integrations::NotFoundError - Resource not found
+Battlenet connection error: Resource not found
+Redirected to http://127.0.0.1:3000/settings
+Completed 302 Found in 866ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.1ms)
+
+
+Started GET "/settings" for 127.0.0.1 at 2025-10-05 19:36:16 -0400
+Processing by SettingsController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  Rendering layout layouts/application.html.erb
+  Rendering settings/index.html.erb within layouts/application
+  [1m[36mSteamAccount Load (0.1ms)[0m  [1m[34mSELECT "steam_accounts".* FROM "steam_accounts" WHERE "steam_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:53
+  [1m[36mDiscordAccount Load (0.1ms)[0m  [1m[34mSELECT "discord_accounts".* FROM "discord_accounts" WHERE "discord_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:54
+  [1m[36mBattlenetAccount Load (0.0ms)[0m  [1m[34mSELECT "battlenet_accounts".* FROM "battlenet_accounts" WHERE "battlenet_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:55
+  [1m[36mRiotAccount Load (0.0ms)[0m  [1m[34mSELECT "riot_accounts".* FROM "riot_accounts" WHERE "riot_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:56
+  [1m[36mSpotifyAccount Load (0.0ms)[0m  [1m[34mSELECT "spotify_accounts".* FROM "spotify_accounts" WHERE "spotify_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:57
+  Rendered settings/index.html.erb within layouts/application (Duration: 10.4ms | GC: 7.1ms)
+  Rendered layout layouts/application.html.erb (Duration: 11.2ms | GC: 7.3ms)
+Completed 200 OK in 30ms (Views: 10.7ms | ActiveRecord: 0.9ms (6 queries, 0 cached) | GC: 7.5ms)
+
+
+Started GET "/cable" for 127.0.0.1 at 2025-10-05 19:36:16 -0400
+Started GET "/cable" [WebSocket] for 127.0.0.1 at 2025-10-05 19:36:16 -0400
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  ↳ app/channels/application_cable/connection.rb:13:in `find_verified_user'
+An unauthorized connection attempt was rejected
+Finished "/cable" [WebSocket] for 127.0.0.1 at 2025-10-05 19:36:16 -0400
+Started GET "/integrations/battlenet/connect" for 127.0.0.1 at 2025-10-05 19:39:41 -0400
+Processing by Integrations::BattlenetController#connect as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='connect',application='RubymineTestProject1',controller='battlenet'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+Redirected to https://oauth.battle.net/authorize?client_id=1a966ded90fe43268c3bb718234fec07&redirect_uri=http%3A%2F%2F127.0.0.1%3A3000%2Fintegrations%2Fbattlenet%2Fcallback&response_type=code&scope=wow.profile+sc2.profile+d3.profile+openid&state=fbotN0qON-z0FMD31bvZudmIwLI0YswEQmi3O0IuXk8
+Completed 302 Found in 17ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/integrations/battlenet/connect" for 127.0.0.1 at 2025-10-05 19:39:42 -0400
+Processing by Integrations::BattlenetController#connect as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='connect',application='RubymineTestProject1',controller='battlenet'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+Redirected to https://oauth.battle.net/authorize?client_id=1a966ded90fe43268c3bb718234fec07&redirect_uri=http%3A%2F%2F127.0.0.1%3A3000%2Fintegrations%2Fbattlenet%2Fcallback&response_type=code&scope=wow.profile+sc2.profile+d3.profile+openid&state=aIzoY_4os-5M9qmM5tcnLNLYqUfL6ePxSNnGEzNt2_I
+Completed 302 Found in 21ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/integrations/battlenet/callback?code=US72HG11KDB9WFD7PKVXGY3KGLCEL52CUV&state=aIzoY_4os-5M9qmM5tcnLNLYqUfL6ePxSNnGEzNt2_I" for 127.0.0.1 at 2025-10-05 19:39:42 -0400
+Processing by Integrations::BattlenetController#callback as HTML
+  Parameters: {"code"=>"US72HG11KDB9WFD7PKVXGY3KGLCEL52CUV", "state"=>"aIzoY_4os-5M9qmM5tcnLNLYqUfL6ePxSNnGEzNt2_I"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='callback',application='RubymineTestProject1',controller='battlenet'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+API request failed: Integrations::NotFoundError - Resource not found
+Battlenet connection error: Resource not found
+Redirected to http://127.0.0.1:3000/settings
+Completed 302 Found in 2946ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.2ms)
+
+
+Started GET "/settings" for 127.0.0.1 at 2025-10-05 19:39:45 -0400
+Processing by SettingsController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  Rendering layout layouts/application.html.erb
+  Rendering settings/index.html.erb within layouts/application
+  [1m[36mSteamAccount Load (0.1ms)[0m  [1m[34mSELECT "steam_accounts".* FROM "steam_accounts" WHERE "steam_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:53
+  [1m[36mDiscordAccount Load (0.0ms)[0m  [1m[34mSELECT "discord_accounts".* FROM "discord_accounts" WHERE "discord_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:54
+  [1m[36mBattlenetAccount Load (0.0ms)[0m  [1m[34mSELECT "battlenet_accounts".* FROM "battlenet_accounts" WHERE "battlenet_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:55
+  [1m[36mRiotAccount Load (0.0ms)[0m  [1m[34mSELECT "riot_accounts".* FROM "riot_accounts" WHERE "riot_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:56
+  [1m[36mSpotifyAccount Load (0.0ms)[0m  [1m[34mSELECT "spotify_accounts".* FROM "spotify_accounts" WHERE "spotify_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:57
+  Rendered settings/index.html.erb within layouts/application (Duration: 3.0ms | GC: 0.4ms)
+  Rendered layout layouts/application.html.erb (Duration: 3.3ms | GC: 0.4ms)
+Completed 200 OK in 21ms (Views: 3.3ms | ActiveRecord: 0.3ms (6 queries, 0 cached) | GC: 0.4ms)
+
+
+Started GET "/cable" for 127.0.0.1 at 2025-10-05 19:39:45 -0400
+Started GET "/cable" [WebSocket] for 127.0.0.1 at 2025-10-05 19:39:45 -0400
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  ↳ app/channels/application_cable/connection.rb:13:in `find_verified_user'
+An unauthorized connection attempt was rejected
+Finished "/cable" [WebSocket] for 127.0.0.1 at 2025-10-05 19:39:45 -0400
+Started GET "/settings" for 127.0.0.1 at 2025-10-05 19:45:37 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='RubymineTestProject1'*/[0m
+Processing by SettingsController#index as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  Rendering layout layouts/application.html.erb
+  Rendering settings/index.html.erb within layouts/application
+  [1m[36mSteamAccount Load (0.1ms)[0m  [1m[34mSELECT "steam_accounts".* FROM "steam_accounts" WHERE "steam_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:53
+  [1m[36mDiscordAccount Load (0.2ms)[0m  [1m[34mSELECT "discord_accounts".* FROM "discord_accounts" WHERE "discord_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:54
+  [1m[36mBattlenetAccount Load (0.1ms)[0m  [1m[34mSELECT "battlenet_accounts".* FROM "battlenet_accounts" WHERE "battlenet_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:55
+  [1m[36mRiotAccount Load (0.3ms)[0m  [1m[34mSELECT "riot_accounts".* FROM "riot_accounts" WHERE "riot_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:56
+  [1m[36mSpotifyAccount Load (0.2ms)[0m  [1m[34mSELECT "spotify_accounts".* FROM "spotify_accounts" WHERE "spotify_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:57
+  Rendered settings/index.html.erb within layouts/application (Duration: 34.2ms | GC: 6.9ms)
+  Rendered layout layouts/application.html.erb (Duration: 42.9ms | GC: 6.9ms)
+Completed 200 OK in 200ms (Views: 43.4ms | ActiveRecord: 3.0ms (6 queries, 0 cached) | GC: 28.7ms)
+
+
+Started GET "/cable" for 127.0.0.1 at 2025-10-05 19:45:37 -0400
+Started GET "/cable" [WebSocket] for 127.0.0.1 at 2025-10-05 19:45:37 -0400
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  ↳ app/channels/application_cable/connection.rb:13:in `find_verified_user'
+An unauthorized connection attempt was rejected
+Finished "/cable" [WebSocket] for 127.0.0.1 at 2025-10-05 19:45:37 -0400
+Started GET "/integrations/battlenet/connect" for 127.0.0.1 at 2025-10-05 19:45:41 -0400
+Processing by Integrations::BattlenetController#connect as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='connect',application='RubymineTestProject1',controller='battlenet'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+Redirected to https://oauth.battle.net/authorize?client_id=1a966ded90fe43268c3bb718234fec07&redirect_uri=http%3A%2F%2F127.0.0.1%3A3000%2Fintegrations%2Fbattlenet%2Fcallback&response_type=code&scope=wow.profile+sc2.profile+d3.profile+openid&state=xs7t_HlQtUr-1lYER-obBqtjlSYcSgFeRLSOBczcVZc
+Completed 302 Found in 21ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/integrations/battlenet/connect" for 127.0.0.1 at 2025-10-05 19:45:41 -0400
+Processing by Integrations::BattlenetController#connect as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='connect',application='RubymineTestProject1',controller='battlenet'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+Redirected to https://oauth.battle.net/authorize?client_id=1a966ded90fe43268c3bb718234fec07&redirect_uri=http%3A%2F%2F127.0.0.1%3A3000%2Fintegrations%2Fbattlenet%2Fcallback&response_type=code&scope=wow.profile+sc2.profile+d3.profile+openid&state=k3RVOQLxx1HUshIr-9_dy_MnVvO6dLgNX7fM_bSKtiw
+Completed 302 Found in 18ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/integrations/battlenet/callback?code=USDGKQJ0CT0L01URY4EQSP6ZZWY40NNEMM&state=k3RVOQLxx1HUshIr-9_dy_MnVvO6dLgNX7fM_bSKtiw" for 127.0.0.1 at 2025-10-05 19:45:42 -0400
+Processing by Integrations::BattlenetController#callback as HTML
+  Parameters: {"code"=>"USDGKQJ0CT0L01URY4EQSP6ZZWY40NNEMM", "state"=>"k3RVOQLxx1HUshIr-9_dy_MnVvO6dLgNX7fM_bSKtiw"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='callback',application='RubymineTestProject1',controller='battlenet'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  [1m[36mBattlenetAccount Load (0.3ms)[0m  [1m[34mSELECT "battlenet_accounts".* FROM "battlenet_accounts" WHERE "battlenet_accounts"."user_id" = 1 LIMIT 1 /*action='callback',application='RubymineTestProject1',controller='battlenet'*/[0m
+  ↳ app/controllers/concerns/integration_controller.rb:104:in `create_or_update_account'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*action='callback',application='RubymineTestProject1',controller='battlenet'*/[0m
+  ↳ app/controllers/concerns/integration_controller.rb:111:in `create_or_update_account'
+  [1m[36mBattlenetAccount Exists? (1.8ms)[0m  [1m[34mSELECT 1 AS one FROM "battlenet_accounts" WHERE "battlenet_accounts"."battletag" = 'Elendil#11315' LIMIT 1 /*action='callback',application='RubymineTestProject1',controller='battlenet'*/[0m
+  ↳ app/controllers/concerns/integration_controller.rb:111:in `create_or_update_account'
+  [1m[36mBattlenetAccount Create (0.3ms)[0m  [1m[32mINSERT INTO "battlenet_accounts" ("user_id", "battletag", "region", "access_token", "refresh_token", "token_expires_at", "last_synced_at", "created_at", "updated_at") VALUES (1, 'Elendil#11315', 'us', '{"p":"ez2cfaQe90/yk8OW+EWWcnavWKK7XGbt/OW9khJHP8o83g==","h":{"iv":"dAb5QyIRGksybg4Z","at":"pmeZYSb6WxjsVYZc1vx7OQ=="}}', NULL, '2025-10-06 23:40:42.598601', NULL, '2025-10-05 23:45:43.602646', '2025-10-05 23:45:43.602646') RETURNING "id" /*action='callback',application='RubymineTestProject1',controller='battlenet'*/[0m
+  ↳ app/controllers/concerns/integration_controller.rb:111:in `create_or_update_account'
+  [1m[36mIntegrationPrivacySetting Load (0.2ms)[0m  [1m[34mSELECT "integration_privacy_settings".* FROM "integration_privacy_settings" WHERE "integration_privacy_settings"."integration_id" = 1 AND "integration_privacy_settings"."integration_type" = 'BattlenetAccount' LIMIT 1 /*action='callback',application='RubymineTestProject1',controller='battlenet'*/[0m
+  ↳ app/models/concerns/integration_account.rb:66:in `create_default_privacy_settings'
+  [1m[36mIntegrationPrivacySetting Create (0.3ms)[0m  [1m[32mINSERT INTO "integration_privacy_settings" ("integration_type", "integration_id", "user_id", "settings", "created_at", "updated_at") VALUES ('BattlenetAccount', 1, 1, '"{\"show_battletag\":true,\"show_region\":true,\"show_wow_characters\":true,\"show_overwatch_stats\":true,\"show_diablo_characters\":true}"', '2025-10-05 23:45:43.634527', '2025-10-05 23:45:43.634527') RETURNING "id" /*action='callback',application='RubymineTestProject1',controller='battlenet'*/[0m
+  ↳ app/models/concerns/integration_account.rb:68:in `create_default_privacy_settings'
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT TRANSACTION /*action='callback',application='RubymineTestProject1',controller='battlenet'*/[0m
+  ↳ app/controllers/concerns/integration_controller.rb:111:in `create_or_update_account'
+[ActiveJob] Enqueued Integrations::BaseSyncJob (Job ID: f2b8ca7b-8530-4273-8d5a-a8d2bbbc03be) to Async(default) with arguments: 1, "BattlenetAccount"
+[ActiveJob] ↳ app/controllers/concerns/integration_controller.rb:136:in `enqueue_sync_job'
+Redirected to http://127.0.0.1:3000/settings
+Completed 302 Found in 1378ms (ActiveRecord: 4.5ms (6 queries, 0 cached) | GC: 25.4ms)
+
+
+[ActiveJob] [Integrations::BaseSyncJob] [f2b8ca7b-8530-4273-8d5a-a8d2bbbc03be] Performing Integrations::BaseSyncJob (Job ID: f2b8ca7b-8530-4273-8d5a-a8d2bbbc03be) from Async(default) enqueued at 2025-10-05T23:45:43.652684000Z with arguments: 1, "BattlenetAccount"
+[ActiveJob] [Integrations::BaseSyncJob] [f2b8ca7b-8530-4273-8d5a-a8d2bbbc03be]   [1m[36mBattlenetAccount Load (0.1ms)[0m  [1m[34mSELECT "battlenet_accounts".* FROM "battlenet_accounts" WHERE "battlenet_accounts"."id" = 1 LIMIT 1 /*application='RubymineTestProject1',job='Integrations%3A%3ABaseSyncJob'*/[0m
+[ActiveJob] [Integrations::BaseSyncJob] [f2b8ca7b-8530-4273-8d5a-a8d2bbbc03be]   ↳ app/jobs/integrations/base_sync_job.rb:11:in `perform'
+[ActiveJob] [Integrations::BaseSyncJob] [f2b8ca7b-8530-4273-8d5a-a8d2bbbc03be] Starting sync for BattlenetAccount#1
+Started GET "/settings" for 127.0.0.1 at 2025-10-05 19:45:43 -0400
+Processing by SettingsController#index as HTML
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  Rendering layout layouts/application.html.erb
+  Rendering settings/index.html.erb within layouts/application
+  [1m[36mSteamAccount Load (0.0ms)[0m  [1m[34mSELECT "steam_accounts".* FROM "steam_accounts" WHERE "steam_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:53
+  [1m[36mDiscordAccount Load (0.0ms)[0m  [1m[34mSELECT "discord_accounts".* FROM "discord_accounts" WHERE "discord_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:54
+  [1m[36mBattlenetAccount Load (0.0ms)[0m  [1m[34mSELECT "battlenet_accounts".* FROM "battlenet_accounts" WHERE "battlenet_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:55
+  [1m[36mRiotAccount Load (0.0ms)[0m  [1m[34mSELECT "riot_accounts".* FROM "riot_accounts" WHERE "riot_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:56
+  [1m[36mSpotifyAccount Load (0.0ms)[0m  [1m[34mSELECT "spotify_accounts".* FROM "spotify_accounts" WHERE "spotify_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:57
+  Rendered settings/index.html.erb within layouts/application (Duration: 2.5ms | GC: 0.2ms)
+  Rendered layout layouts/application.html.erb (Duration: 2.8ms | GC: 0.2ms)
+Completed 200 OK in 19ms (Views: 2.8ms | ActiveRecord: 0.7ms (6 queries, 0 cached) | GC: 0.2ms)
+
+
+Started GET "/cable" for 127.0.0.1 at 2025-10-05 19:45:43 -0400
+Started GET "/cable" [WebSocket] for 127.0.0.1 at 2025-10-05 19:45:43 -0400
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  ↳ app/channels/application_cable/connection.rb:13:in `find_verified_user'
+An unauthorized connection attempt was rejected
+Finished "/cable" [WebSocket] for 127.0.0.1 at 2025-10-05 19:45:43 -0400
+[ActiveJob] [Integrations::BaseSyncJob] [f2b8ca7b-8530-4273-8d5a-a8d2bbbc03be]   [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RubymineTestProject1',job='Integrations%3A%3ABaseSyncJob'*/[0m
+[ActiveJob] [Integrations::BaseSyncJob] [f2b8ca7b-8530-4273-8d5a-a8d2bbbc03be]   ↳ app/services/integrations/battlenet_sync_service.rb:27:in `sync_account_info'
+[ActiveJob] [Integrations::BaseSyncJob] [f2b8ca7b-8530-4273-8d5a-a8d2bbbc03be] API request failed: Integrations::NotFoundError - Resource not found
+[ActiveJob] [Integrations::BaseSyncJob] [f2b8ca7b-8530-4273-8d5a-a8d2bbbc03be] Could not sync WoW profile: Resource not found
+[ActiveJob] [Integrations::BaseSyncJob] [f2b8ca7b-8530-4273-8d5a-a8d2bbbc03be] API request failed: Integrations::NotFoundError - Resource not found
+[ActiveJob] [Integrations::BaseSyncJob] [f2b8ca7b-8530-4273-8d5a-a8d2bbbc03be] Could not sync Diablo profile: Resource not found
+[ActiveJob] [Integrations::BaseSyncJob] [f2b8ca7b-8530-4273-8d5a-a8d2bbbc03be] API request failed: Integrations::NotFoundError - Resource not found
+[ActiveJob] [Integrations::BaseSyncJob] [f2b8ca7b-8530-4273-8d5a-a8d2bbbc03be] Could not sync SC2 profile: Resource not found
+[ActiveJob] [Integrations::BaseSyncJob] [f2b8ca7b-8530-4273-8d5a-a8d2bbbc03be]   [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RubymineTestProject1',job='Integrations%3A%3ABaseSyncJob'*/[0m
+[ActiveJob] [Integrations::BaseSyncJob] [f2b8ca7b-8530-4273-8d5a-a8d2bbbc03be]   ↳ app/services/integrations/battlenet_sync_service.rb:11:in `sync!'
+[ActiveJob] [Integrations::BaseSyncJob] [f2b8ca7b-8530-4273-8d5a-a8d2bbbc03be]   [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RubymineTestProject1',job='Integrations%3A%3ABaseSyncJob'*/[0m
+[ActiveJob] [Integrations::BaseSyncJob] [f2b8ca7b-8530-4273-8d5a-a8d2bbbc03be]   ↳ app/services/integrations/battlenet_sync_service.rb:16:in `sync!'
+[ActiveJob] [Integrations::BaseSyncJob] [f2b8ca7b-8530-4273-8d5a-a8d2bbbc03be]   [1m[36mBattlenetAccount Update (2.3ms)[0m  [1m[33mUPDATE "battlenet_accounts" SET "last_synced_at" = '2025-10-05 23:45:46.335268', "updated_at" = '2025-10-05 23:45:46.336242' WHERE "battlenet_accounts"."id" = 1 /*application='RubymineTestProject1',job='Integrations%3A%3ABaseSyncJob'*/[0m
+[ActiveJob] [Integrations::BaseSyncJob] [f2b8ca7b-8530-4273-8d5a-a8d2bbbc03be]   ↳ app/services/integrations/battlenet_sync_service.rb:16:in `sync!'
+[ActiveJob] [Integrations::BaseSyncJob] [f2b8ca7b-8530-4273-8d5a-a8d2bbbc03be]   [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RubymineTestProject1',job='Integrations%3A%3ABaseSyncJob'*/[0m
+[ActiveJob] [Integrations::BaseSyncJob] [f2b8ca7b-8530-4273-8d5a-a8d2bbbc03be]   ↳ app/services/integrations/battlenet_sync_service.rb:16:in `sync!'
+[ActiveJob] [Integrations::BaseSyncJob] [f2b8ca7b-8530-4273-8d5a-a8d2bbbc03be]   [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RubymineTestProject1',job='Integrations%3A%3ABaseSyncJob'*/[0m
+[ActiveJob] [Integrations::BaseSyncJob] [f2b8ca7b-8530-4273-8d5a-a8d2bbbc03be]   ↳ app/jobs/integrations/base_sync_job.rb:30:in `perform'
+[ActiveJob] [Integrations::BaseSyncJob] [f2b8ca7b-8530-4273-8d5a-a8d2bbbc03be]   [1m[36mBattlenetAccount Update (0.3ms)[0m  [1m[33mUPDATE "battlenet_accounts" SET "last_synced_at" = '2025-10-05 23:45:46.340389', "updated_at" = '2025-10-05 23:45:46.340605' WHERE "battlenet_accounts"."id" = 1 /*application='RubymineTestProject1',job='Integrations%3A%3ABaseSyncJob'*/[0m
+[ActiveJob] [Integrations::BaseSyncJob] [f2b8ca7b-8530-4273-8d5a-a8d2bbbc03be]   ↳ app/jobs/integrations/base_sync_job.rb:30:in `perform'
+[ActiveJob] [Integrations::BaseSyncJob] [f2b8ca7b-8530-4273-8d5a-a8d2bbbc03be]   [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RubymineTestProject1',job='Integrations%3A%3ABaseSyncJob'*/[0m
+[ActiveJob] [Integrations::BaseSyncJob] [f2b8ca7b-8530-4273-8d5a-a8d2bbbc03be]   ↳ app/jobs/integrations/base_sync_job.rb:30:in `perform'
+[ActiveJob] [Integrations::BaseSyncJob] [f2b8ca7b-8530-4273-8d5a-a8d2bbbc03be] Completed sync for BattlenetAccount#1
+[ActiveJob] [Integrations::BaseSyncJob] [f2b8ca7b-8530-4273-8d5a-a8d2bbbc03be] Performed Integrations::BaseSyncJob (Job ID: f2b8ca7b-8530-4273-8d5a-a8d2bbbc03be) from Async(default) in 2684.0ms
+Started GET "/settings" for 127.0.0.1 at 2025-10-05 19:55:48 -0400
+Processing by SettingsController#index as HTML
+  [1m[36mUser Load (3.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  Rendering layout layouts/application.html.erb
+  Rendering settings/index.html.erb within layouts/application
+  [1m[36mSteamAccount Load (0.1ms)[0m  [1m[34mSELECT "steam_accounts".* FROM "steam_accounts" WHERE "steam_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:53
+  [1m[36mDiscordAccount Load (0.3ms)[0m  [1m[34mSELECT "discord_accounts".* FROM "discord_accounts" WHERE "discord_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:54
+  [1m[36mBattlenetAccount Load (0.0ms)[0m  [1m[34mSELECT "battlenet_accounts".* FROM "battlenet_accounts" WHERE "battlenet_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:55
+  [1m[36mRiotAccount Load (0.0ms)[0m  [1m[34mSELECT "riot_accounts".* FROM "riot_accounts" WHERE "riot_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:56
+  [1m[36mSpotifyAccount Load (0.2ms)[0m  [1m[34mSELECT "spotify_accounts".* FROM "spotify_accounts" WHERE "spotify_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:57
+  Rendered settings/index.html.erb within layouts/application (Duration: 14.5ms | GC: 0.1ms)
+  Rendered layout layouts/application.html.erb (Duration: 16.3ms | GC: 0.1ms)
+Completed 200 OK in 41ms (Views: 16.5ms | ActiveRecord: 3.8ms (6 queries, 0 cached) | GC: 0.6ms)
+
+
+Started GET "/cable" for 127.0.0.1 at 2025-10-05 19:55:49 -0400
+Started GET "/cable" [WebSocket] for 127.0.0.1 at 2025-10-05 19:55:49 -0400
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  ↳ app/channels/application_cable/connection.rb:13:in `find_verified_user'
+An unauthorized connection attempt was rejected
+Finished "/cable" [WebSocket] for 127.0.0.1 at 2025-10-05 19:55:49 -0400
+Started GET "/integrations/spotify/connect" for 127.0.0.1 at 2025-10-05 19:56:11 -0400
+Processing by Integrations::SpotifyController#connect as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='connect',application='RubymineTestProject1',controller='spotify'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+Redirected to https://accounts.spotify.com/authorize?client_id=your_spotify_client_id&redirect_uri=http%3A%2F%2F127.0.0.1%3A3000%2Fintegrations%2Fspotify%2Fcallback&response_type=code&scope=user-read-private+user-read-email+user-read-currently-playing+user-read-recently-played+user-top-read+user-read-playback-state&state=RMLafX0QTpm8larEHW-REYuEvDBSZzyVCYpF5XSe54w
+Completed 302 Found in 23ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/integrations/spotify/connect" for 127.0.0.1 at 2025-10-05 19:56:12 -0400
+Processing by Integrations::SpotifyController#connect as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='connect',application='RubymineTestProject1',controller='spotify'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+Redirected to https://accounts.spotify.com/authorize?client_id=your_spotify_client_id&redirect_uri=http%3A%2F%2F127.0.0.1%3A3000%2Fintegrations%2Fspotify%2Fcallback&response_type=code&scope=user-read-private+user-read-email+user-read-currently-playing+user-read-recently-played+user-top-read+user-read-playback-state&state=IQhAfKxt0fxoqw8qZlhd-QWZ_1HEa-Jgk3GlRg410gM
+Completed 302 Found in 17ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/integrations/spotify/connect" for 127.0.0.1 at 2025-10-05 19:58:44 -0400
+Processing by Integrations::SpotifyController#connect as HTML
+  [1m[36mUser Load (1.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='connect',application='RubymineTestProject1',controller='spotify'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+Redirected to https://accounts.spotify.com/authorize?client_id=your_spotify_client_id&redirect_uri=http%3A%2F%2F127.0.0.1%3A3000%2Fintegrations%2Fspotify%2Fcallback&response_type=code&scope=user-read-private+user-read-email+user-read-currently-playing+user-read-recently-played+user-top-read+user-read-playback-state&state=QyPlCSqtlxZPs-DrG1JUehQjSi707bDwEdMKh4WqDBE
+Completed 302 Found in 35ms (ActiveRecord: 1.6ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/integrations/spotify/connect" for 127.0.0.1 at 2025-10-05 19:58:44 -0400
+Processing by Integrations::SpotifyController#connect as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='connect',application='RubymineTestProject1',controller='spotify'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+Redirected to https://accounts.spotify.com/authorize?client_id=your_spotify_client_id&redirect_uri=http%3A%2F%2F127.0.0.1%3A3000%2Fintegrations%2Fspotify%2Fcallback&response_type=code&scope=user-read-private+user-read-email+user-read-currently-playing+user-read-recently-played+user-top-read+user-read-playback-state&state=xhEUppw_vPoncAx-ZjFiGpj9xSvDOJ2qUgheblaoChc
+Completed 302 Found in 19ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/integrations/discord/connect" for 127.0.0.1 at 2025-10-05 20:01:18 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='RubymineTestProject1'*/[0m
+Processing by Integrations::DiscordController#connect as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='connect',application='RubymineTestProject1',controller='discord'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+Redirected to https://discord.com/api/oauth2/authorize?client_id=454541035268210698&redirect_uri=http%3A%2F%2F127.0.0.1%3A3000%2Fintegrations%2Fdiscord%2Fcallback&response_type=code&scope=identify+email+guilds&state=R8dsfu_dTg7-qrsbiCBb-5e7rCu1JK4ZK2dXg3IEfZ0
+Completed 302 Found in 50ms (ActiveRecord: 1.7ms (1 query, 0 cached) | GC: 12.8ms)
+
+
+Started GET "/cable" for 127.0.0.1 at 2025-10-05 20:01:21 -0400
+Started GET "/cable" [WebSocket] for 127.0.0.1 at 2025-10-05 20:01:21 -0400
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  ↳ app/channels/application_cable/connection.rb:13:in `find_verified_user'
+An unauthorized connection attempt was rejected
+Finished "/cable" [WebSocket] for 127.0.0.1 at 2025-10-05 20:01:21 -0400
+Started GET "/integrations/spotify/connect" for 127.0.0.1 at 2025-10-05 20:01:27 -0400
+Processing by Integrations::SpotifyController#connect as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='connect',application='RubymineTestProject1',controller='spotify'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+Redirected to https://accounts.spotify.com/authorize?client_id=a6388e353f9f449fbbb68088e87dc6fd&redirect_uri=http%3A%2F%2F127.0.0.1%3A3000%2Fintegrations%2Fspotify%2Fcallback&response_type=code&scope=user-read-private+user-read-email+user-read-currently-playing+user-read-recently-played+user-top-read+user-read-playback-state&state=nLL6UYmggZH0_-3Nq3XbYzuGEPbOV-MoPchV5SNiSTw
+Completed 302 Found in 18ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/integrations/spotify/connect" for 127.0.0.1 at 2025-10-05 20:01:27 -0400
+Processing by Integrations::SpotifyController#connect as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='connect',application='RubymineTestProject1',controller='spotify'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+Redirected to https://accounts.spotify.com/authorize?client_id=a6388e353f9f449fbbb68088e87dc6fd&redirect_uri=http%3A%2F%2F127.0.0.1%3A3000%2Fintegrations%2Fspotify%2Fcallback&response_type=code&scope=user-read-private+user-read-email+user-read-currently-playing+user-read-recently-played+user-top-read+user-read-playback-state&state=mmHNFeO9DbjY-t7jBvFhuaGfDMc9Rj3w6cHZuL_95no
+Completed 302 Found in 18ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/integrations/spotify/callback?code=AQDhtKHv41_LKVx27oPEPtlq2O-ExSQuR_A_LuAZ4yiklcbw23TApREMnO5TEyDI1-ITTDK8iADu9Gqf_y77AILD7ldchYvDkbtcN8pw2FjoMP-v6sWNxlic093GH1sKA-YMx3sWqJmMStIpUgC0l7r1NpvgOFKdt3V1JPKBvZ4_hpy1MTv1TZPs9N0Jrcua2SfYYtSu0rAhnt1TvH_9ckOyZ7Qn8CF1i4ieVHE1oh8Z8626-UR6ja_2ZPuZx25cLFkPxiPCtmvfVWVMWO8AVWnzQNOwmkh873VrKN08in-wS9H4d6KUBb1Bl2Qx4sStXcvj_KiSj1kFbjLpgqwJrziSzVXBQDzQzibTN0cRQLlRcDTmLnYXS6FvsOI&state=mmHNFeO9DbjY-t7jBvFhuaGfDMc9Rj3w6cHZuL_95no" for 127.0.0.1 at 2025-10-05 20:01:29 -0400
+Processing by Integrations::SpotifyController#callback as HTML
+  Parameters: {"code"=>"AQDhtKHv41_LKVx27oPEPtlq2O-ExSQuR_A_LuAZ4yiklcbw23TApREMnO5TEyDI1-ITTDK8iADu9Gqf_y77AILD7ldchYvDkbtcN8pw2FjoMP-v6sWNxlic093GH1sKA-YMx3sWqJmMStIpUgC0l7r1NpvgOFKdt3V1JPKBvZ4_hpy1MTv1TZPs9N0Jrcua2SfYYtSu0rAhnt1TvH_9ckOyZ7Qn8CF1i4ieVHE1oh8Z8626-UR6ja_2ZPuZx25cLFkPxiPCtmvfVWVMWO8AVWnzQNOwmkh873VrKN08in-wS9H4d6KUBb1Bl2Qx4sStXcvj_KiSj1kFbjLpgqwJrziSzVXBQDzQzibTN0cRQLlRcDTmLnYXS6FvsOI", "state"=>"mmHNFeO9DbjY-t7jBvFhuaGfDMc9Rj3w6cHZuL_95no"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='callback',application='RubymineTestProject1',controller='spotify'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  [1m[36mSpotifyAccount Load (0.5ms)[0m  [1m[34mSELECT "spotify_accounts".* FROM "spotify_accounts" WHERE "spotify_accounts"."user_id" = 1 LIMIT 1 /*action='callback',application='RubymineTestProject1',controller='spotify'*/[0m
+  ↳ app/controllers/concerns/integration_controller.rb:104:in `create_or_update_account'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*action='callback',application='RubymineTestProject1',controller='spotify'*/[0m
+  ↳ app/controllers/concerns/integration_controller.rb:111:in `create_or_update_account'
+  [1m[36mSpotifyAccount Exists? (0.8ms)[0m  [1m[34mSELECT 1 AS one FROM "spotify_accounts" WHERE "spotify_accounts"."spotify_id" = 'faqqcykrhu0j78v0cnitgus3c' LIMIT 1 /*action='callback',application='RubymineTestProject1',controller='spotify'*/[0m
+  ↳ app/controllers/concerns/integration_controller.rb:111:in `create_or_update_account'
+  [1m[36mSpotifyAccount Create (0.3ms)[0m  [1m[32mINSERT INTO "spotify_accounts" ("user_id", "spotify_id", "display_name", "email", "product", "country", "follower_count", "access_token", "refresh_token", "token_expires_at", "last_synced_at", "created_at", "updated_at") VALUES (1, 'faqqcykrhu0j78v0cnitgus3c', 'Alex', 'arscholtes@gmail.com', 'free', 'US', 0, '{"p":"XjaEDucHBXPus2/gsaquCHv19Rk9VKAOGEIhGbOAloiY9xU07oUbnDjK1xfkppgjzLZFgkpe7PDEOTjlwjx88wxNozzX26RoAbXYJSCt767Vn94CYDKVnuuWkUhxlm/JzQzYrDtuikRhgL0fziVvkOz3dPxXxzWk43lOlYsOrww8clXsVciN5TspVGC2t6k2WFopcm8xKZvm8TpSYBwbBOEBfpWKsn/e8Kh+aS3ZV9H2BmteGnJ5nb53mYgpDIytHox45m/fOO5ekgMl339S3xpqxGHiRWaaxlRj6yTGagPcSiLGc9IAbQ==","h":{"iv":"NWGe+aT+W0FE/dai","at":"Fwt3hparsDHVlHn0b7XBIA==","c":true}}', '{"p":"umt+gzrUt06oyXKhjYiHPFdYun1L0HpY3lpFrvqSbZdxIh/cfU/OajxpncTrDjy9HLyCuN9JgNC8KlIw7O+bCZAGvcfN96KTrNMKFLt8Wghs8qJcC9+zRBEFvRejguZArFJ5EPIakFDYpIQ2sRfCPjCHQ3klz1oM2/mb7H/cQOHFWUY=","h":{"iv":"4rfYj1nmlA/oSXt3","at":"r/yWb+EmR8vXyDLeNIbVlw=="}}', '2025-10-06 00:56:29.927305', NULL, '2025-10-06 00:01:29.929117', '2025-10-06 00:01:29.929117') RETURNING "id" /*action='callback',application='RubymineTestProject1',controller='spotify'*/[0m
+  ↳ app/controllers/concerns/integration_controller.rb:111:in `create_or_update_account'
+  [1m[36mIntegrationPrivacySetting Load (0.0ms)[0m  [1m[34mSELECT "integration_privacy_settings".* FROM "integration_privacy_settings" WHERE "integration_privacy_settings"."integration_id" = 1 AND "integration_privacy_settings"."integration_type" = 'SpotifyAccount' LIMIT 1 /*action='callback',application='RubymineTestProject1',controller='spotify'*/[0m
+  ↳ app/models/concerns/integration_account.rb:66:in `create_default_privacy_settings'
+  [1m[36mIntegrationPrivacySetting Create (0.3ms)[0m  [1m[32mINSERT INTO "integration_privacy_settings" ("integration_type", "integration_id", "user_id", "settings", "created_at", "updated_at") VALUES ('SpotifyAccount', 1, 1, '"{\"show_display_name\":true,\"show_currently_playing\":true,\"show_top_tracks\":false,\"show_playlists\":false}"', '2025-10-06 00:01:29.949014', '2025-10-06 00:01:29.949014') RETURNING "id" /*action='callback',application='RubymineTestProject1',controller='spotify'*/[0m
+  ↳ app/models/concerns/integration_account.rb:68:in `create_default_privacy_settings'
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT TRANSACTION /*action='callback',application='RubymineTestProject1',controller='spotify'*/[0m
+  ↳ app/controllers/concerns/integration_controller.rb:111:in `create_or_update_account'
+Redirected to http://127.0.0.1:3000/settings
+Completed 302 Found in 611ms (ActiveRecord: 2.8ms (6 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/settings" for 127.0.0.1 at 2025-10-05 20:01:29 -0400
+Processing by SettingsController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  Rendering layout layouts/application.html.erb
+  Rendering settings/index.html.erb within layouts/application
+  [1m[36mSteamAccount Load (0.0ms)[0m  [1m[34mSELECT "steam_accounts".* FROM "steam_accounts" WHERE "steam_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:53
+  [1m[36mDiscordAccount Load (0.3ms)[0m  [1m[34mSELECT "discord_accounts".* FROM "discord_accounts" WHERE "discord_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:54
+  [1m[36mBattlenetAccount Load (0.0ms)[0m  [1m[34mSELECT "battlenet_accounts".* FROM "battlenet_accounts" WHERE "battlenet_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:55
+  [1m[36mRiotAccount Load (0.0ms)[0m  [1m[34mSELECT "riot_accounts".* FROM "riot_accounts" WHERE "riot_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:56
+  [1m[36mSpotifyAccount Load (0.0ms)[0m  [1m[34mSELECT "spotify_accounts".* FROM "spotify_accounts" WHERE "spotify_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:57
+  Rendered settings/index.html.erb within layouts/application (Duration: 16.4ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 23.7ms | GC: 0.0ms)
+Completed 200 OK in 138ms (Views: 24.5ms | ActiveRecord: 0.9ms (6 queries, 0 cached) | GC: 13.4ms)
+
+
+Started GET "/cable" for 127.0.0.1 at 2025-10-05 20:01:30 -0400
+Started GET "/cable" [WebSocket] for 127.0.0.1 at 2025-10-05 20:01:30 -0400
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  ↳ app/channels/application_cable/connection.rb:13:in `find_verified_user'
+An unauthorized connection attempt was rejected
+Finished "/cable" [WebSocket] for 127.0.0.1 at 2025-10-05 20:01:30 -0400
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."username" = 'alex' LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  [1m[36mSteamAccount Load (0.0ms)[0m  [1m[34mSELECT "steam_accounts".* FROM "steam_accounts" WHERE "steam_accounts"."user_id" = 1 LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  [1m[36mDiscordAccount Load (0.0ms)[0m  [1m[34mSELECT "discord_accounts".* FROM "discord_accounts" WHERE "discord_accounts"."user_id" = 1 LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  [1m[36mUser Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."username" = 'alex' LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  [1m[36mSteamAccount Load (0.0ms)[0m  [1m[34mSELECT "steam_accounts".* FROM "steam_accounts" WHERE "steam_accounts"."user_id" = 1 LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  [1m[36mDiscordAccount Load (0.0ms)[0m  [1m[34mSELECT "discord_accounts".* FROM "discord_accounts" WHERE "discord_accounts"."user_id" = 1 LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  [1m[36mBattlenetAccount Load (0.0ms)[0m  [1m[34mSELECT "battlenet_accounts".* FROM "battlenet_accounts" WHERE "battlenet_accounts"."user_id" = 1 LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  [1m[36mUser Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."username" = 'alex' LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  [1m[36mSteamAccount Load (0.0ms)[0m  [1m[34mSELECT "steam_accounts".* FROM "steam_accounts" WHERE "steam_accounts"."user_id" = 1 LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  [1m[36mDiscordAccount Load (0.0ms)[0m  [1m[34mSELECT "discord_accounts".* FROM "discord_accounts" WHERE "discord_accounts"."user_id" = 1 LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  [1m[36mBattlenetAccount Load (0.0ms)[0m  [1m[34mSELECT "battlenet_accounts".* FROM "battlenet_accounts" WHERE "battlenet_accounts"."user_id" = 1 LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='RubymineTestProject1'*/[0m
+Migrating to AddStripeSubscriptionFieldsToUsers (20251006001433)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.8ms)[0m  [1m[35mALTER TABLE "users" ADD "stripe_subscription_id" varchar /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[35mALTER TABLE "users" ADD "subscription_status" varchar /*application='RubymineTestProject1'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[35mALTER TABLE "users" ADD "current_period_end" datetime(6) /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20251006001433') RETURNING "version" /*application='RubymineTestProject1'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RubymineTestProject1'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='RubymineTestProject1'*/[0m
+Started GET "/webhooks/stripe" for 127.0.0.1 at 2025-10-05 20:40:27 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='RubymineTestProject1'*/[0m
+  
+ActionController::RoutingError (No route matches [GET] "/webhooks/stripe"):
+  
+Started GET "/apple-touch-icon-precomposed.png" for 127.0.0.1 at 2025-10-05 20:40:30 -0400
+Started GET "/favicon.ico" for 127.0.0.1 at 2025-10-05 20:40:30 -0400
+Started GET "/apple-touch-icon.png" for 127.0.0.1 at 2025-10-05 20:40:30 -0400
+  
+ActionController::RoutingError (No route matches [GET] "/favicon.ico"):
+  
+  
+ActionController::RoutingError (No route matches [GET] "/apple-touch-icon-precomposed.png"):
+  
+  
+ActionController::RoutingError (No route matches [GET] "/apple-touch-icon.png"):
+  
+Started GET "/settings" for 127.0.0.1 at 2025-10-05 20:46:02 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='RubymineTestProject1'*/[0m
+Processing by SettingsController#index as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  Rendering layout layouts/application.html.erb
+  Rendering settings/index.html.erb within layouts/application
+  [1m[36mSteamAccount Load (0.0ms)[0m  [1m[34mSELECT "steam_accounts".* FROM "steam_accounts" WHERE "steam_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:53
+  [1m[36mDiscordAccount Load (0.2ms)[0m  [1m[34mSELECT "discord_accounts".* FROM "discord_accounts" WHERE "discord_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:54
+  [1m[36mBattlenetAccount Load (0.0ms)[0m  [1m[34mSELECT "battlenet_accounts".* FROM "battlenet_accounts" WHERE "battlenet_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:55
+  [1m[36mRiotAccount Load (0.2ms)[0m  [1m[34mSELECT "riot_accounts".* FROM "riot_accounts" WHERE "riot_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:56
+  [1m[36mSpotifyAccount Load (0.2ms)[0m  [1m[34mSELECT "spotify_accounts".* FROM "spotify_accounts" WHERE "spotify_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:57
+  Rendered settings/index.html.erb within layouts/application (Duration: 31.1ms | GC: 7.2ms)
+  Rendered layout layouts/application.html.erb (Duration: 38.4ms | GC: 7.2ms)
+Completed 200 OK in 180ms (Views: 38.8ms | ActiveRecord: 2.8ms (6 queries, 0 cached) | GC: 28.8ms)
+
+
+Started GET "/cable" for 127.0.0.1 at 2025-10-05 20:46:02 -0400
+Started GET "/cable" [WebSocket] for 127.0.0.1 at 2025-10-05 20:46:02 -0400
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  ↳ app/channels/application_cable/connection.rb:13:in `find_verified_user'
+An unauthorized connection attempt was rejected
+Finished "/cable" [WebSocket] for 127.0.0.1 at 2025-10-05 20:46:02 -0400
+Started POST "/subscriptions?plan=pro" for 127.0.0.1 at 2025-10-05 20:46:06 -0400
+Processing by SubscriptionsController#create as TURBO_STREAM
+  Parameters: {"authenticity_token"=>"[FILTERED]", "plan"=>"pro"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='create',application='RubymineTestProject1',controller='subscriptions'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  [1m[36mSubscription Load (0.3ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."user_id" = 1 AND "subscriptions"."status" IN ('active', 'trialing') LIMIT 1 /*action='create',application='RubymineTestProject1',controller='subscriptions'*/[0m
+  ↳ app/controllers/subscriptions_controller.rb:20:in `create'
+Subscription creation error: undefined local variable or method `subscription_success_url' for an instance of SubscriptionsController
+Completed 500 Internal Server Error in 22ms (ActiveRecord: 0.6ms (2 queries, 0 cached) | GC: 0.2ms)
+
+
+  
+NameError (undefined local variable or method `new_subscription_path' for an instance of SubscriptionsController)
+Caused by: NameError (undefined local variable or method `subscription_success_url' for an instance of SubscriptionsController)
+
+Information for: NameError (undefined local variable or method `new_subscription_path' for an instance of SubscriptionsController):
+  
+app/controllers/subscriptions_controller.rb:38:in `rescue in create'
+app/controllers/subscriptions_controller.rb:27:in `create'
+
+Information for cause: NameError (undefined local variable or method `subscription_success_url' for an instance of SubscriptionsController):
+  
+app/controllers/subscriptions_controller.rb:30:in `create'
+Started GET "/cable" for 127.0.0.1 at 2025-10-05 20:51:24 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='RubymineTestProject1'*/[0m
+Started GET "/cable" [WebSocket] for 127.0.0.1 at 2025-10-05 20:51:25 -0400
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+  [1m[36mUser Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  ↳ app/channels/application_cable/connection.rb:13:in `find_verified_user'
+An unauthorized connection attempt was rejected
+Finished "/cable" [WebSocket] for 127.0.0.1 at 2025-10-05 20:51:25 -0400
+Started GET "/settings" for 127.0.0.1 at 2025-10-05 20:51:26 -0400
+Processing by SettingsController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  Rendering layout layouts/application.html.erb
+  Rendering settings/index.html.erb within layouts/application
+  [1m[36mSteamAccount Load (0.1ms)[0m  [1m[34mSELECT "steam_accounts".* FROM "steam_accounts" WHERE "steam_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:53
+  [1m[36mDiscordAccount Load (0.0ms)[0m  [1m[34mSELECT "discord_accounts".* FROM "discord_accounts" WHERE "discord_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:54
+  [1m[36mBattlenetAccount Load (0.0ms)[0m  [1m[34mSELECT "battlenet_accounts".* FROM "battlenet_accounts" WHERE "battlenet_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:55
+  [1m[36mRiotAccount Load (0.0ms)[0m  [1m[34mSELECT "riot_accounts".* FROM "riot_accounts" WHERE "riot_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:56
+  [1m[36mSpotifyAccount Load (0.0ms)[0m  [1m[34mSELECT "spotify_accounts".* FROM "spotify_accounts" WHERE "spotify_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:57
+  Rendered settings/index.html.erb within layouts/application (Duration: 35.4ms | GC: 7.6ms)
+  Rendered layout layouts/application.html.erb (Duration: 43.4ms | GC: 7.6ms)
+Completed 200 OK in 174ms (Views: 44.2ms | ActiveRecord: 1.2ms (6 queries, 0 cached) | GC: 15.6ms)
+
+
+Started POST "/subscriptions?plan=pro" for 127.0.0.1 at 2025-10-05 20:51:33 -0400
+Processing by SubscriptionsController#create as TURBO_STREAM
+  Parameters: {"authenticity_token"=>"[FILTERED]", "plan"=>"pro"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='create',application='RubymineTestProject1',controller='subscriptions'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  [1m[36mSubscription Load (0.0ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."user_id" = 1 AND "subscriptions"."status" IN ('active', 'trialing') LIMIT 1 /*action='create',application='RubymineTestProject1',controller='subscriptions'*/[0m
+  ↳ app/controllers/subscriptions_controller.rb:19:in `create'
+Subscription creation error: Stripe price ID not configured for pro
+Redirected to http://127.0.0.1:3000/settings?tab=billing
+Completed 302 Found in 20ms (ActiveRecord: 0.3ms (2 queries, 0 cached) | GC: 0.2ms)
+
+
+Started GET "/settings?tab=billing" for 127.0.0.1 at 2025-10-05 20:51:33 -0400
+Processing by SettingsController#index as TURBO_STREAM
+  Parameters: {"tab"=>"billing"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  Rendering layout layouts/application.html.erb
+  Rendering settings/index.html.erb within layouts/application
+  [1m[36mSteamAccount Load (0.1ms)[0m  [1m[34mSELECT "steam_accounts".* FROM "steam_accounts" WHERE "steam_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:53
+  [1m[36mDiscordAccount Load (0.0ms)[0m  [1m[34mSELECT "discord_accounts".* FROM "discord_accounts" WHERE "discord_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:54
+  [1m[36mBattlenetAccount Load (0.0ms)[0m  [1m[34mSELECT "battlenet_accounts".* FROM "battlenet_accounts" WHERE "battlenet_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:55
+  [1m[36mRiotAccount Load (0.0ms)[0m  [1m[34mSELECT "riot_accounts".* FROM "riot_accounts" WHERE "riot_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:56
+  [1m[36mSpotifyAccount Load (0.1ms)[0m  [1m[34mSELECT "spotify_accounts".* FROM "spotify_accounts" WHERE "spotify_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:57
+  Rendered settings/index.html.erb within layouts/application (Duration: 3.1ms | GC: 0.2ms)
+  Rendered layout layouts/application.html.erb (Duration: 5.5ms | GC: 2.1ms)
+Completed 200 OK in 21ms (Views: 5.6ms | ActiveRecord: 0.3ms (6 queries, 0 cached) | GC: 2.3ms)
+
+
+  [1m[36mUser Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."username" = 'alex' LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  [1m[36mUser Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."username" = 'alex' LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  [1m[36mStream Load (0.0ms)[0m  [1m[34mSELECT "streams".* FROM "streams" WHERE "streams"."user_id" = 1 ORDER BY "streams"."id" ASC LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RubymineTestProject1'*/[0m
+  [1m[36mStream Update (0.3ms)[0m  [1m[33mUPDATE "streams" SET "status" = 'live', "updated_at" = '2025-10-06 00:53:11.196257' WHERE "streams"."id" = 1 /*application='RubymineTestProject1'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RubymineTestProject1'*/[0m
+  [1m[36mUser Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  ↳ app/models/stream.rb:76:in `start_game_detection'
+  [1m[36mSteamAccount Load (0.0ms)[0m  [1m[34mSELECT "steam_accounts".* FROM "steam_accounts" WHERE "steam_accounts"."user_id" = 1 LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  ↳ app/models/stream.rb:76:in `start_game_detection'
+[ActiveJob] Enqueued Integrations::DetectCurrentGameJob (Job ID: c96bff6e-6510-4897-a5d2-1148da99d725) to Async(high_priority) with arguments: 1
+[ActiveJob] ↳ app/models/stream.rb:79:in `start_game_detection'
+Started GET "/streams/1" for 127.0.0.1 at 2025-10-05 21:07:29 -0400
+Processing by StreamsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mStream Load (0.2ms)[0m  [1m[34mSELECT "streams".* FROM "streams" WHERE "streams"."id" = 1 LIMIT 1 /*action='show',application='RubymineTestProject1',controller='streams'*/[0m
+  ↳ app/controllers/streams_controller.rb:78:in `set_stream'
+  [1m[36mChatMessage Load (0.1ms)[0m  [1m[34mSELECT "chat_messages".* FROM "chat_messages" WHERE "chat_messages"."stream_id" = 1 ORDER BY "chat_messages"."created_at" DESC LIMIT 100 /*action='show',application='RubymineTestProject1',controller='streams'*/[0m
+  ↳ app/controllers/streams_controller.rb:57:in `show'
+  Rendering layout layouts/application.html.erb
+  Rendering streams/show.html.erb within layouts/application
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='show',application='RubymineTestProject1',controller='streams'*/[0m
+  ↳ app/views/streams/show.html.erb:4
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  [1m[36mStream Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "streams" WHERE "streams"."status" = 'live' AND "streams"."id" != 1 LIMIT 1 /*action='show',application='RubymineTestProject1',controller='streams'*/[0m
+  ↳ app/views/streams/show.html.erb:119
+  Rendered streams/show.html.erb within layouts/application (Duration: 7.9ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 8.5ms | GC: 0.0ms)
+Completed 200 OK in 50ms (Views: 8.6ms | ActiveRecord: 4.6ms (5 queries, 1 cached) | GC: 0.2ms)
+
+
+Started GET "/cable" for 127.0.0.1 at 2025-10-05 21:07:30 -0400
+Started GET "/cable" for 127.0.0.1 at 2025-10-05 21:07:30 -0400
+Started GET "/cable" [WebSocket] for 127.0.0.1 at 2025-10-05 21:07:30 -0400
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  ↳ app/channels/application_cable/connection.rb:13:in `find_verified_user'
+An unauthorized connection attempt was rejected
+Finished "/cable" [WebSocket] for 127.0.0.1 at 2025-10-05 21:07:30 -0400
+Started GET "/cable" [WebSocket] for 127.0.0.1 at 2025-10-05 21:07:30 -0400
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  ↳ app/channels/application_cable/connection.rb:13:in `find_verified_user'
+An unauthorized connection attempt was rejected
+Finished "/cable" [WebSocket] for 127.0.0.1 at 2025-10-05 21:07:30 -0400
+Started GET "/users/1" for 127.0.0.1 at 2025-10-05 21:07:39 -0400
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='show',application='RubymineTestProject1',controller='users'*/[0m
+  ↳ app/controllers/users_controller.rb:3:in `show'
+  [1m[36mStream Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "streams" WHERE "streams"."user_id" = 1 /*action='show',application='RubymineTestProject1',controller='users'*/[0m
+  ↳ app/controllers/users_controller.rb:8:in `show'
+  [1m[36mSteamAccount Load (0.1ms)[0m  [1m[34mSELECT "steam_accounts".* FROM "steam_accounts" WHERE "steam_accounts"."user_id" = 1 LIMIT 1 /*action='show',application='RubymineTestProject1',controller='users'*/[0m
+  ↳ app/controllers/users_controller.rb:11:in `show'
+  [1m[36mDiscordAccount Load (0.2ms)[0m  [1m[34mSELECT "discord_accounts".* FROM "discord_accounts" WHERE "discord_accounts"."user_id" = 1 LIMIT 1 /*action='show',application='RubymineTestProject1',controller='users'*/[0m
+  ↳ app/controllers/users_controller.rb:12:in `show'
+  [1m[36mBattlenetAccount Load (0.0ms)[0m  [1m[34mSELECT "battlenet_accounts".* FROM "battlenet_accounts" WHERE "battlenet_accounts"."user_id" = 1 LIMIT 1 /*action='show',application='RubymineTestProject1',controller='users'*/[0m
+  ↳ app/controllers/users_controller.rb:13:in `show'
+  [1m[36mRiotAccount Load (0.2ms)[0m  [1m[34mSELECT "riot_accounts".* FROM "riot_accounts" WHERE "riot_accounts"."user_id" = 1 LIMIT 1 /*action='show',application='RubymineTestProject1',controller='users'*/[0m
+  ↳ app/controllers/users_controller.rb:14:in `show'
+  [1m[36mTwitterAccount Load (0.3ms)[0m  [1m[34mSELECT "twitter_accounts".* FROM "twitter_accounts" WHERE "twitter_accounts"."user_id" = 1 LIMIT 1 /*action='show',application='RubymineTestProject1',controller='users'*/[0m
+  ↳ app/controllers/users_controller.rb:15:in `show'
+  [1m[36mYoutubeAccount Load (0.0ms)[0m  [1m[34mSELECT "youtube_accounts".* FROM "youtube_accounts" WHERE "youtube_accounts"."user_id" = 1 LIMIT 1 /*action='show',application='RubymineTestProject1',controller='users'*/[0m
+  ↳ app/controllers/users_controller.rb:16:in `show'
+  [1m[36mLoyaltyPoint Load (1.2ms)[0m  [1m[34mSELECT "loyalty_points".* FROM "loyalty_points" WHERE "loyalty_points"."user_id" = 1 LIMIT 1 /*action='show',application='RubymineTestProject1',controller='users'*/[0m
+  ↳ app/controllers/users_controller.rb:29:in `show'
+  [1m[36mUserAchievement Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "user_achievements" WHERE "user_achievements"."user_id" = 1 /*action='show',application='RubymineTestProject1',controller='users'*/[0m
+  ↳ app/controllers/users_controller.rb:30:in `show'
+  [1m[36mAchievement Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "achievements" /*action='show',application='RubymineTestProject1',controller='users'*/[0m
+  ↳ app/controllers/users_controller.rb:31:in `show'
+  [1m[36mIntegrationPrivacySetting Load (0.4ms)[0m  [1m[34mSELECT "integration_privacy_settings".* FROM "integration_privacy_settings" WHERE "integration_privacy_settings"."integration_id" = 1 AND "integration_privacy_settings"."integration_type" = 'SteamAccount' LIMIT 1 /*action='show',application='RubymineTestProject1',controller='users'*/[0m
+  ↳ app/controllers/users_controller.rb:36:in `show'
+Completed 500 Internal Server Error in 61ms (ActiveRecord: 3.6ms (12 queries, 0 cached) | GC: 9.2ms)
+
+
+  
+NoMethodError (undefined method `steam_games' for an instance of SteamAccount):
+  
+app/controllers/users_controller.rb:47:in `show'
+  [1m[36mStream Load (0.0ms)[0m  [1m[34mSELECT "streams".* FROM "streams" WHERE "streams"."id" = 1 LIMIT 1 /*application='RubymineTestProject1'*/[0m
+Started POST "/streams/1/chat_messages" for 127.0.0.1 at 2025-10-05 21:08:05 -0400
+Processing by ChatMessagesController#create as */*
+  Parameters: {"content"=>"test", "stream_id"=>"1", "chat_message"=>{"content"=>"test"}}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='create',application='RubymineTestProject1',controller='chat_messages'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  [1m[36mStream Load (0.0ms)[0m  [1m[34mSELECT "streams".* FROM "streams" WHERE "streams"."id" = 1 LIMIT 1 /*action='create',application='RubymineTestProject1',controller='chat_messages'*/[0m
+  ↳ app/controllers/chat_messages_controller.rb:20:in `set_stream'
+[31mUnpermitted parameters: :stream_id, :chat_message. Context: { controller: ChatMessagesController, action: create, request: #<ActionDispatch::Request:0x0000000127dc0d20>, params: {"content"=>"test", "controller"=>"chat_messages", "action"=>"create", "stream_id"=>"1", "chat_message"=>{"content"=>"test"}} }[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*action='create',application='RubymineTestProject1',controller='chat_messages'*/[0m
+  ↳ app/controllers/chat_messages_controller.rb:9:in `create'
+  [1m[36mChatMessage Create (2.7ms)[0m  [1m[32mINSERT INTO "chat_messages" ("user_id", "stream_id", "content", "created_at", "updated_at") VALUES (1, 1, 'test', '2025-10-06 01:08:05.739727', '2025-10-06 01:08:05.739727') RETURNING "id" /*action='create',application='RubymineTestProject1',controller='chat_messages'*/[0m
+  ↳ app/controllers/chat_messages_controller.rb:9:in `create'
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT TRANSACTION /*action='create',application='RubymineTestProject1',controller='chat_messages'*/[0m
+  ↳ app/controllers/chat_messages_controller.rb:9:in `create'
+  Rendered chat_messages/_message.html.erb (Duration: 0.6ms | GC: 0.0ms)
+[ActionCable] Broadcasting to stream_1_chat: "<turbo-stream action=\"append\" target=\"chat-messages\"><template><!-- BEGIN app/views/chat_messages/_message.html.erb --><div id=\"chat_message_1\" style=\"padding: 0.75rem 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: background-color var(--transition-base);\" class=\"...
+Completed 200 OK in 27ms (ActiveRecord: 3.0ms (3 queries, 0 cached) | GC: 2.1ms)
+
+
+Started POST "/streams/1/chat_messages" for 127.0.0.1 at 2025-10-05 21:08:11 -0400
+Processing by ChatMessagesController#create as */*
+  Parameters: {"content"=>"test", "stream_id"=>"1", "chat_message"=>{"content"=>"test"}}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='create',application='RubymineTestProject1',controller='chat_messages'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  [1m[36mStream Load (0.0ms)[0m  [1m[34mSELECT "streams".* FROM "streams" WHERE "streams"."id" = 1 LIMIT 1 /*action='create',application='RubymineTestProject1',controller='chat_messages'*/[0m
+  ↳ app/controllers/chat_messages_controller.rb:20:in `set_stream'
+[31mUnpermitted parameters: :stream_id, :chat_message. Context: { controller: ChatMessagesController, action: create, request: #<ActionDispatch::Request:0x00000001274ecb40>, params: {"content"=>"test", "controller"=>"chat_messages", "action"=>"create", "stream_id"=>"1", "chat_message"=>{"content"=>"test"}} }[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*action='create',application='RubymineTestProject1',controller='chat_messages'*/[0m
+  ↳ app/controllers/chat_messages_controller.rb:9:in `create'
+  [1m[36mChatMessage Create (0.4ms)[0m  [1m[32mINSERT INTO "chat_messages" ("user_id", "stream_id", "content", "created_at", "updated_at") VALUES (1, 1, 'test', '2025-10-06 01:08:11.353137', '2025-10-06 01:08:11.353137') RETURNING "id" /*action='create',application='RubymineTestProject1',controller='chat_messages'*/[0m
+  ↳ app/controllers/chat_messages_controller.rb:9:in `create'
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*action='create',application='RubymineTestProject1',controller='chat_messages'*/[0m
+  ↳ app/controllers/chat_messages_controller.rb:9:in `create'
+  Rendered chat_messages/_message.html.erb (Duration: 0.1ms | GC: 0.0ms)
+[ActionCable] Broadcasting to stream_1_chat: "<turbo-stream action=\"append\" target=\"chat-messages\"><template><!-- BEGIN app/views/chat_messages/_message.html.erb --><div id=\"chat_message_2\" style=\"padding: 0.75rem 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: background-color var(--transition-base);\" class=\"...
+Completed 200 OK in 23ms (ActiveRecord: 0.5ms (3 queries, 0 cached) | GC: 0.4ms)
+
+
+Started GET "/streams/1/edit" for 127.0.0.1 at 2025-10-05 21:08:12 -0400
+Processing by StreamsController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='edit',application='RubymineTestProject1',controller='streams'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  [1m[36mStream Load (0.0ms)[0m  [1m[34mSELECT "streams".* FROM "streams" WHERE "streams"."id" = 1 LIMIT 1 /*action='edit',application='RubymineTestProject1',controller='streams'*/[0m
+  ↳ app/controllers/streams_controller.rb:78:in `set_stream'
+  Rendering layout layouts/application.html.erb
+  Rendering streams/edit.html.erb within layouts/application
+  Rendered streams/edit.html.erb within layouts/application (Duration: 1.3ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.7ms | GC: 0.0ms)
+Completed 200 OK in 26ms (Views: 1.9ms | ActiveRecord: 0.1ms (2 queries, 0 cached) | GC: 0.3ms)
+
+
+Started GET "/cable" for 127.0.0.1 at 2025-10-05 21:08:17 -0400
+Started GET "/cable" [WebSocket] for 127.0.0.1 at 2025-10-05 21:08:17 -0400
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+  [1m[36mUser Load (1.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  ↳ app/channels/application_cable/connection.rb:13:in `find_verified_user'
+An unauthorized connection attempt was rejected
+Finished "/cable" [WebSocket] for 127.0.0.1 at 2025-10-05 21:08:17 -0400
+Started GET "/settings" for 127.0.0.1 at 2025-10-05 21:08:32 -0400
+Processing by SettingsController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  Rendering layout layouts/application.html.erb
+  Rendering settings/index.html.erb within layouts/application
+  [1m[36mSteamAccount Load (0.1ms)[0m  [1m[34mSELECT "steam_accounts".* FROM "steam_accounts" WHERE "steam_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:53
+  [1m[36mDiscordAccount Load (0.0ms)[0m  [1m[34mSELECT "discord_accounts".* FROM "discord_accounts" WHERE "discord_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:54
+  [1m[36mBattlenetAccount Load (0.0ms)[0m  [1m[34mSELECT "battlenet_accounts".* FROM "battlenet_accounts" WHERE "battlenet_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:55
+  [1m[36mRiotAccount Load (0.2ms)[0m  [1m[34mSELECT "riot_accounts".* FROM "riot_accounts" WHERE "riot_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:56
+  [1m[36mSpotifyAccount Load (0.1ms)[0m  [1m[34mSELECT "spotify_accounts".* FROM "spotify_accounts" WHERE "spotify_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:57
+  Rendered settings/index.html.erb within layouts/application (Duration: 3.6ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 4.0ms | GC: 0.0ms)
+Completed 200 OK in 24ms (Views: 3.8ms | ActiveRecord: 0.5ms (6 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/dashboard" for 127.0.0.1 at 2025-10-05 21:08:47 -0400
+Processing by DashboardController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='dashboard'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  [1m[36mStream Load (0.0ms)[0m  [1m[34mSELECT "streams".* FROM "streams" WHERE "streams"."user_id" = 1 ORDER BY "streams"."id" ASC LIMIT 1 /*action='index',application='RubymineTestProject1',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:21:in `index'
+  [1m[36mStream Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "streams" WHERE "streams"."user_id" = 1 /*action='index',application='RubymineTestProject1',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:28:in `index'
+  [1m[36mStream Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "streams" WHERE "streams"."user_id" = 1 AND "streams"."status" = 'live' /*action='index',application='RubymineTestProject1',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:29:in `index'
+  [1m[36mSteamAccount Load (0.1ms)[0m  [1m[34mSELECT "steam_accounts".* FROM "steam_accounts" WHERE "steam_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:35:in `index'
+  [1m[36mDiscordAccount Load (0.0ms)[0m  [1m[34mSELECT "discord_accounts".* FROM "discord_accounts" WHERE "discord_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:36:in `index'
+  Rendering layout layouts/application.html.erb
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (Duration: 1.4ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.9ms | GC: 0.1ms)
+Completed 200 OK in 24ms (Views: 2.2ms | ActiveRecord: 0.3ms (6 queries, 0 cached) | GC: 0.3ms)
+
+
+Started GET "/settings" for 127.0.0.1 at 2025-10-05 21:08:55 -0400
+Processing by SettingsController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  Rendering layout layouts/application.html.erb
+  Rendering settings/index.html.erb within layouts/application
+  [1m[36mSteamAccount Load (0.1ms)[0m  [1m[34mSELECT "steam_accounts".* FROM "steam_accounts" WHERE "steam_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:53
+  [1m[36mDiscordAccount Load (0.0ms)[0m  [1m[34mSELECT "discord_accounts".* FROM "discord_accounts" WHERE "discord_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:54
+  [1m[36mBattlenetAccount Load (0.0ms)[0m  [1m[34mSELECT "battlenet_accounts".* FROM "battlenet_accounts" WHERE "battlenet_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:55
+  [1m[36mRiotAccount Load (0.0ms)[0m  [1m[34mSELECT "riot_accounts".* FROM "riot_accounts" WHERE "riot_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:56
+  [1m[36mSpotifyAccount Load (0.1ms)[0m  [1m[34mSELECT "spotify_accounts".* FROM "spotify_accounts" WHERE "spotify_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:57
+  Rendered settings/index.html.erb within layouts/application (Duration: 3.1ms | GC: 0.1ms)
+  Rendered layout layouts/application.html.erb (Duration: 3.5ms | GC: 0.1ms)
+Completed 200 OK in 24ms (Views: 3.4ms | ActiveRecord: 0.3ms (6 queries, 0 cached) | GC: 0.1ms)
+
+
+Started POST "/subscriptions?plan=pro" for 127.0.0.1 at 2025-10-05 21:09:01 -0400
+Processing by SubscriptionsController#create as TURBO_STREAM
+  Parameters: {"authenticity_token"=>"[FILTERED]", "plan"=>"pro"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='create',application='RubymineTestProject1',controller='subscriptions'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  [1m[36mSubscription Load (0.1ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."user_id" = 1 AND "subscriptions"."status" IN ('active', 'trialing') LIMIT 1 /*action='create',application='RubymineTestProject1',controller='subscriptions'*/[0m
+  ↳ app/controllers/subscriptions_controller.rb:19:in `create'
+Subscription creation error: Stripe price ID not configured for pro
+Redirected to http://127.0.0.1:3000/settings?tab=billing
+Completed 302 Found in 20ms (ActiveRecord: 0.2ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/settings?tab=billing" for 127.0.0.1 at 2025-10-05 21:09:01 -0400
+Processing by SettingsController#index as TURBO_STREAM
+  Parameters: {"tab"=>"billing"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  Rendering layout layouts/application.html.erb
+  Rendering settings/index.html.erb within layouts/application
+  [1m[36mSteamAccount Load (0.0ms)[0m  [1m[34mSELECT "steam_accounts".* FROM "steam_accounts" WHERE "steam_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:53
+  [1m[36mDiscordAccount Load (0.0ms)[0m  [1m[34mSELECT "discord_accounts".* FROM "discord_accounts" WHERE "discord_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:54
+  [1m[36mBattlenetAccount Load (0.0ms)[0m  [1m[34mSELECT "battlenet_accounts".* FROM "battlenet_accounts" WHERE "battlenet_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:55
+  [1m[36mRiotAccount Load (0.0ms)[0m  [1m[34mSELECT "riot_accounts".* FROM "riot_accounts" WHERE "riot_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:56
+  [1m[36mSpotifyAccount Load (0.0ms)[0m  [1m[34mSELECT "spotify_accounts".* FROM "spotify_accounts" WHERE "spotify_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:57
+  Rendered settings/index.html.erb within layouts/application (Duration: 2.4ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 2.8ms | GC: 0.0ms)
+Completed 200 OK in 18ms (Views: 2.8ms | ActiveRecord: 0.2ms (6 queries, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/subscriptions?plan=enterprise" for 127.0.0.1 at 2025-10-05 21:09:06 -0400
+Processing by SubscriptionsController#create as TURBO_STREAM
+  Parameters: {"authenticity_token"=>"[FILTERED]", "plan"=>"enterprise"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='create',application='RubymineTestProject1',controller='subscriptions'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  [1m[36mSubscription Load (0.1ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."user_id" = 1 AND "subscriptions"."status" IN ('active', 'trialing') LIMIT 1 /*action='create',application='RubymineTestProject1',controller='subscriptions'*/[0m
+  ↳ app/controllers/subscriptions_controller.rb:19:in `create'
+Subscription creation error: Stripe price ID not configured for enterprise
+Redirected to http://127.0.0.1:3000/settings?tab=billing
+Completed 302 Found in 22ms (ActiveRecord: 0.1ms (2 queries, 0 cached) | GC: 2.2ms)
+
+
+Started GET "/settings?tab=billing" for 127.0.0.1 at 2025-10-05 21:09:06 -0400
+Processing by SettingsController#index as TURBO_STREAM
+  Parameters: {"tab"=>"billing"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  Rendering layout layouts/application.html.erb
+  Rendering settings/index.html.erb within layouts/application
+  [1m[36mSteamAccount Load (0.0ms)[0m  [1m[34mSELECT "steam_accounts".* FROM "steam_accounts" WHERE "steam_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:53
+  [1m[36mDiscordAccount Load (0.0ms)[0m  [1m[34mSELECT "discord_accounts".* FROM "discord_accounts" WHERE "discord_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:54
+  [1m[36mBattlenetAccount Load (0.0ms)[0m  [1m[34mSELECT "battlenet_accounts".* FROM "battlenet_accounts" WHERE "battlenet_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:55
+  [1m[36mRiotAccount Load (0.0ms)[0m  [1m[34mSELECT "riot_accounts".* FROM "riot_accounts" WHERE "riot_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:56
+  [1m[36mSpotifyAccount Load (0.0ms)[0m  [1m[34mSELECT "spotify_accounts".* FROM "spotify_accounts" WHERE "spotify_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:57
+  Rendered settings/index.html.erb within layouts/application (Duration: 2.6ms | GC: 0.1ms)
+  Rendered layout layouts/application.html.erb (Duration: 2.9ms | GC: 0.1ms)
+Completed 200 OK in 18ms (Views: 2.9ms | ActiveRecord: 0.2ms (6 queries, 0 cached) | GC: 0.4ms)
+
+
+  [1m[36mStream Load (0.0ms)[0m  [1m[34mSELECT "streams".* FROM "streams" WHERE "streams"."id" = 1 LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RubymineTestProject1'*/[0m
+  [1m[36mStream Update (0.3ms)[0m  [1m[33mUPDATE "streams" SET "status" = 'offline', "updated_at" = '2025-10-06 01:09:30.212124' WHERE "streams"."id" = 1 /*application='RubymineTestProject1'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RubymineTestProject1'*/[0m
+Started GET "/dashboard" for 127.0.0.1 at 2025-10-05 21:09:35 -0400
+Processing by DashboardController#index as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='dashboard'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  [1m[36mStream Load (0.0ms)[0m  [1m[34mSELECT "streams".* FROM "streams" WHERE "streams"."user_id" = 1 ORDER BY "streams"."id" ASC LIMIT 1 /*action='index',application='RubymineTestProject1',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:21:in `index'
+  [1m[36mStream Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "streams" WHERE "streams"."user_id" = 1 /*action='index',application='RubymineTestProject1',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:28:in `index'
+  [1m[36mStream Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "streams" WHERE "streams"."user_id" = 1 AND "streams"."status" = 'live' /*action='index',application='RubymineTestProject1',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:29:in `index'
+  [1m[36mSteamAccount Load (0.0ms)[0m  [1m[34mSELECT "steam_accounts".* FROM "steam_accounts" WHERE "steam_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:35:in `index'
+  [1m[36mDiscordAccount Load (0.0ms)[0m  [1m[34mSELECT "discord_accounts".* FROM "discord_accounts" WHERE "discord_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:36:in `index'
+  Rendering layout layouts/application.html.erb
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (Duration: 0.4ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 0.8ms | GC: 0.0ms)
+Completed 200 OK in 23ms (Views: 0.9ms | ActiveRecord: 0.3ms (6 queries, 0 cached) | GC: 0.1ms)
+
+
+Started GET "/settings" for 127.0.0.1 at 2025-10-05 21:09:55 -0400
+Processing by SettingsController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  Rendering layout layouts/application.html.erb
+  Rendering settings/index.html.erb within layouts/application
+  [1m[36mSteamAccount Load (0.1ms)[0m  [1m[34mSELECT "steam_accounts".* FROM "steam_accounts" WHERE "steam_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:53
+  [1m[36mDiscordAccount Load (0.0ms)[0m  [1m[34mSELECT "discord_accounts".* FROM "discord_accounts" WHERE "discord_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:54
+  [1m[36mBattlenetAccount Load (0.0ms)[0m  [1m[34mSELECT "battlenet_accounts".* FROM "battlenet_accounts" WHERE "battlenet_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:55
+  [1m[36mRiotAccount Load (0.0ms)[0m  [1m[34mSELECT "riot_accounts".* FROM "riot_accounts" WHERE "riot_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:56
+  [1m[36mSpotifyAccount Load (0.0ms)[0m  [1m[34mSELECT "spotify_accounts".* FROM "spotify_accounts" WHERE "spotify_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:57
+  Rendered settings/index.html.erb within layouts/application (Duration: 3.6ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 4.0ms | GC: 0.0ms)
+Completed 200 OK in 25ms (Views: 4.0ms | ActiveRecord: 0.3ms (6 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/users/1" for 127.0.0.1 at 2025-10-05 21:44:56 -0400
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mUser Load (3.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='show',application='RubymineTestProject1',controller='users'*/[0m
+  ↳ app/controllers/users_controller.rb:3:in `show'
+  [1m[36mStream Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "streams" WHERE "streams"."user_id" = 1 /*action='show',application='RubymineTestProject1',controller='users'*/[0m
+  ↳ app/controllers/users_controller.rb:8:in `show'
+  [1m[36mSteamAccount Load (0.1ms)[0m  [1m[34mSELECT "steam_accounts".* FROM "steam_accounts" WHERE "steam_accounts"."user_id" = 1 LIMIT 1 /*action='show',application='RubymineTestProject1',controller='users'*/[0m
+  ↳ app/controllers/users_controller.rb:11:in `show'
+  [1m[36mDiscordAccount Load (0.3ms)[0m  [1m[34mSELECT "discord_accounts".* FROM "discord_accounts" WHERE "discord_accounts"."user_id" = 1 LIMIT 1 /*action='show',application='RubymineTestProject1',controller='users'*/[0m
+  ↳ app/controllers/users_controller.rb:12:in `show'
+  [1m[36mBattlenetAccount Load (0.1ms)[0m  [1m[34mSELECT "battlenet_accounts".* FROM "battlenet_accounts" WHERE "battlenet_accounts"."user_id" = 1 LIMIT 1 /*action='show',application='RubymineTestProject1',controller='users'*/[0m
+  ↳ app/controllers/users_controller.rb:13:in `show'
+  [1m[36mRiotAccount Load (0.3ms)[0m  [1m[34mSELECT "riot_accounts".* FROM "riot_accounts" WHERE "riot_accounts"."user_id" = 1 LIMIT 1 /*action='show',application='RubymineTestProject1',controller='users'*/[0m
+  ↳ app/controllers/users_controller.rb:14:in `show'
+  [1m[36mTwitterAccount Load (0.1ms)[0m  [1m[34mSELECT "twitter_accounts".* FROM "twitter_accounts" WHERE "twitter_accounts"."user_id" = 1 LIMIT 1 /*action='show',application='RubymineTestProject1',controller='users'*/[0m
+  ↳ app/controllers/users_controller.rb:15:in `show'
+  [1m[36mYoutubeAccount Load (0.1ms)[0m  [1m[34mSELECT "youtube_accounts".* FROM "youtube_accounts" WHERE "youtube_accounts"."user_id" = 1 LIMIT 1 /*action='show',application='RubymineTestProject1',controller='users'*/[0m
+  ↳ app/controllers/users_controller.rb:16:in `show'
+  [1m[36mLoyaltyPoint Load (0.3ms)[0m  [1m[34mSELECT "loyalty_points".* FROM "loyalty_points" WHERE "loyalty_points"."user_id" = 1 LIMIT 1 /*action='show',application='RubymineTestProject1',controller='users'*/[0m
+  ↳ app/controllers/users_controller.rb:29:in `show'
+  [1m[36mUserAchievement Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "user_achievements" WHERE "user_achievements"."user_id" = 1 /*action='show',application='RubymineTestProject1',controller='users'*/[0m
+  ↳ app/controllers/users_controller.rb:30:in `show'
+  [1m[36mAchievement Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "achievements" /*action='show',application='RubymineTestProject1',controller='users'*/[0m
+  ↳ app/controllers/users_controller.rb:31:in `show'
+  [1m[36mIntegrationPrivacySetting Load (0.1ms)[0m  [1m[34mSELECT "integration_privacy_settings".* FROM "integration_privacy_settings" WHERE "integration_privacy_settings"."integration_id" = 1 AND "integration_privacy_settings"."integration_type" = 'SteamAccount' LIMIT 1 /*action='show',application='RubymineTestProject1',controller='users'*/[0m
+  ↳ app/controllers/users_controller.rb:36:in `show'
+Completed 500 Internal Server Error in 68ms (ActiveRecord: 4.7ms (12 queries, 0 cached) | GC: 4.6ms)
+
+
+  
+NoMethodError (undefined method `steam_games' for an instance of SteamAccount):
+  
+app/controllers/users_controller.rb:47:in `show'

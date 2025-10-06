@@ -15,8 +15,8 @@ class Subscription < ApplicationRecord
   # Platform subscription plans
   PLANS = {
     'free' => { name: 'Free', price: 0, stripe_price_id: nil },
-    'pro' => { name: 'Pro', price: 1900, stripe_price_id: ENV['STRIPE_PRO_PRICE_ID'] },
-    'enterprise' => { name: 'Enterprise', price: 9900, stripe_price_id: ENV['STRIPE_ENTERPRISE_PRICE_ID'] }
+    'pro' => { name: 'Pro', price: 1900, stripe_price_id: -> { Rails.application.credentials.dig(:stripe, :pro_price_id) } },
+    'enterprise' => { name: 'Enterprise', price: 9900, stripe_price_id: -> { Rails.application.credentials.dig(:stripe, :enterprise_price_id) } }
   }.freeze
 
   # Validations

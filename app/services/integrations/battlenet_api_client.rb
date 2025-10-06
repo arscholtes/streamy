@@ -26,7 +26,11 @@ module Integrations
 
     # Get user profile (BattleTag, etc.)
     def fetch_user_profile
-      get('/oauth/userinfo')
+      # userinfo endpoint is on the OAuth URL, not the API URL
+      url = "#{oauth_base_url}/oauth/userinfo"
+      response = self.class.get(url, headers: default_headers)
+      handle_response(response)
+      parse_response(response)
     end
 
     # World of Warcraft methods
@@ -60,12 +64,17 @@ module Integrations
 
     # Account information
     def fetch_account_info
-      response = get('/oauth/userinfo')
+      # userinfo endpoint is on the OAuth URL, not the API URL
+      url = "#{oauth_base_url}/oauth/userinfo"
+      response = self.class.get(url, headers: default_headers)
 
+      handle_response(response)
+
+      parsed = parse_response(response)
       {
-        battletag: response[:battletag],
-        id: response[:id],
-        sub: response[:sub]
+        battletag: parsed[:battletag],
+        id: parsed[:id],
+        sub: parsed[:sub]
       }
     end
   end
