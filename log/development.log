@@ -7099,3 +7099,102 @@ Completed 500 Internal Server Error in 68ms (ActiveRecord: 4.7ms (12 queries, 0 
 NoMethodError (undefined method `steam_games' for an instance of SteamAccount):
   
 app/controllers/users_controller.rb:47:in `show'
+Started GET "/streams/1" for 127.0.0.1 at 2025-10-05 22:00:37 -0400
+Processing by StreamsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mStream Load (3.4ms)[0m  [1m[34mSELECT "streams".* FROM "streams" WHERE "streams"."id" = 1 LIMIT 1 /*action='show',application='RubymineTestProject1',controller='streams'*/[0m
+  ↳ app/controllers/streams_controller.rb:78:in `set_stream'
+  [1m[36mChatMessage Load (0.3ms)[0m  [1m[34mSELECT "chat_messages".* FROM "chat_messages" WHERE "chat_messages"."stream_id" = 1 ORDER BY "chat_messages"."created_at" DESC LIMIT 100 /*action='show',application='RubymineTestProject1',controller='streams'*/[0m
+  ↳ app/controllers/streams_controller.rb:57:in `show'
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 /*action='show',application='RubymineTestProject1',controller='streams'*/[0m
+  ↳ app/controllers/streams_controller.rb:57:in `show'
+  Rendering layout layouts/application.html.erb
+  Rendering streams/show.html.erb within layouts/application
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='show',application='RubymineTestProject1',controller='streams'*/[0m
+  ↳ app/views/streams/show.html.erb:4
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  [1m[36mStream Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "streams" WHERE "streams"."status" = 'live' AND "streams"."id" != 1 LIMIT 1 /*action='show',application='RubymineTestProject1',controller='streams'*/[0m
+  ↳ app/views/streams/show.html.erb:119
+  Rendered streams/show.html.erb within layouts/application (Duration: 6.7ms | GC: 0.8ms)
+  Rendered layout layouts/application.html.erb (Duration: 11.3ms | GC: 1.0ms)
+Completed 200 OK in 68ms (Views: 12.1ms | ActiveRecord: 3.9ms (6 queries, 1 cached) | GC: 6.6ms)
+
+
+Started GET "/cable" for 127.0.0.1 at 2025-10-05 22:00:37 -0400
+Started GET "/cable" [WebSocket] for 127.0.0.1 at 2025-10-05 22:00:37 -0400
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  ↳ app/channels/application_cable/connection.rb:13:in `find_verified_user'
+An unauthorized connection attempt was rejected
+Finished "/cable" [WebSocket] for 127.0.0.1 at 2025-10-05 22:00:37 -0400
+Started GET "/cable" for 127.0.0.1 at 2025-10-05 22:00:37 -0400
+Started GET "/cable" [WebSocket] for 127.0.0.1 at 2025-10-05 22:00:37 -0400
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT 1 /*application='RubymineTestProject1'*/[0m
+  ↳ app/channels/application_cable/connection.rb:13:in `find_verified_user'
+An unauthorized connection attempt was rejected
+Finished "/cable" [WebSocket] for 127.0.0.1 at 2025-10-05 22:00:37 -0400
+Started GET "/settings" for 127.0.0.1 at 2025-10-05 22:00:46 -0400
+Processing by SettingsController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  Rendering layout layouts/application.html.erb
+  Rendering settings/index.html.erb within layouts/application
+  [1m[36mSteamAccount Load (0.4ms)[0m  [1m[34mSELECT "steam_accounts".* FROM "steam_accounts" WHERE "steam_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:53
+  [1m[36mDiscordAccount Load (0.3ms)[0m  [1m[34mSELECT "discord_accounts".* FROM "discord_accounts" WHERE "discord_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:54
+  [1m[36mBattlenetAccount Load (0.1ms)[0m  [1m[34mSELECT "battlenet_accounts".* FROM "battlenet_accounts" WHERE "battlenet_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:55
+  [1m[36mRiotAccount Load (0.4ms)[0m  [1m[34mSELECT "riot_accounts".* FROM "riot_accounts" WHERE "riot_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:56
+  [1m[36mSpotifyAccount Load (0.3ms)[0m  [1m[34mSELECT "spotify_accounts".* FROM "spotify_accounts" WHERE "spotify_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='settings'*/[0m
+  ↳ app/views/settings/index.html.erb:57
+  Rendered settings/index.html.erb within layouts/application (Duration: 23.7ms | GC: 1.1ms)
+  Rendered layout layouts/application.html.erb (Duration: 24.2ms | GC: 1.1ms)
+Completed 200 OK in 46ms (Views: 23.2ms | ActiveRecord: 1.6ms (6 queries, 0 cached) | GC: 1.2ms)
+
+
+Started GET "/dashboard" for 127.0.0.1 at 2025-10-05 22:00:46 -0400
+Processing by DashboardController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='dashboard'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  [1m[36mStream Load (0.0ms)[0m  [1m[34mSELECT "streams".* FROM "streams" WHERE "streams"."user_id" = 1 ORDER BY "streams"."id" ASC LIMIT 1 /*action='index',application='RubymineTestProject1',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:21:in `index'
+  [1m[36mStream Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "streams" WHERE "streams"."user_id" = 1 /*action='index',application='RubymineTestProject1',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:28:in `index'
+  [1m[36mStream Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "streams" WHERE "streams"."user_id" = 1 AND "streams"."status" = 'live' /*action='index',application='RubymineTestProject1',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:29:in `index'
+  [1m[36mSteamAccount Load (0.0ms)[0m  [1m[34mSELECT "steam_accounts".* FROM "steam_accounts" WHERE "steam_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:35:in `index'
+  [1m[36mDiscordAccount Load (0.0ms)[0m  [1m[34mSELECT "discord_accounts".* FROM "discord_accounts" WHERE "discord_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:36:in `index'
+  Rendering layout layouts/application.html.erb
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (Duration: 1.3ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.7ms | GC: 0.0ms)
+Completed 200 OK in 24ms (Views: 2.3ms | ActiveRecord: 0.2ms (6 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/dashboard" for 127.0.0.1 at 2025-10-05 22:00:51 -0400
+Processing by DashboardController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='dashboard'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:34:in `current_user'
+  [1m[36mStream Load (0.0ms)[0m  [1m[34mSELECT "streams".* FROM "streams" WHERE "streams"."user_id" = 1 ORDER BY "streams"."id" ASC LIMIT 1 /*action='index',application='RubymineTestProject1',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:21:in `index'
+  [1m[36mStream Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "streams" WHERE "streams"."user_id" = 1 /*action='index',application='RubymineTestProject1',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:28:in `index'
+  [1m[36mStream Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "streams" WHERE "streams"."user_id" = 1 AND "streams"."status" = 'live' /*action='index',application='RubymineTestProject1',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:29:in `index'
+  [1m[36mSteamAccount Load (0.0ms)[0m  [1m[34mSELECT "steam_accounts".* FROM "steam_accounts" WHERE "steam_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:35:in `index'
+  [1m[36mDiscordAccount Load (0.0ms)[0m  [1m[34mSELECT "discord_accounts".* FROM "discord_accounts" WHERE "discord_accounts"."user_id" = 1 LIMIT 1 /*action='index',application='RubymineTestProject1',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:36:in `index'
+  Rendering layout layouts/application.html.erb
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (Duration: 0.4ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 0.8ms | GC: 0.0ms)
+Completed 200 OK in 25ms (Views: 0.9ms | ActiveRecord: 0.3ms (6 queries, 0 cached) | GC: 2.7ms)
+
+

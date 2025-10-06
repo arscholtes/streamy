@@ -68,11 +68,11 @@ class DashboardControllerTest < ActionDispatch::IntegrationTest
     # Access dashboard
     get dashboard_path
 
-    # Should show stream title
-    assert_select "h3", /#{@stream.title}/
+    # Should show stream title (it's in an h4 tag in the view)
+    assert_select "h4", /#{@stream.title}/
 
-    # Should show stream status
-    assert_select "span.badge", /offline/i
+    # Should show stream status (the word "offline" appears in the status display)
+    assert_select "span", /offline/i
   end
 
   # TEST: should show stream key (for OBS setup)
@@ -142,7 +142,7 @@ class DashboardControllerTest < ActionDispatch::IntegrationTest
     # Access dashboard
     get dashboard_path
 
-    # Should show stats cards
-    assert_select ".card", minimum: 2
+    # Should show stats cards (the view uses .stat-card class, not .card)
+    assert_select ".stat-card", minimum: 2
   end
 end

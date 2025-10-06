@@ -1,11 +1,13 @@
 class Stream < ApplicationRecord
   belongs_to :user
   has_many :chat_messages, dependent: :destroy
-  has_many :game_sessions, dependent: :destroy
+  # TODO: Uncomment when GameSession model is created
+  # has_many :game_sessions, dependent: :destroy
 
   # Callbacks
   after_commit :start_game_detection, on: :update, if: :just_went_live?
-  after_commit :end_game_sessions, on: :update, if: :just_went_offline?
+  # TODO: Uncomment when GameSession model is created
+  # after_commit :end_game_sessions, on: :update, if: :just_went_offline?
 
   # Validations
   validates :title, presence: true, length: { minimum: 3, maximum: 100 }
@@ -80,7 +82,8 @@ class Stream < ApplicationRecord
   end
 
   # End all active game sessions when stream goes offline
-  def end_game_sessions
-    game_sessions.where(ended_at: nil).update_all(ended_at: Time.current)
-  end
+  # TODO: Uncomment when GameSession model is created
+  # def end_game_sessions
+  #   game_sessions.where(ended_at: nil).update_all(ended_at: Time.current)
+  # end
 end
