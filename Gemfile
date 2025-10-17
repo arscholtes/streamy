@@ -22,7 +22,7 @@ gem "jbuilder"
 gem "bcrypt", "~> 3.1.7"
 
 # Stripe for payment processing
-gem "stripe", "~> 12.0"
+gem "stripe", "~> 17.0"
 
 # HTTParty for API requests
 gem "httparty", "~> 0.21"
