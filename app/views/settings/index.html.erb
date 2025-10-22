@@ -62,6 +62,12 @@
           <% end %>
         </button>
       </li>
+      <li class="nav-item" role="presentation" style="flex: 1;">
+        <button class="nav-link" id="overlays-tab" data-bs-toggle="tab" data-bs-target="#overlays" type="button"
+                style="width: 100%; background: transparent; border: none; color: var(--text-muted); border-radius: var(--radius-md); font-weight: 600; transition: all var(--transition-base);">
+          <i class="bi bi-broadcast"></i> OBS Overlays
+        </button>
+      </li>
     </ul>
   </div>
 
@@ -322,7 +328,7 @@
                   <% if @user.subscription_tier == "pro" %>
                     <span class="badge-pro">ACTIVE</span>
                   <% else %>
-                    <%= button_to "Upgrade to Pro", subscriptions_path(plan: 'pro'), method: :post, class: "btn-gradient-primary btn-sm", style: "padding: 0.5rem 1.5rem;" %>
+                    <%= button_to "Upgrade to Pro", subscriptions_path(plan: 'pro'), method: :post, class: "btn-gradient-primary btn-sm", style: "padding: 0.5rem 1.5rem;", data: { turbo: false } %>
                   <% end %>
                 </div>
               </div>
@@ -355,7 +361,7 @@
                   <% if @user.subscription_tier == "enterprise" %>
                     <span class="badge-pro">ACTIVE</span>
                   <% else %>
-                    <%= button_to "Upgrade to Enterprise", subscriptions_path(plan: 'enterprise'), method: :post, class: "btn-outline-gradient btn-sm", style: "padding: 0.5rem 1.5rem; font-size: 0.875rem;" %>
+                    <%= button_to "Upgrade to Enterprise", subscriptions_path(plan: 'enterprise'), method: :post, class: "btn-outline-gradient btn-sm", style: "padding: 0.5rem 1.5rem; font-size: 0.875rem;", data: { turbo: false } %>
                   <% end %>
                 </div>
               </div>
@@ -650,8 +656,241 @@
         </div>
       </div>
     </div>
+
+    <%# OBS OVERLAYS TAB %>
+    <div class="tab-pane fade" id="overlays" role="tabpanel">
+      <div class="glass-card">
+        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
+          <div style="width: 60px; height: 60px; background: var(--gradient-primary); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 2rem;">
+            🎥
+          </div>
+          <div>
+            <h3 style="margin-bottom: 0.25rem; font-size: 1.75rem; font-weight: 700;">
+              <span class="gradient-text">OBS Browser Source Overlays</span>
+            </h3>
+            <p style="color: var(--text-muted); margin: 0;">Add these URLs to OBS as Browser Sources</p>
+          </div>
+        </div>
+
+        <%# Info Box %>
+        <div style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 2rem;">
+          <h6 style="color: var(--accent-blue); margin-bottom: 0.5rem; font-weight: 600;">
+            <i class="bi bi-lightbulb"></i> How to Use
+          </h6>
+          <ol style="color: var(--text-secondary); margin: 0; padding-left: 1.25rem; font-size: 0.875rem;">
+            <li style="margin-bottom: 0.5rem;">In OBS, add a new <strong>Browser</strong> source</li>
+            <li style="margin-bottom: 0.5rem;">Copy one of the URLs below and paste it into the URL field</li>
+            <li style="margin-bottom: 0.5rem;">Set recommended dimensions and click OK</li>
+            <li>The overlay will update in real-time!</li>
+          </ol>
+        </div>
+
+        <%# Overlay Cards %>
+        <div class="row">
+          <%# Gaming Stats Overlay %>
+          <div class="col-md-6 mb-3">
+            <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-md); padding: 1.5rem;">
+              <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #1b2838, #2a475e); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                  🎮
+                </div>
+                <div>
+                  <h5 style="margin: 0; font-size: 1.125rem; font-weight: 600;">Gaming Stats</h5>
+                  <p style="margin: 0; font-size: 0.75rem; color: var(--text-muted);">Steam, Discord, Battle.net, Riot</p>
+                </div>
+              </div>
+              <div style="margin-bottom: 1rem;">
+                <label style="color: var(--text-muted); font-size: 0.75rem; margin-bottom: 0.5rem; display: block;">Browser Source URL</label>
+                <div class="input-group">
+                  <input type="text" class="form-control-dark" id="overlay-gaming-url" readonly
+                    value="<%= overlay_url(current_user.username, 'gaming_stats', token: current_user.stream_key) %>"
+                    style="font-family: monospace; font-size: 0.75rem;">
+                  <button class="btn-gradient-secondary btn-sm" onclick="copyOverlayUrl('overlay-gaming-url', this)">
+                    <i class="bi bi-clipboard"></i>
+                  </button>
+                </div>
+              </div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">
+                <strong>Recommended Size:</strong> 400x600 • <strong>Position:</strong> Bottom Left
+              </div>
+            </div>
+          </div>
+
+          <%# Stream Info Overlay %>
+          <div class="col-md-6 mb-3">
+            <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-md); padding: 1.5rem;">
+              <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                  📺
+                </div>
+                <div>
+                  <h5 style="margin: 0; font-size: 1.125rem; font-weight: 600;">Stream Info</h5>
+                  <p style="margin: 0; font-size: 0.75rem; color: var(--text-muted);">Title, duration, status</p>
+                </div>
+              </div>
+              <div style="margin-bottom: 1rem;">
+                <label style="color: var(--text-muted); font-size: 0.75rem; margin-bottom: 0.5rem; display: block;">Browser Source URL</label>
+                <div class="input-group">
+                  <input type="text" class="form-control-dark" id="overlay-stream-url" readonly
+                    value="<%= overlay_url(current_user.username, 'stream_info', token: current_user.stream_key) %>"
+                    style="font-family: monospace; font-size: 0.75rem;">
+                  <button class="btn-gradient-secondary btn-sm" onclick="copyOverlayUrl('overlay-stream-url', this)">
+                    <i class="bi bi-clipboard"></i>
+                  </button>
+                </div>
+              </div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">
+                <strong>Recommended Size:</strong> 400x300 • <strong>Position:</strong> Top Right
+              </div>
+            </div>
+          </div>
+
+          <%# Social Stats Overlay %>
+          <div class="col-md-6 mb-3">
+            <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-md); padding: 1.5rem;">
+              <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #10b981, #059669); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                  📊
+                </div>
+                <div>
+                  <h5 style="margin: 0; font-size: 1.125rem; font-weight: 600;">Social Stats</h5>
+                  <p style="margin: 0; font-size: 0.75rem; color: var(--text-muted);">Connected services, stream count</p>
+                </div>
+              </div>
+              <div style="margin-bottom: 1rem;">
+                <label style="color: var(--text-muted); font-size: 0.75rem; margin-bottom: 0.5rem; display: block;">Browser Source URL</label>
+                <div class="input-group">
+                  <input type="text" class="form-control-dark" id="overlay-social-url" readonly
+                    value="<%= overlay_url(current_user.username, 'social_stats', token: current_user.stream_key) %>"
+                    style="font-family: monospace; font-size: 0.75rem;">
+                  <button class="btn-gradient-secondary btn-sm" onclick="copyOverlayUrl('overlay-social-url', this)">
+                    <i class="bi bi-clipboard"></i>
+                  </button>
+                </div>
+              </div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">
+                <strong>Recommended Size:</strong> 350x400 • <strong>Position:</strong> Top Left
+              </div>
+            </div>
+          </div>
+
+          <%# Now Playing Overlay %>
+          <div class="col-md-6 mb-3">
+            <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-md); padding: 1.5rem;">
+              <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #1DB954, #1ed760); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                  🎵
+                </div>
+                <div>
+                  <h5 style="margin: 0; font-size: 1.125rem; font-weight: 600;">Now Playing</h5>
+                  <p style="margin: 0; font-size: 0.75rem; color: var(--text-muted);">Current game or music</p>
+                </div>
+              </div>
+              <div style="margin-bottom: 1rem;">
+                <label style="color: var(--text-muted); font-size: 0.75rem; margin-bottom: 0.5rem; display: block;">Browser Source URL</label>
+                <div class="input-group">
+                  <input type="text" class="form-control-dark" id="overlay-nowplaying-url" readonly
+                    value="<%= overlay_url(current_user.username, 'now_playing', token: current_user.stream_key) %>"
+                    style="font-family: monospace; font-size: 0.75rem;">
+                  <button class="btn-gradient-secondary btn-sm" onclick="copyOverlayUrl('overlay-nowplaying-url', this)">
+                    <i class="bi bi-clipboard"></i>
+                  </button>
+                </div>
+              </div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">
+                <strong>Recommended Size:</strong> 400x250 • <strong>Position:</strong> Bottom Right
+              </div>
+            </div>
+          </div>
+
+          <%# Recent Events Overlay %>
+          <div class="col-md-6 mb-3">
+            <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-md); padding: 1.5rem;">
+              <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                  🎉
+                </div>
+                <div>
+                  <h5 style="margin: 0; font-size: 1.125rem; font-weight: 600;">Event Alerts</h5>
+                  <p style="margin: 0; font-size: 0.75rem; color: var(--text-muted);">Donations, follows, subs</p>
+                </div>
+              </div>
+              <div style="margin-bottom: 1rem;">
+                <label style="color: var(--text-muted); font-size: 0.75rem; margin-bottom: 0.5rem; display: block;">Browser Source URL</label>
+                <div class="input-group">
+                  <input type="text" class="form-control-dark" id="overlay-events-url" readonly
+                    value="<%= overlay_url(current_user.username, 'recent_events', token: current_user.stream_key) %>"
+                    style="font-family: monospace; font-size: 0.75rem;">
+                  <button class="btn-gradient-secondary btn-sm" onclick="copyOverlayUrl('overlay-events-url', this)">
+                    <i class="bi bi-clipboard"></i>
+                  </button>
+                </div>
+              </div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">
+                <strong>Recommended Size:</strong> 600x400 • <strong>Position:</strong> Center
+              </div>
+            </div>
+          </div>
+
+          <%# Custom Alert Overlay %>
+          <div class="col-md-6 mb-3">
+            <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-md); padding: 1.5rem;">
+              <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #8b5cf6, #7c3aed); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                  ✨
+                </div>
+                <div>
+                  <h5 style="margin: 0; font-size: 1.125rem; font-weight: 600;">Custom Alerts</h5>
+                  <p style="margin: 0; font-size: 0.75rem; color: var(--text-muted);">Customizable messages</p>
+                </div>
+              </div>
+              <div style="margin-bottom: 1rem;">
+                <label style="color: var(--text-muted); font-size: 0.75rem; margin-bottom: 0.5rem; display: block;">Browser Source URL</label>
+                <div class="input-group">
+                  <input type="text" class="form-control-dark" id="overlay-custom-url" readonly
+                    value="<%= overlay_url(current_user.username, 'custom_alert', token: current_user.stream_key) %>"
+                    style="font-family: monospace; font-size: 0.75rem;">
+                  <button class="btn-gradient-secondary btn-sm" onclick="copyOverlayUrl('overlay-custom-url', this)">
+                    <i class="bi bi-clipboard"></i>
+                  </button>
+                </div>
+              </div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">
+                <strong>Recommended Size:</strong> 700x500 • <strong>Position:</strong> Center
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <%# Security Note %>
+        <div style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: var(--radius-md); padding: 1rem; margin-top: 1.5rem;">
+          <i class="bi bi-shield-exclamation" style="color: var(--accent-yellow);"></i>
+          <strong style="color: var(--accent-yellow);">Security:</strong>
+          <span style="color: var(--text-muted); font-size: 0.875rem;">
+            Overlay URLs include your stream key token for authentication. Don't share these URLs publicly!
+          </span>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+
+<script>
+function copyOverlayUrl(inputId, button) {
+  const input = document.getElementById(inputId);
+  input.select();
+  navigator.clipboard.writeText(input.value).then(() => {
+    const originalHTML = button.innerHTML;
+    button.innerHTML = '<i class="bi bi-check"></i>';
+    button.style.background = 'linear-gradient(135deg, #10B981, #059669)';
+
+    setTimeout(() => {
+      button.innerHTML = originalHTML;
+      button.style.background = '';
+    }, 2000);
+  });
+}
+</script>
 
 <style>
 /* Custom tab styling */

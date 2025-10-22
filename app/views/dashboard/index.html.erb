@@ -103,6 +103,34 @@
     </div>
   </div>
 
+  <%# Business Dashboard Link %>
+  <div class="row mb-4 fade-in-delay-1">
+    <div class="col-12">
+      <%= link_to business_path, style: "text-decoration: none;" do %>
+        <div class="glass-card" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%); border: 2px solid rgba(16, 185, 129, 0.3); transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.borderColor='rgba(16, 185, 129, 0.6)'; this.style.transform='translateY(-2px)';" onmouseout="this.style.borderColor='rgba(16, 185, 129, 0.3)'; this.style.transform='translateY(0)';">
+          <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.5rem;">
+            <div style="display: flex; align-items: center; gap: 1.5rem;">
+              <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #10B981, #059669); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 2rem;">
+                💼
+              </div>
+              <div>
+                <h4 style="margin-bottom: 0.25rem; font-size: 1.5rem; font-weight: 700;">
+                  <span class="gradient-text">Business Dashboard</span>
+                </h4>
+                <p style="color: var(--text-muted); margin: 0; font-size: 0.95rem;">
+                  Track revenue, manage expenses, and grow your streaming business
+                </p>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+              <i class="bi bi-arrow-right-circle" style="font-size: 2rem; color: var(--accent-green);"></i>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
   <%# Main Content Row %>
   <div class="row fade-in-delay-2">
     <%# Stream Setup Column %>

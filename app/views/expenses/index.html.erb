@@ -1,0 +1,114 @@
+<% content_for :title, "Expense Management" %>
+
+<div style="background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%); padding: 3rem 0; margin-bottom: 2rem;">
+  <div class="container-fluid">
+    <div class="row align-items-center">
+      <div class="col-md-8">
+        <h1 style="font-size: clamp(2rem, 4vw, 3rem); font-weight: 800;">
+          💸 <span class="gradient-text">Expense Management</span>
+        </h1>
+        <p style="font-size: 1.125rem; color: var(--text-muted);">Track and manage your business expenses</p>
+      </div>
+      <div class="col-md-4 text-end">
+        <%= link_to new_expense_path, class: "btn-gradient-primary" do %>
+          <i class="bi bi-plus-circle"></i> Add Expense
+        <% end %>
+        <%= link_to expenses_path(format: :csv), class: "btn-outline-gradient" do %>
+          <i class="bi bi-download"></i> Export CSV
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="row mb-4">
+    <div class="col-md-3 mb-3">
+      <div class="stat-card">
+        <div class="stat-card-icon">💰</div>
+        <div class="stat-card-value">$<%= number_with_precision(@total_expenses, precision: 2, delimiter: ',') %></div>
+        <div class="stat-card-label">Total Expenses</div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="stat-card">
+        <div class="stat-card-icon">📅</div>
+        <div class="stat-card-value">$<%= number_with_precision(@this_month_expenses, precision: 2, delimiter: ',') %></div>
+        <div class="stat-card-label">This Month</div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="stat-card">
+        <div class="stat-card-icon">📊</div>
+        <div class="stat-card-value">$<%= number_with_precision(@this_year_expenses, precision: 2, delimiter: ',') %></div>
+        <div class="stat-card-label">This Year</div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="stat-card">
+        <div class="stat-card-icon">📋</div>
+        <div class="stat-card-value">$<%= number_with_precision(@tax_deductible_total, precision: 2, delimiter: ',') %></div>
+        <div class="stat-card-label">Tax Deductible</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="glass-card">
+    <h3 style="margin-bottom: 2rem; font-size: 1.75rem; font-weight: 700;">
+      <span class="gradient-text">Recent Expenses</span>
+    </h3>
+
+    <% if @expenses.any? %>
+      <div class="table-responsive">
+        <table style="width: 100%; color: var(--text-primary);">
+          <thead>
+            <tr style="border-bottom: 2px solid rgba(255,255,255,0.1);">
+              <th style="padding: 1rem; text-align: left;">Date</th>
+              <th style="padding: 1rem; text-align: left;">Category</th>
+              <th style="padding: 1rem; text-align: left;">Description</th>
+              <th style="padding: 1rem; text-align: right;">Amount</th>
+              <th style="padding: 1rem; text-align: center;">Tax Deductible</th>
+              <th style="padding: 1rem; text-align: right;">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @expenses.each do |expense| %>
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                <td style="padding: 1rem;"><%= expense.date.strftime('%b %d, %Y') %></td>
+                <td style="padding: 1rem;"><%= expense.category_label %></td>
+                <td style="padding: 1rem;"><%= truncate(expense.description, length: 50) %></td>
+                <td style="padding: 1rem; text-align: right; font-weight: 700; color: var(--accent-red);">
+                  -$<%= number_with_precision(expense.amount_dollars, precision: 2) %>
+                </td>
+                <td style="padding: 1rem; text-align: center;">
+                  <% if expense.tax_deductible %>
+                    <span style="color: var(--accent-green);">✓</span>
+                  <% else %>
+                    <span style="color: var(--text-muted);">-</span>
+                  <% end %>
+                </td>
+                <td style="padding: 1rem; text-align: right;">
+                  <%= link_to edit_expense_path(expense), class: "btn-outline-gradient btn-sm", style: "margin-right: 0.5rem;" do %>
+                    Edit
+                  <% end %>
+                  <%= button_to expense_path(expense), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn-outline-gradient btn-sm" do %>
+                    Delete
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+
+      <%= paginate @expenses if @expenses.respond_to?(:current_page) %>
+    <% else %>
+      <div style="text-align: center; padding: 3rem;">
+        <p style="color: var(--text-muted); margin-bottom: 2rem;">No expenses tracked yet</p>
+        <%= link_to new_expense_path, class: "btn-gradient-primary" do %>
+          <i class="bi bi-plus-circle"></i> Add Your First Expense
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

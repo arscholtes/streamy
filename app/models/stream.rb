@@ -1,13 +1,13 @@
 class Stream < ApplicationRecord
   belongs_to :user
   has_many :chat_messages, dependent: :destroy
-  # TODO: Uncomment when GameSession model is created
-  # has_many :game_sessions, dependent: :destroy
+  has_many :game_sessions, dependent: :destroy
+  has_many :analytics_events, dependent: :destroy
+  has_many :stream_metric_snapshots, dependent: :destroy
 
   # Callbacks
   after_commit :start_game_detection, on: :update, if: :just_went_live?
-  # TODO: Uncomment when GameSession model is created
-  # after_commit :end_game_sessions, on: :update, if: :just_went_offline?
+  after_commit :end_game_sessions, on: :update, if: :just_went_offline?
 
   # Validations
   validates :title, presence: true, length: { minimum: 3, maximum: 100 }
@@ -37,11 +37,33 @@ class Stream < ApplicationRecord
     status == 'offline'
   end
 
-  # Get viewer count (mock for now, would come from streaming server)
-  def viewer_count
-    return 0 unless live?
-    # Mock data - in production this would query your streaming server
-    rand(10..500)
+  # Calculate stream duration in seconds
+  def duration
+    return duration_seconds if duration_seconds && duration_seconds > 0
+
+    if live? && started_at
+      (Time.current - started_at).to_i
+    elsif ended_at && started_at
+      (ended_at - started_at).to_i
+    else
+      0
+    end
+  end
+
+  # Format duration as human-readable string
+  def formatted_duration
+    total_seconds = duration
+    hours = total_seconds / 3600
+    minutes = (total_seconds % 3600) / 60
+    seconds = total_seconds % 60
+
+    if hours > 0
+      "#{hours}h #{minutes}m"
+    elsif minutes > 0
+      "#{minutes}m #{seconds}s"
+    else
+      "#{seconds}s"
+    end
   end
 
   # Generate thumbnail URL (mock for now)
@@ -82,8 +104,7 @@ class Stream < ApplicationRecord
   end
 
   # End all active game sessions when stream goes offline
-  # TODO: Uncomment when GameSession model is created
-  # def end_game_sessions
-  #   game_sessions.where(ended_at: nil).update_all(ended_at: Time.current)
-  # end
+  def end_game_sessions
+    game_sessions.where(ended_at: nil).update_all(ended_at: Time.current)
+  end
 end

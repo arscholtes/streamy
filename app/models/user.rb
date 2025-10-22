@@ -11,6 +11,8 @@ class User < ApplicationRecord
   # dependent: :destroy means when a user is deleted, all their streams are also deleted
   # This prevents orphaned records in the database
   has_many :streams, dependent: :destroy
+  has_many :game_sessions, dependent: :destroy
+  has_many :videos, dependent: :destroy
 
   # Integration associations - Tier 1
   has_one :steam_account, dependent: :destroy
@@ -41,6 +43,8 @@ class User < ApplicationRecord
   has_many :achievements, through: :user_achievements
   has_many :vc_queue_entries, dependent: :destroy
   has_many :mini_game_sessions, dependent: :destroy
+  has_many :goals, dependent: :destroy
+  has_many :goal_updates, dependent: :destroy
 
   # Moderation associations
   has_many :moderation_actions, dependent: :destroy
@@ -52,9 +56,16 @@ class User < ApplicationRecord
   has_one :active_subscription, -> { active }, class_name: 'Subscription'
   has_many :payments, dependent: :destroy
   has_many :received_payments, foreign_key: :recipient_id, class_name: 'Payment', dependent: :nullify
+  has_many :expenses, dependent: :destroy
 
   # Chat associations
   has_many :chat_messages, dependent: :destroy
+
+  # Analytics associations
+  has_many :analytics_events, dependent: :destroy
+  has_many :stream_metric_snapshots, dependent: :destroy
+  has_many :daily_stream_summaries, dependent: :destroy
+  has_many :user_analytics_summaries, dependent: :destroy
 
   # CALLBACKS
   # Methods that run automatically at specific points in an object's lifecycle

@@ -45,6 +45,18 @@ Rails.application.routes.draw do
   # Main user dashboard after login
   get "/dashboard", to: "dashboard#index", as: :dashboard
 
+  # BUSINESS DASHBOARD ROUTES
+  # Business analytics and financial management
+  get "/business", to: "business#index", as: :business
+  get "/business/export_revenue", to: "business#export_revenue", as: :export_revenue
+
+  # ANALYTICS DASHBOARD ROUTES
+  # Stream analytics and performance metrics
+  get "/analytics", to: "analytics#index", as: :analytics
+
+  # Expense management
+  resources :expenses, only: [:index, :new, :create, :edit, :update, :destroy]
+
   # SETTINGS ROUTES
   # User settings and preferences
   get "/settings", to: "settings#index", as: :settings
@@ -56,6 +68,14 @@ Rails.application.routes.draw do
   resources :streams, only: [ :index, :show, :edit, :update ] do
     # Nested chat messages routes
     resources :chat_messages, only: [ :create ]
+  end
+
+  # VIDEO ROUTES
+  # Routes for managing video uploads and YouTube integration
+  resources :videos do
+    member do
+      post :upload_to_youtube
+    end
   end
 
   # SUBSCRIPTION ROUTES
@@ -85,6 +105,19 @@ Rails.application.routes.draw do
   # WEBHOOK ROUTES
   # Stripe webhook endpoint
   post '/webhooks/stripe', to: 'webhooks#stripe'
+
+  # RTMP ROUTES
+  # MediaMTX stream authentication and webhooks
+  get '/rtmp/auth', to: 'rtmp#auth'
+  post '/rtmp/auth', to: 'rtmp#auth'
+  post '/rtmp/stream_start', to: 'rtmp#stream_start'
+  post '/rtmp/stream_stop', to: 'rtmp#stream_stop'
+  post '/rtmp/viewer_update', to: 'rtmp#viewer_update'
+  get '/rtmp/status', to: 'rtmp#status'
+
+  # Webhook routes (alternate names for MediaMTX compatibility)
+  post '/rtmp/webhooks/publish', to: 'rtmp#publish'
+  post '/rtmp/webhooks/unpublish', to: 'rtmp#unpublish'
 
   # INTEGRATION ROUTES
   # Routes for third-party integrations (Steam, Discord, etc.)
@@ -119,6 +152,11 @@ Rails.application.routes.draw do
     post 'obs/connect', to: 'obs#connect', as: :obs_connect
     delete 'obs/disconnect', to: 'obs#disconnect', as: :obs_disconnect
   end
+
+  # OVERLAY ROUTES
+  # OBS Browser Source Overlays
+  get '/overlays/:username/:overlay_type', to: 'overlays#show', as: :overlay
+  get '/overlays/:username/:overlay_type/data', to: 'overlays#data', as: :overlay_data
 
   # API ROUTES
   # Discord Bot API endpoints
@@ -159,6 +197,37 @@ Rails.application.routes.draw do
       get 'moderation/mutes/:discord_id', to: 'moderation#check_mute'
       post 'moderation/action', to: 'moderation#log_action'
       get 'moderation/actions', to: 'moderation#actions'
+
+      # Goals endpoints
+      get 'users/:user_id/goals', to: 'goals#index'
+      get 'goals/:id', to: 'goals#show'
+      post 'users/:user_id/goals', to: 'goals#create'
+      patch 'goals/:id', to: 'goals#update'
+      delete 'goals/:id', to: 'goals#destroy'
+      post 'goals/:id/progress', to: 'goals#update_progress'
+      post 'goals/:id/complete', to: 'goals#complete'
+      post 'goals/:id/pause', to: 'goals#pause'
+      post 'goals/:id/resume', to: 'goals#resume'
+      post 'goals/:id/abandon', to: 'goals#abandon'
+      get 'users/:user_id/goals/stats', to: 'goals#stats'
+
+      # Overlay endpoints
+      post 'users/:user_id/overlays/trigger_event', to: 'overlays#trigger_event'
+      post 'users/:user_id/overlays/trigger_alert', to: 'overlays#trigger_alert'
+      post 'users/:user_id/overlays/update_data', to: 'overlays#update_data'
+      get 'users/:user_id/overlays/events', to: 'overlays#events'
+      get 'users/:user_id/overlays/alerts', to: 'overlays#alerts'
+      delete 'users/:user_id/overlays/clear_events', to: 'overlays#clear_events'
+      delete 'users/:user_id/overlays/clear_alerts', to: 'overlays#clear_alerts'
+
+      # Analytics endpoints
+      get 'users/:user_id/analytics/overview', to: 'analytics#overview'
+      get 'users/:user_id/analytics/growth', to: 'analytics#growth'
+      get 'users/:user_id/analytics/insights', to: 'analytics#insights'
+      get 'users/:user_id/analytics/content', to: 'analytics#content'
+      get 'users/:user_id/analytics/audience', to: 'analytics#audience'
+      get 'users/:user_id/analytics/compare', to: 'analytics#compare'
+      post 'analytics/events', to: 'analytics#create_event'
     end
   end
 

@@ -10,13 +10,14 @@
       <%# Video Player %>
       <div style="position: relative; aspect-ratio: 16/9; background: #000;">
         <% if @stream.live? %>
-          <%# Live Stream Player %>
+          <%# Live Stream Player (Test Video Loop) %>
           <video id="streamPlayer"
                  controls
                  autoplay
+                 loop
                  muted
                  style="width: 100%; height: 100%; background: #000;">
-            <source src="<%= @stream.playback_url %>" type="application/x-mpegURL">
+            <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
             Your browser does not support the video tag.
           </video>
 
@@ -255,34 +256,3 @@
 }
 </style>
 
-<% if @stream.live? %>
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-  <script>
-    // Initialize HLS.js for live streaming
-    document.addEventListener('DOMContentLoaded', function() {
-      var video = document.getElementById('streamPlayer');
-      var videoSrc = '<%= @stream.playback_url %>';
-
-      if (Hls.isSupported()) {
-        var hls = new Hls({
-          enableWorker: true,
-          lowLatencyMode: true,
-        });
-        hls.loadSource(videoSrc);
-        hls.attachMedia(video);
-        hls.on(Hls.Events.MANIFEST_PARSED, function() {
-          video.play();
-        });
-        hls.on(Hls.Events.ERROR, function(event, data) {
-          console.log('HLS Error:', data);
-        });
-      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-        // Safari native HLS support
-        video.src = videoSrc;
-        video.addEventListener('loadedmetadata', function() {
-          video.play();
-        });
-      }
-    });
-  </script>
-<% end %>

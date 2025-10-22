@@ -23,6 +23,8 @@ RSpec.describe Integrations::RiotSyncService, type: :service do
     end
 
     it 'creates API client' do
+      # Create a new service to test initialization
+      new_service = described_class.new(riot_account)
       expect(Integrations::RiotApiClient).to have_received(:new).with(riot_account)
     end
   end

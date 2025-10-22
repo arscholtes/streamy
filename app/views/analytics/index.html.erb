@@ -1,0 +1,149 @@
+<%# app/views/analytics/index.html.erb %>
+<% content_for :title, "Stream Analytics" %>
+
+<%# Hero Header %>
+<div style="background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%); padding: 3rem 0; margin-bottom: 2rem;">
+  <div class="container-fluid">
+    <h1 style="font-size: clamp(2rem, 4vw, 3rem); font-weight: 800;">
+      📊 <span class="gradient-text">Stream Analytics</span>
+    </h1>
+    <p style="font-size: 1.125rem; color: var(--text-muted);">
+      Track your performance, growth, and audience engagement
+    </p>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <%# Key Metrics %>
+  <div class="row mb-4">
+    <div class="col-xl-3 col-md-6 mb-3">
+      <div class="stat-card" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(37, 99, 235, 0.1) 100%); border: 1px solid rgba(59, 130, 246, 0.3);">
+        <div class="stat-card-icon">👥</div>
+        <div class="stat-card-value"><%= @metrics[:performance][:avg_viewers_current].to_i %></div>
+        <div class="stat-card-label">Avg Viewers</div>
+      </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-3">
+      <div class="stat-card" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%); border: 1px solid rgba(16, 185, 129, 0.3);">
+        <div class="stat-card-icon">📈</div>
+        <div class="stat-card-value"><%= @metrics[:performance][:peak_viewers_current].to_i %></div>
+        <div class="stat-card-label">Peak Viewers</div>
+      </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-3">
+      <div class="stat-card" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(124, 58, 237, 0.1) 100%); border: 1px solid rgba(139, 92, 246, 0.3);">
+        <div class="stat-card-icon">⏱️</div>
+        <div class="stat-card-value"><%= @metrics[:consistency][:total_hours_streamed].round(1) %></div>
+        <div class="stat-card-label">Hours Streamed</div>
+      </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-3">
+      <div class="stat-card" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(217, 119, 6, 0.1) 100%); border: 1px solid rgba(245, 158, 11, 0.3);">
+        <div class="stat-card-icon">💬</div>
+        <div class="stat-card-value"><%= @metrics[:engagement][:engagement_score].to_i %></div>
+        <div class="stat-card-label">Engagement Score</div>
+      </div>
+    </div>
+  </div>
+
+  <%# Charts Row %>
+  <div class="row">
+    <div class="col-lg-8 mb-4">
+      <div class="glass-card">
+        <h3 style="margin-bottom: 2rem; font-size: 1.75rem; font-weight: 700;">
+          <span class="gradient-text">Viewer Trends</span>
+        </h3>
+        <div style="height: 400px;">
+          <canvas id="viewerChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4 mb-4">
+      <div class="glass-card mb-4">
+        <h5 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem;">
+          <span class="gradient-text">Growth Metrics</span>
+        </h5>
+        <div style="padding: 1rem; background: rgba(255,255,255,0.05); border-radius: var(--radius-md); margin-bottom: 1rem;">
+          <div style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.5rem;">Follower Growth</div>
+          <div style="font-size: 1.5rem; font-weight: 700; color: var(--accent-green);">
+            +<%= @metrics[:growth][:total_followers_gained] %>
+          </div>
+        </div>
+        <div style="padding: 1rem; background: rgba(255,255,255,0.05); border-radius: var(--radius-md); margin-bottom: 1rem;">
+          <div style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.5rem;">Days Streamed</div>
+          <div style="font-size: 1.5rem; font-weight: 700; color: var(--accent-blue);">
+            <%= @metrics[:consistency][:days_streamed] %>
+          </div>
+        </div>
+        <div style="padding: 1rem; background: rgba(255,255,255,0.05); border-radius: var(--radius-md);">
+          <div style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.5rem;">Avg Stream Duration</div>
+          <div style="font-size: 1.5rem; font-weight: 700; color: var(--accent-purple);">
+            <%= @metrics[:consistency][:avg_stream_duration_hours].round(1) %>h
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const summaries = <%= raw @daily_summaries.map { |s| { date: s.summary_date.strftime('%b %d'), avg_viewers: s.avg_viewers, peak_viewers: s.peak_viewers } }.to_json %>;
+
+  const labels = summaries.map(s => s.date);
+  const avgViewers = summaries.map(s => s.avg_viewers);
+  const peakViewers = summaries.map(s => s.peak_viewers);
+
+  new Chart(document.getElementById('viewerChart'), {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Avg Viewers',
+          data: avgViewers,
+          borderColor: 'rgb(59, 130, 246)',
+          backgroundColor: 'rgba(59, 130, 246, 0.1)',
+          borderWidth: 3,
+          fill: true,
+          tension: 0.4
+        },
+        {
+          label: 'Peak Viewers',
+          data: peakViewers,
+          borderColor: 'rgb(16, 185, 129)',
+          backgroundColor: 'rgba(16, 185, 129, 0.1)',
+          borderWidth: 3,
+          fill: true,
+          tension: 0.4
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          labels: { color: 'rgba(255,255,255,0.9)', font: { size: 13, weight: 'bold' } }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          grid: { color: 'rgba(255,255,255,0.08)' },
+          ticks: { color: 'rgba(255,255,255,0.7)' }
+        },
+        x: {
+          grid: { color: 'rgba(255,255,255,0.04)' },
+          ticks: { color: 'rgba(255,255,255,0.7)' }
+        }
+      }
+    }
+  });
+});
+</script>

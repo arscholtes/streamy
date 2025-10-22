@@ -1,0 +1,234 @@
+<%# Social Stats Overlay - Shows follower counts, integrations, etc. %>
+
+<% content_for :styles do %>
+<style>
+  .social-stats-overlay {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 350px;
+  }
+
+  .social-header {
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 16px;
+  }
+
+  .social-title {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .stat-item {
+    text-align: center;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .stat-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .stat-number {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .stat-label {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .integrations-section {
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 16px;
+  }
+
+  .integrations-title {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+  }
+
+  .integration-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .integration-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .badge-connected {
+    background: rgba(16, 185, 129, 0.2);
+    border: 1px solid rgba(16, 185, 129, 0.4);
+    color: #10b981;
+  }
+
+  .badge-disconnected {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .badge-icon {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+  }
+
+  .icon-green {
+    background: #10b981;
+  }
+
+  .icon-gray {
+    background: rgba(255, 255, 255, 0.3);
+  }
+</style>
+<% end %>
+
+<div class="social-stats-overlay fade-in">
+  <!-- Stats Grid -->
+  <div class="social-header">
+    <div class="social-title">Channel Stats</div>
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-number" id="total-streams">0</div>
+        <div class="stat-label">Total Streams</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" id="account-age">0</div>
+        <div class="stat-label">Days Online</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Integrations -->
+  <div class="integrations-section">
+    <div class="integrations-title">Connected Services</div>
+    <div class="integration-badges">
+      <div id="steam-badge" class="integration-badge badge-disconnected">
+        <div class="badge-icon icon-gray"></div>
+        Steam
+      </div>
+      <div id="discord-badge" class="integration-badge badge-disconnected">
+        <div class="badge-icon icon-gray"></div>
+        Discord
+      </div>
+      <div id="battlenet-badge" class="integration-badge badge-disconnected">
+        <div class="badge-icon icon-gray"></div>
+        Battle.net
+      </div>
+      <div id="riot-badge" class="integration-badge badge-disconnected">
+        <div class="badge-icon icon-gray"></div>
+        Riot
+      </div>
+      <div id="spotify-badge" class="integration-badge badge-disconnected">
+        <div class="badge-icon icon-gray"></div>
+        Spotify
+      </div>
+    </div>
+  </div>
+</div>
+
+<% content_for :scripts do %>
+<script>
+  let updateInterval;
+
+  async function updateSocialStats() {
+    const data = await fetchOverlayData();
+    if (!data) return;
+
+    // Update stats
+    if (data.user) {
+      const totalStreamsEl = document.getElementById('total-streams');
+      animateNumber(totalStreamsEl, data.user.total_streams || 0);
+
+      const accountAgeEl = document.getElementById('account-age');
+      animateNumber(accountAgeEl, data.user.account_age_days || 0);
+    }
+
+    // Update integration badges
+    if (data.integrations) {
+      updateBadge('steam', data.integrations.steam);
+      updateBadge('discord', data.integrations.discord);
+      updateBadge('battlenet', data.integrations.battlenet);
+      updateBadge('riot', data.integrations.riot);
+      updateBadge('spotify', data.integrations.spotify);
+    }
+  }
+
+  function updateBadge(platform, connected) {
+    const badge = document.getElementById(`${platform}-badge`);
+    if (!badge) return;
+
+    if (connected) {
+      badge.className = 'integration-badge badge-connected';
+      badge.innerHTML = `
+        <div class="badge-icon icon-green"></div>
+        ${capitalizeFirst(platform)}
+      `;
+    } else {
+      badge.className = 'integration-badge badge-disconnected';
+      badge.innerHTML = `
+        <div class="badge-icon icon-gray"></div>
+        ${capitalizeFirst(platform)}
+      `;
+    }
+  }
+
+  function capitalizeFirst(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+  // Initial load
+  updateSocialStats();
+
+  // Update every 10 seconds
+  updateInterval = setInterval(updateSocialStats, 10000);
+
+  // Cleanup
+  window.addEventListener('beforeunload', () => {
+    if (updateInterval) clearInterval(updateInterval);
+  });
+</script>
+<% end %>

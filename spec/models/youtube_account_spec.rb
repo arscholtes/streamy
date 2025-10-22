@@ -7,6 +7,8 @@ RSpec.describe YoutubeAccount, type: :model do
   end
 
   describe 'validations' do
+    subject { build(:youtube_account) }
+
     it { should validate_presence_of(:youtube_id) }
     it { should validate_uniqueness_of(:youtube_id) }
     it { should validate_presence_of(:channel_title) }

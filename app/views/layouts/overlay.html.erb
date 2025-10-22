@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>StreamHub Overlay</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <style>
+    /* Base overlay styles - transparent background for OBS */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: transparent;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #ffffff;
+      overflow: hidden;
+    }
+
+    /* Common overlay styling */
+    .overlay-container {
+      padding: 20px;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    /* Glass effect cards */
+    .glass-card {
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Text shadows for readability */
+    .text-shadow {
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    /* Gradient text */
+    .gradient-text {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Pulse animation for live indicators */
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.5;
+      }
+    }
+
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+
+    /* Slide in animation */
+    @keyframes slideIn {
+      from {
+        transform: translateX(-100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    .slide-in {
+      animation: slideIn 0.5s ease-out;
+    }
+
+    /* Fade in animation */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    .fade-in {
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    /* Live badge */
+    .live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #ef4444;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 14px;
+      text-transform: uppercase;
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      background: white;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    /* Platform icons */
+    .platform-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .steam-icon {
+      background: linear-gradient(135deg, #1b2838, #2a475e);
+    }
+
+    .discord-icon {
+      background: linear-gradient(135deg, #5865F2, #7289DA);
+    }
+
+    .battlenet-icon {
+      background: linear-gradient(135deg, #148eff, #0074e0);
+    }
+
+    .riot-icon {
+      background: linear-gradient(135deg, #d13639, #eb0029);
+    }
+
+    /* Stat counter */
+    .stat-value {
+      font-size: 48px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.7);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 8px;
+    }
+  </style>
+
+  <%= yield :styles %>
+
+  <%# ActionCable for WebSocket connections %>
+  <%= action_cable_meta_tag %>
+</head>
+<body>
+  <%= yield %>
+
+  <script src="https://cdn.jsdelivr.net/npm/@rails/actioncable@7.0.0/app/assets/javascripts/action_cable.js"></script>
+
+  <script>
+    // WebSocket connection for real-time updates
+    let overlaySubscription = null;
+    let cable = null;
+
+    // Extract token from URL
+    function getUrlParameter(name) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(name);
+    }
+
+    // Initialize ActionCable connection
+    function initializeWebSocket() {
+      const token = getUrlParameter('token');
+      if (!token) {
+        console.error('No token provided for WebSocket connection');
+        return;
+      }
+
+      // Get WebSocket URL (use wss:// for production, ws:// for development)
+      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+      const host = window.location.host;
+      const wsUrl = `${protocol}//${host}/cable`;
+
+      cable = ActionCable.createConsumer(wsUrl);
+
+      // Subscribe to overlay channel
+      overlaySubscription = cable.subscriptions.create(
+        { channel: 'OverlayChannel', token: token },
+        {
+          connected() {
+            console.log('✅ Connected to OverlayChannel');
+          },
+
+          disconnected() {
+            console.log('❌ Disconnected from OverlayChannel');
+          },
+
+          received(data) {
+            console.log('📡 Received data:', data);
+
+            if (data.type === 'data_update') {
+              handleDataUpdate(data);
+            } else if (data.type === 'refresh') {
+              handleRefresh(data);
+            }
+          }
+        }
+      );
+    }
+
+    // Handle data updates from WebSocket
+    function handleDataUpdate(message) {
+      if (window.updateOverlayFromWebSocket) {
+        window.updateOverlayFromWebSocket(message.data);
+      }
+    }
+
+    // Handle refresh requests
+    function handleRefresh(message) {
+      if (window.refreshOverlay) {
+        window.refreshOverlay();
+      }
+    }
+
+    // Fallback: Helper function to fetch overlay data via HTTP (for initial load or fallback)
+    async function fetchOverlayData() {
+      try {
+        const response = await fetch(window.location.pathname + '/data' + window.location.search);
+        if (!response.ok) throw new Error('Failed to fetch data');
+        return await response.json();
+      } catch (error) {
+        console.error('Error fetching overlay data:', error);
+        return null;
+      }
+    }
+
+    // Helper function to format duration
+    function formatDuration(seconds) {
+      const hours = Math.floor(seconds / 3600);
+      const minutes = Math.floor((seconds % 3600) / 60);
+      const secs = seconds % 60;
+
+      if (hours > 0) {
+        return `${hours}h ${minutes}m`;
+      } else if (minutes > 0) {
+        return `${minutes}m ${secs}s`;
+      } else {
+        return `${secs}s`;
+      }
+    }
+
+    // Helper function to animate number changes
+    function animateNumber(element, newValue) {
+      const oldValue = parseInt(element.textContent) || 0;
+      if (oldValue === newValue) return;
+
+      const duration = 500;
+      const steps = 20;
+      const stepValue = (newValue - oldValue) / steps;
+      let currentStep = 0;
+
+      const interval = setInterval(() => {
+        currentStep++;
+        const currentValue = Math.round(oldValue + (stepValue * currentStep));
+        element.textContent = currentValue;
+
+        if (currentStep >= steps) {
+          element.textContent = newValue;
+          clearInterval(interval);
+        }
+      }, duration / steps);
+    }
+  </script>
+
+  <%= yield :scripts %>
+</body>
+</html>

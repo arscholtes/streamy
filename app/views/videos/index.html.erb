@@ -1,0 +1,91 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold">My Videos</h1>
+    <%= link_to "Upload New Video", new_video_path, class: "bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+  </div>
+
+  <% if @videos.any? %>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <% @videos.each do |video| %>
+        <div class="bg-gray-800 rounded-lg overflow-hidden shadow-lg">
+          <!-- Thumbnail -->
+          <div class="relative pb-56 bg-gray-900">
+            <% if video.thumbnail_url.present? %>
+              <%= image_tag video.thumbnail_url, class: "absolute inset-0 w-full h-full object-cover" %>
+            <% elsif video.file.attached? %>
+              <div class="absolute inset-0 flex items-center justify-center">
+                <svg class="w-16 h-16 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                </svg>
+              </div>
+            <% else %>
+              <div class="absolute inset-0 flex items-center justify-center">
+                <span class="text-gray-500">No preview</span>
+              </div>
+            <% end %>
+
+            <!-- Status Badge -->
+            <div class="absolute top-2 right-2">
+              <% case video.status %>
+              <% when 'pending' %>
+                <span class="bg-yellow-600 text-white px-2 py-1 rounded text-xs">Pending</span>
+              <% when 'processing' %>
+                <span class="bg-blue-600 text-white px-2 py-1 rounded text-xs">Processing</span>
+              <% when 'uploaded' %>
+                <span class="bg-green-600 text-white px-2 py-1 rounded text-xs">Uploaded</span>
+              <% when 'published' %>
+                <span class="bg-purple-600 text-white px-2 py-1 rounded text-xs">Published</span>
+              <% when 'failed' %>
+                <span class="bg-red-600 text-white px-2 py-1 rounded text-xs">Failed</span>
+              <% end %>
+            </div>
+          </div>
+
+          <!-- Video Info -->
+          <div class="p-4">
+            <h3 class="font-bold text-lg mb-2 truncate"><%= video.title %></h3>
+
+            <% if video.description.present? %>
+              <p class="text-gray-400 text-sm mb-3 line-clamp-2"><%= video.description %></p>
+            <% end %>
+
+            <div class="flex items-center justify-between text-sm text-gray-400 mb-3">
+              <span><%= time_ago_in_words(video.created_at) %> ago</span>
+              <% if video.view_count && video.view_count > 0 %>
+                <span><%= number_with_delimiter(video.view_count) %> views</span>
+              <% end %>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex gap-2">
+              <%= link_to "View", video_path(video), class: "flex-1 text-center bg-gray-700 hover:bg-gray-600 text-white py-2 px-3 rounded text-sm" %>
+              <%= link_to "Edit", edit_video_path(video), class: "flex-1 text-center bg-gray-700 hover:bg-gray-600 text-white py-2 px-3 rounded text-sm" %>
+
+              <% if video.youtube_video_id.present? %>
+                <a href="<%= video.video_url %>" target="_blank" class="bg-red-600 hover:bg-red-700 text-white py-2 px-3 rounded text-sm">
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                  </svg>
+                </a>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Pagination -->
+    <div class="mt-8">
+      <%# Add pagination here if using kaminari or will_paginate %>
+    </div>
+  <% else %>
+    <div class="bg-gray-800 rounded-lg p-12 text-center">
+      <svg class="w-24 h-24 mx-auto text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+      </svg>
+      <h2 class="text-xl font-bold mb-2">No videos yet</h2>
+      <p class="text-gray-400 mb-6">Upload your first video to get started</p>
+      <%= link_to "Upload Video", new_video_path, class: "inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded" %>
+    </div>
+  <% end %>
+</div>

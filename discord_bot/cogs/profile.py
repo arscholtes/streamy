@@ -205,15 +205,47 @@ class Profile(commands.Cog):
     @commands.command(name='register')
     async def register(self, ctx: commands.Context):
         """Register your StreamHub account"""
-        embed = create_info_embed(
-            "🔗 Register Your Account",
-            "To register your StreamHub account:\n\n"
-            "1. Visit [streamhub.com/register](https://streamhub.com/register)\n"
-            "2. Click 'Sign in with Discord'\n"
-            "3. Authorize the connection\n\n"
-            "Your Discord account will be automatically linked!"
-        )
-        await ctx.send(embed=embed)
+        # Check if already registered
+        async with RailsAPIClient() as api:
+            existing_user = await api.get_user_by_discord_id(str(ctx.author.id))
+
+            if existing_user:
+                embed = create_embed(
+                    "✅ Already Registered",
+                    f"You're already registered, {ctx.author.mention}!",
+                    color=discord.Color.green(),
+                    fields=[
+                        {
+                            'name': '📧 Email',
+                            'value': existing_user['user']['email'],
+                            'inline': True
+                        },
+                        {
+                            'name': '👑 Subscription',
+                            'value': existing_user['user']['subscription_tier'].upper(),
+                            'inline': True
+                        },
+                        {
+                            'name': '🌐 Dashboard',
+                            'value': 'http://localhost:3000/dashboard',
+                            'inline': False
+                        }
+                    ]
+                )
+                await ctx.send(embed=embed)
+                return
+
+            # Not registered - send link to local server
+            embed = create_info_embed(
+                "🔗 Register Your StreamHub Account",
+                f"Hi {ctx.author.mention}! To link your Discord account:\n\n"
+                "**1.** Visit the registration page:\n"
+                "**http://localhost:3000/registration/new**\n\n"
+                "**2.** Create your account with your email\n\n"
+                "**3.** Once logged in, go to Integrations and connect Discord\n\n"
+                "After linking, you'll be able to use all bot commands!"
+            )
+            await ctx.send(embed=embed)
 
 
 async def setup(bot: commands.Bot):

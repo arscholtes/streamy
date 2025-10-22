@@ -8,7 +8,7 @@ stripe_creds = CredentialsHelper.stripe
 Rails.configuration.stripe = {
   publishable_key: stripe_creds.publishable_key,
   secret_key: stripe_creds.secret_key,
-  webhook_secret: stripe_creds.webhook_secret
+  webhook_secret: stripe_creds.webhook_secret || stripe_creds.signing_secret
 }
 
 Stripe.api_key = Rails.configuration.stripe[:secret_key]

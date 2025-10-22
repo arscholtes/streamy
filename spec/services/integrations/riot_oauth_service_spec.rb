@@ -73,6 +73,10 @@ RSpec.describe Integrations::RiotOauthService, type: :service do
       }.to_json
     end
 
+    before do
+      Rails.application.routes.default_url_options[:host] = 'test.host'
+    end
+
     it 'exchanges code with Basic Auth' do
       stub_request(:post, 'https://auth.riotgames.com/token')
         .with(

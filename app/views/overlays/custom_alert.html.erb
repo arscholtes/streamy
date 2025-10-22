@@ -1,0 +1,294 @@
+<%# Custom Alert Overlay - Customizable text/image alerts %>
+
+<% content_for :styles do %>
+<style>
+  .custom-alert-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 700px;
+    max-width: 90vw;
+  }
+
+  .custom-alert-card {
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(20px);
+    border: 3px solid transparent;
+    border-radius: 24px;
+    padding: 60px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    display: none;
+  }
+
+  .custom-alert-card.visible {
+    display: block;
+    animation: customAlertIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  @keyframes customAlertIn {
+    0% {
+      transform: scale(0.3) rotate(-15deg);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1) rotate(0deg);
+      opacity: 1;
+    }
+  }
+
+  .custom-alert-card.hiding {
+    animation: customAlertOut 0.4s ease-out forwards;
+  }
+
+  @keyframes customAlertOut {
+    to {
+      transform: scale(0.8);
+      opacity: 0;
+    }
+  }
+
+  /* Border gradient animation */
+  .custom-alert-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 24px;
+    padding: 3px;
+    background: linear-gradient(45deg, #667eea, #764ba2, #f59e0b, #10b981, #667eea);
+    background-size: 400% 400%;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: gradientShift 3s linear infinite;
+  }
+
+  @keyframes gradientShift {
+    0% {
+      background-position: 0% 50%;
+    }
+    100% {
+      background-position: 100% 50%;
+    }
+  }
+
+  .alert-emoji {
+    font-size: 100px;
+    margin-bottom: 20px;
+    animation: emojiFloat 2s ease-in-out infinite;
+  }
+
+  @keyframes emojiFloat {
+    0%, 100% {
+      transform: translateY(0) rotate(-5deg);
+    }
+    50% {
+      transform: translateY(-15px) rotate(5deg);
+    }
+  }
+
+  .alert-title {
+    font-size: 48px;
+    font-weight: 900;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f59e0b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  .alert-message {
+    font-size: 28px;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.4;
+    margin-bottom: 20px;
+  }
+
+  .alert-submessage {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.6);
+    font-style: italic;
+  }
+
+  /* Particle effects */
+  .particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .particle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: white;
+    border-radius: 50%;
+    animation: particleFloat 4s infinite;
+  }
+
+  @keyframes particleFloat {
+    0% {
+      transform: translateY(0) scale(0);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-100vh) scale(1);
+      opacity: 0;
+    }
+  }
+
+  /* Glow effect */
+  .alert-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 80%;
+    background: radial-gradient(circle, rgba(102, 126, 234, 0.3), transparent);
+    filter: blur(60px);
+    animation: pulse 3s ease-in-out infinite;
+  }
+</style>
+<% end %>
+
+<div class="custom-alert-overlay">
+  <div id="custom-alert" class="custom-alert-card">
+    <div class="alert-glow"></div>
+    <div class="particles" id="particles"></div>
+    <div style="position: relative; z-index: 1;">
+      <div id="alert-emoji" class="alert-emoji">✨</div>
+      <div id="alert-title" class="alert-title">Custom Alert</div>
+      <div id="alert-message" class="alert-message">This is a custom message!</div>
+      <div id="alert-submessage" class="alert-submessage"></div>
+    </div>
+  </div>
+</div>
+
+<% content_for :scripts do %>
+<script>
+  let updateInterval;
+  let alertQueue = [];
+  let showingAlert = false;
+
+  async function updateCustomAlerts() {
+    const data = await fetchOverlayData();
+    if (!data || !data.alerts || data.alerts.length === 0) return;
+
+    // Add new alerts to queue
+    data.alerts.forEach(alert => {
+      if (!alertQueue.find(a => a.id === alert.id)) {
+        alertQueue.push(alert);
+      }
+    });
+
+    // Show next alert if not currently showing one
+    if (!showingAlert && alertQueue.length > 0) {
+      showNextAlert();
+    }
+  }
+
+  function showNextAlert() {
+    if (alertQueue.length === 0) {
+      showingAlert = false;
+      return;
+    }
+
+    showingAlert = true;
+    const alert = alertQueue.shift();
+
+    const alertDiv = document.getElementById('custom-alert');
+    const emojiDiv = document.getElementById('alert-emoji');
+    const titleDiv = document.getElementById('alert-title');
+    const messageDiv = document.getElementById('alert-message');
+    const submessageDiv = document.getElementById('alert-submessage');
+
+    // Update content
+    emojiDiv.textContent = alert.emoji || '✨';
+    titleDiv.textContent = alert.title || 'Alert';
+    messageDiv.textContent = alert.message || '';
+    submessageDiv.textContent = alert.submessage || '';
+
+    // Show alert
+    alertDiv.className = 'custom-alert-card visible';
+
+    // Create particles
+    createParticles();
+
+    // Hide after duration (default 6 seconds)
+    const duration = alert.duration || 6000;
+    setTimeout(() => {
+      hideCurrentAlert();
+    }, duration);
+  }
+
+  function hideCurrentAlert() {
+    const alertDiv = document.getElementById('custom-alert');
+    alertDiv.classList.add('hiding');
+
+    setTimeout(() => {
+      alertDiv.className = 'custom-alert-card';
+      showingAlert = false;
+
+      // Show next alert if any
+      if (alertQueue.length > 0) {
+        setTimeout(showNextAlert, 500);
+      }
+    }, 400);
+  }
+
+  function createParticles() {
+    const container = document.getElementById('particles');
+    container.innerHTML = ''; // Clear old particles
+
+    const colors = ['#667eea', '#764ba2', '#f59e0b', '#10b981', '#3b82f6'];
+
+    for (let i = 0; i < 20; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+      particle.style.animationDelay = Math.random() * 2 + 's';
+      particle.style.animationDuration = (Math.random() * 2 + 3) + 's';
+      container.appendChild(particle);
+    }
+  }
+
+  // Initial load
+  updateCustomAlerts();
+
+  // Check for new alerts every 2 seconds
+  updateInterval = setInterval(updateCustomAlerts, 2000);
+
+  // Cleanup
+  window.addEventListener('beforeunload', () => {
+    if (updateInterval) clearInterval(updateInterval);
+  });
+
+  // Test alert (remove in production)
+  // Uncomment to test the overlay
+  /*
+  setTimeout(() => {
+    alertQueue.push({
+      id: 1,
+      emoji: '🎉',
+      title: 'Achievement Unlocked!',
+      message: 'First Stream Complete',
+      submessage: 'Keep up the great work!',
+      duration: 5000
+    });
+    showNextAlert();
+  }, 2000);
+  */
+</script>
+<% end %>

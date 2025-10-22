@@ -71,6 +71,10 @@ RSpec.describe Integrations::SpotifyOauthService, type: :service do
       }.to_json
     end
 
+    before do
+      Rails.application.routes.default_url_options[:host] = 'test.host'
+    end
+
     it 'exchanges code with Basic Auth' do
       stub_request(:post, 'https://accounts.spotify.com/api/token')
         .with(headers: { 'Authorization' => /^Basic / })

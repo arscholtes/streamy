@@ -38,7 +38,7 @@ class StreamHubBot(commands.Bot):
         super().__init__(
             command_prefix=COMMAND_PREFIX,
             intents=intents,
-            help_command=commands.DefaultHelpCommand()
+            help_command=None  # Using custom help command in general.py
         )
 
     async def setup_hook(self):
@@ -55,7 +55,12 @@ class StreamHubBot(commands.Bot):
             'cogs.vc_queue',
             'cogs.stream',
             'cogs.moderation',
-            'cogs.obs'  # OBS remote control
+            'cogs.obs',  # OBS remote control
+            'cogs.overlays',  # OBS overlay control - trigger alerts and events
+            'cogs.story',  # Chronicle system - help streamers write their story
+            'cogs.memory',  # Memory Book - personal journal for streamers
+            'cogs.goals',  # Goals & Progress Tracking - define and track streaming objectives
+            'cogs.insights'  # Analytics with Context - the "why" behind the numbers
         ]
 
         for cog in cogs_to_load:

@@ -1,0 +1,247 @@
+<%# Stream Info Overlay - Shows stream title, duration, status %>
+
+<% content_for :styles do %>
+<style>
+  .stream-info-overlay {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    max-width: 400px;
+  }
+
+  .stream-header {
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 20px;
+  }
+
+  .stream-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .stream-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .stream-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+  }
+
+  .status-live {
+    background: #ef4444;
+  }
+
+  .status-offline {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+  }
+
+  .stream-duration {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .duration-icon {
+    font-size: 18px;
+  }
+
+  .streamer-info {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .streamer-avatar {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+  }
+
+  .streamer-details {
+    flex: 1;
+  }
+
+  .streamer-name {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .streamer-tier {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+  }
+
+  .tier-pro {
+    color: #8b5cf6;
+  }
+
+  .tier-enterprise {
+    color: #f59e0b;
+  }
+</style>
+<% end %>
+
+<div class="stream-info-overlay fade-in">
+  <div class="stream-header">
+    <div class="stream-title" id="stream-title">Stream Title</div>
+
+    <div class="stream-meta">
+      <div id="stream-status" class="stream-status status-offline">
+        <div class="status-dot"></div>
+        <span>Offline</span>
+      </div>
+
+      <div class="stream-duration" id="stream-duration" style="display: none;">
+        <div class="duration-icon">⏱️</div>
+        <span id="duration-text">0m 0s</span>
+      </div>
+    </div>
+
+    <div class="streamer-info">
+      <div class="streamer-avatar">
+        <span id="streamer-initial">?</span>
+      </div>
+      <div class="streamer-details">
+        <div class="streamer-name" id="streamer-name">Streamer</div>
+        <div class="streamer-tier" id="streamer-tier">Free Tier</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% content_for :scripts do %>
+<script>
+  let updateInterval;
+  let streamStartTime = null;
+  let durationInterval = null;
+
+  async function updateStreamInfo() {
+    const data = await fetchOverlayData();
+    if (!data) return;
+
+    // Update stream title
+    if (data.stream) {
+      document.getElementById('stream-title').textContent = data.stream.title || 'Untitled Stream';
+
+      // Update status
+      const statusDiv = document.getElementById('stream-status');
+      const durationDiv = document.getElementById('stream-duration');
+
+      if (data.stream.status === 'live') {
+        statusDiv.className = 'stream-status status-live';
+        statusDiv.innerHTML = `
+          <div class="status-dot pulse"></div>
+          <span>Live</span>
+        `;
+
+        // Show and update duration
+        durationDiv.style.display = 'flex';
+
+        if (!streamStartTime) {
+          streamStartTime = new Date(data.stream.created_at);
+          startDurationCounter();
+        }
+      } else {
+        statusDiv.className = 'stream-status status-offline';
+        statusDiv.innerHTML = `
+          <div class="status-dot"></div>
+          <span>Offline</span>
+        `;
+        durationDiv.style.display = 'none';
+
+        if (durationInterval) {
+          clearInterval(durationInterval);
+          durationInterval = null;
+          streamStartTime = null;
+        }
+      }
+    } else {
+      document.getElementById('stream-title').textContent = 'No Stream';
+    }
+
+    // Update streamer info
+    if (data.user) {
+      const initial = data.user.username.charAt(0).toUpperCase();
+      document.getElementById('streamer-initial').textContent = initial;
+      document.getElementById('streamer-name').textContent = data.user.username;
+
+      const tierDiv = document.getElementById('streamer-tier');
+      const tier = data.user.subscription_tier || 'free';
+
+      if (tier === 'pro') {
+        tierDiv.className = 'streamer-tier tier-pro';
+        tierDiv.textContent = '💎 Pro';
+      } else if (tier === 'enterprise') {
+        tierDiv.className = 'streamer-tier tier-enterprise';
+        tierDiv.textContent = '👑 Enterprise';
+      } else {
+        tierDiv.className = 'streamer-tier';
+        tierDiv.textContent = '⭐ Free';
+      }
+    }
+  }
+
+  function startDurationCounter() {
+    if (durationInterval) return;
+
+    function updateDuration() {
+      if (!streamStartTime) return;
+
+      const now = new Date();
+      const diff = Math.floor((now - streamStartTime) / 1000); // seconds
+      document.getElementById('duration-text').textContent = formatDuration(diff);
+    }
+
+    updateDuration();
+    durationInterval = setInterval(updateDuration, 1000);
+  }
+
+  // Initial load
+  updateStreamInfo();
+
+  // Update every 10 seconds
+  updateInterval = setInterval(updateStreamInfo, 10000);
+
+  // Cleanup
+  window.addEventListener('beforeunload', () => {
+    if (updateInterval) clearInterval(updateInterval);
+    if (durationInterval) clearInterval(durationInterval);
+  });
+</script>
+<% end %>

@@ -1,0 +1,280 @@
+<%# Recent Events Overlay - Shows donations, follows, subs, etc. %>
+
+<% content_for :styles do %>
+<style>
+  .recent-events-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    max-width: 90vw;
+  }
+
+  .event-container {
+    position: relative;
+  }
+
+  .event-alert {
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(20px);
+    border: 2px solid;
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+    display: none;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .event-alert.visible {
+    display: block;
+    animation: eventPop 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  @keyframes eventPop {
+    0% {
+      transform: scale(0) rotate(-180deg);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1) rotate(0deg);
+      opacity: 1;
+    }
+  }
+
+  .event-alert.hiding {
+    animation: eventPopOut 0.3s ease-out forwards;
+  }
+
+  @keyframes eventPopOut {
+    to {
+      transform: scale(0);
+      opacity: 0;
+    }
+  }
+
+  .event-donation {
+    border-color: #10b981;
+    box-shadow: 0 0 40px rgba(16, 185, 129, 0.3);
+  }
+
+  .event-follow {
+    border-color: #8b5cf6;
+    box-shadow: 0 0 40px rgba(139, 92, 246, 0.3);
+  }
+
+  .event-subscriber {
+    border-color: #f59e0b;
+    box-shadow: 0 0 40px rgba(245, 158, 11, 0.3);
+  }
+
+  .event-icon {
+    font-size: 80px;
+    margin-bottom: 20px;
+    animation: bounce 1s infinite;
+  }
+
+  @keyframes bounce {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+
+  .event-title {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .event-message {
+    font-size: 24px;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 16px;
+  }
+
+  .event-amount {
+    font-size: 48px;
+    font-weight: 900;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .event-username {
+    font-size: 32px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #10b981;
+    position: absolute;
+    animation: confettiFall 3s linear infinite;
+  }
+
+  @keyframes confettiFall {
+    to {
+      transform: translateY(100vh) rotate(360deg);
+      opacity: 0;
+    }
+  }
+</style>
+<% end %>
+
+<div class="recent-events-overlay">
+  <div class="event-container">
+    <div id="event-alert" class="event-alert">
+      <!-- Event content will be dynamically inserted -->
+    </div>
+  </div>
+</div>
+
+<% content_for :scripts do %>
+<script>
+  let updateInterval;
+  let eventQueue = [];
+  let currentEvent = null;
+  let showingEvent = false;
+
+  async function updateRecentEvents() {
+    const data = await fetchOverlayData();
+    if (!data || !data.events || data.events.length === 0) return;
+
+    // Add new events to queue
+    data.events.forEach(event => {
+      if (!eventQueue.find(e => e.id === event.id)) {
+        eventQueue.push(event);
+      }
+    });
+
+    // Show next event if not currently showing one
+    if (!showingEvent && eventQueue.length > 0) {
+      showNextEvent();
+    }
+  }
+
+  function showNextEvent() {
+    if (eventQueue.length === 0) {
+      showingEvent = false;
+      return;
+    }
+
+    showingEvent = true;
+    const event = eventQueue.shift();
+    currentEvent = event;
+
+    const alertDiv = document.getElementById('event-alert');
+    alertDiv.className = `event-alert event-${event.type} visible`;
+
+    // Build event content based on type
+    let content = '';
+
+    if (event.type === 'donation') {
+      content = `
+        <div class="event-icon">💰</div>
+        <div class="event-title">New Donation!</div>
+        <div class="event-amount">$${event.amount}</div>
+        <div class="event-message">from</div>
+        <div class="event-username">${event.username}</div>
+        ${event.message ? `<div style="margin-top: 20px; font-size: 18px; font-style: italic;">"${event.message}"</div>` : ''}
+      `;
+      createConfetti();
+
+    } else if (event.type === 'follow') {
+      content = `
+        <div class="event-icon">💜</div>
+        <div class="event-title">New Follower!</div>
+        <div class="event-username">${event.username}</div>
+        <div class="event-message">Thanks for the follow!</div>
+      `;
+
+    } else if (event.type === 'subscriber') {
+      content = `
+        <div class="event-icon">⭐</div>
+        <div class="event-title">New Subscriber!</div>
+        <div class="event-username">${event.username}</div>
+        <div class="event-message">Welcome to the squad!</div>
+      `;
+      createConfetti();
+    }
+
+    alertDiv.innerHTML = content;
+
+    // Hide after 5 seconds and show next
+    setTimeout(() => {
+      hideCurrentEvent();
+    }, 5000);
+  }
+
+  function hideCurrentEvent() {
+    const alertDiv = document.getElementById('event-alert');
+    alertDiv.classList.add('hiding');
+
+    setTimeout(() => {
+      alertDiv.className = 'event-alert';
+      currentEvent = null;
+      showingEvent = false;
+
+      // Show next event if any
+      if (eventQueue.length > 0) {
+        setTimeout(showNextEvent, 500);
+      }
+    }, 300);
+  }
+
+  function createConfetti() {
+    const container = document.querySelector('.event-container');
+    const colors = ['#10b981', '#8b5cf6', '#f59e0b', '#ef4444', '#3b82f6'];
+
+    for (let i = 0; i < 30; i++) {
+      const confetti = document.createElement('div');
+      confetti.className = 'confetti';
+      confetti.style.left = Math.random() * 100 + '%';
+      confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+      confetti.style.animationDelay = Math.random() * 3 + 's';
+      confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+      container.appendChild(confetti);
+
+      // Remove after animation
+      setTimeout(() => confetti.remove(), 5000);
+    }
+  }
+
+  // Initial load
+  updateRecentEvents();
+
+  // Check for new events every 2 seconds
+  updateInterval = setInterval(updateRecentEvents, 2000);
+
+  // Cleanup
+  window.addEventListener('beforeunload', () => {
+    if (updateInterval) clearInterval(updateInterval);
+  });
+
+  // Test event (remove in production)
+  // Uncomment to test the overlay
+  /*
+  setTimeout(() => {
+    eventQueue.push({
+      id: 1,
+      type: 'donation',
+      username: 'TestUser',
+      amount: 25,
+      message: 'Great stream!'
+    });
+    showNextEvent();
+  }, 2000);
+  */
+</script>
+<% end %>

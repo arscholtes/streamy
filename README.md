@@ -95,23 +95,26 @@ Multi-tabbed settings interface:
 - **Strong Parameters:** [Rails Guide](https://guides.rubyonrails.org/action_controller_overview.html#strong-parameters)
 - **Bootstrap Tabs:** [Bootstrap Documentation](https://getbootstrap.com/docs/5.3/components/navs-tabs/)
 
-### ✅ Subscription System (Payment-Ready)
-Database architecture prepared for payment integration:
-- `subscription_tier` field on users (free/pro/enterprise)
-- Indexed for fast queries
-- Validation for valid tier values
-- Default to 'free' for new users
+### ✅ Stripe Payment Integration
+Full Stripe integration with subscriptions and billing:
+- **Subscription Management** - Pro ($19/mo) and Enterprise ($99/mo) tiers
+- **Stripe Checkout** - Secure payment flow with Stripe-hosted checkout
+- **Webhooks** - Automatic subscription status updates
+- **Billing Portal** - Stripe-hosted portal for payment methods, invoices, and cancellation
+- **Database Tracking** - subscription_status, stripe_customer_id, stripe_subscription_id
 
 **Implementation:**
-- **Migration:** `db/migrate/[timestamp]_add_subscription_tier_to_users.rb`
-- **Model Validation:** `app/models/user.rb` (lines 85-93)
+- **Initializer:** `config/initializers/stripe.rb` - Stripe API configuration
+- **Controller:** `app/controllers/subscriptions_controller.rb` - Checkout & portal
+- **Webhooks:** `app/controllers/webhooks_controller.rb` - Event handlers
+- **Service:** `app/services/subscription_service.rb` - Business logic
+- **Migration:** User fields for Stripe tracking
 
-**Future Integration Points:**
-- Stripe subscription webhooks
-- Payment method management
-- Upgrade/downgrade flows
-- Trial periods
-- Billing history
+**Features:**
+- Upgrade to Pro/Enterprise from billing page
+- Automatic subscription status sync via webhooks
+- Cancel subscriptions through Stripe billing portal
+- View invoices and update payment methods
 
 **Resources:**
 - [Stripe Rails Integration](https://stripe.com/docs/payments/checkout/rails)
@@ -165,42 +168,60 @@ Streamer (OBS) → RTMP (Port 1935) → MediaMTX → HLS → Viewer (Browser)
 We follow **Test-Driven Development (TDD)** principles:
 
 ### Test Coverage
-- **66 tests total**
-- **141 assertions**
-- **0 failures**
-- **100% pass rate**
+- **71.75% code coverage** (2,059 / 2,870 lines)
+- **400+ test examples** across Minitest and RSpec
+- **All tests passing** (66 Minitest + 300+ RSpec examples)
+- **SimpleCov integration** for coverage tracking
 
-### Test Categories
-- **Model Tests (22):** `test/models/user_test.rb`
-  - Validations (presence, uniqueness, format, length)
-  - Associations (has_many streams)
-  - Callbacks (downcase, stream key generation)
-  - Authentication (password hashing, authenticate method)
+### Test Suite Overview
 
-- **Controller Tests (37):**
-  - Sessions (8 tests): `test/controllers/sessions_controller_test.rb`
-  - Registrations (11 tests): `test/controllers/registrations_controller_test.rb`
-  - Dashboard (8 tests): `test/controllers/dashboard_controller_test.rb`
-  - Settings (10 tests): `test/controllers/settings_controller_test.rb`
+**Minitest Tests (66 tests, 141 assertions):**
+- Model tests (22): User validations, associations, callbacks, authentication
+- Controller tests (37): Sessions, registrations, dashboard, settings
+- Integration tests (7): Authentication concern
 
-- **Integration Tests (7):**
-  - Authentication concern: `test/controllers/concerns/authentication_test.rb`
+**RSpec Test Suite (300+ examples):**
+- **Integration Controllers (14 specs):** Steam, Discord, Battle.net, Riot, Spotify, Epic, Xbox, PlayStation, TikTok, Instagram, Twitch, PayPal, Google Analytics, OpenAI
+- **Service Objects (23 specs):** OAuth services, API clients, sync services, payment services, rate limiter
+- **Background Jobs (5 specs):** Base sync job, Steam/Discord/Riot/Battle.net sync jobs
+- **API Controllers (8 specs):** Users, loyalty points, achievements, VC queue, mini-games, moderation, OBS connections
+- **Webhooks (1 spec):** Stripe webhook handlers with signature verification
+- **Additional Controllers (5 specs):** Donations, streams, subscriptions, chat messages, users
+- **Models (29 specs):** All integration accounts, achievements, loyalty points, VC queue entries
+
+### Test Features
+- **WebMock integration** for stubbing external API calls
+- **FactoryBot** for test data generation
+- **shoulda-matchers** for Rails-specific assertions
+- **OAuth flow testing** with token refresh scenarios
+- **Stripe webhook testing** with signature generation
+- **Error handling coverage** for API failures and rate limiting
+- **Authorization testing** for admin/user permissions
 
 ### Running Tests
 ```bash
-# Run all tests
+# Run all Minitest tests
 bin/rails test
+
+# Run all RSpec tests
+bundle exec rspec
 
 # Run specific test file
 bin/rails test test/models/user_test.rb
+bundle exec rspec spec/requests/integrations/steam_controller_spec.rb
 
-# Run specific test
-bin/rails test test/models/user_test.rb:21
+# Run with coverage report
+COVERAGE=true bundle exec rspec
+
+# View coverage report
+open coverage/index.html
 ```
 
 **Learn More:**
 - [Rails Testing Guide](https://guides.rubyonrails.org/testing.html)
 - [Minitest Documentation](https://github.com/minitest/minitest)
+- [RSpec Documentation](https://rspec.info/)
+- [SimpleCov](https://github.com/simplecov-ruby/simplecov)
 
 ## 📦 Installation & Setup
 
@@ -317,51 +338,125 @@ The RTMP server is configured in `mediamtx.yml`:
 - [Rails Security Guide](https://guides.rubyonrails.org/security.html)
 - [OWASP Top 10](https://owasp.org/www-project-top-ten/)
 
+### ✅ Gaming Integrations
+Deep integrations with major gaming platforms:
+
+**Steam Integration:**
+- OpenID 2.0 authentication
+- Profile syncing (avatar, persona name, profile URL)
+- Game library tracking
+- Connected and syncing live data
+
+**Discord Integration:**
+- OAuth 2.0 authentication
+- Profile syncing (username, discriminator, email, avatar)
+- Token refresh for long-term access
+- Connected and syncing live data
+
+**Battle.net Integration:**
+- OAuth 2.0 with multi-region support (US, EU, KR, TW, CN)
+- BattleTag and profile syncing
+- Access to Overwatch, WoW, Diablo, StarCraft, Hearthstone APIs
+- Connected and syncing live data
+
+**Riot Games Integration:**
+- Credentials configured for League of Legends, Valorant, TFT
+- Ready for OAuth implementation
+
+**Spotify Integration:**
+- Credentials configured
+- Ready for "Now Playing" music integration
+
+**Implementation:**
+- **Base Services:** Shared OAuth and API client architecture
+- **Models:** Steam, Discord, Battle.net, Riot, Spotify account models with encryption
+- **Controllers:** Standardized connect/callback/disconnect/sync endpoints
+- **Privacy System:** Granular control over what data is displayed publicly
+- **Brand Logos:** Professional integration logos via Simple Icons CDN
+
+### ✅ Live Streaming
+Test stream system for development:
+- Live stream playback with HTML5 video player
+- Looping test video (Big Buck Bunny via Google CDN)
+- Stream status indicators (LIVE badges)
+- Viewer count display
+- Theater mode layout with chat sidebar
+
+**Implementation:**
+- **Stream Model:** Status tracking, playback URLs
+- **Stream View:** `app/views/streams/show.html.erb` - Full viewer experience
+- **Chat System:** Real-time chat with ActionCable (Turbo Streams)
+
 ## 🚧 Roadmap / Future Features
 
-### Phase 1: Core Streaming (Current)
+### Phase 1: Core Platform ✅ COMPLETE
 - ✅ User authentication
 - ✅ Dashboard
 - ✅ Settings page
-- ✅ Subscription tiers (database ready)
+- ✅ Subscription tiers with Stripe
+- ✅ Gaming integrations (Steam, Discord, Battle.net)
+- ✅ Test streaming system
 
-### Phase 2: Streaming Features (Next)
-- [ ] Stream management (create, edit, delete)
-- [ ] HLS video player in browser
-- [ ] Stream status updates (live/offline detection)
-- [ ] VOD (Video on Demand) recording
-- [ ] Stream thumbnails
+### Phase 2: Complete Tier 1 Integrations (In Progress - 3/8 Done)
+- ✅ Steam, Discord, Battle.net connected
+- [ ] Complete Riot Games OAuth flow
+- [ ] Complete Spotify OAuth flow
+- [ ] Twitter/X integration (auto-post on live)
+- [ ] YouTube integration (VOD uploads)
+- [ ] OBS Studio integration (stream data overlays)
 
-### Phase 3: Social Features
-- [ ] Chat system (ActionCable WebSockets)
+### Phase 3: Production Streaming
+- [ ] RTMP ingest with authentication
+- [ ] Live stream status detection
+- [ ] VOD recording and storage (S3)
+- [ ] Stream thumbnails and previews
+- [ ] Multi-bitrate transcoding
+
+### Phase 4: Social Features
+- ✅ Chat system (ActionCable/Turbo Streams) - Basic implementation
 - [ ] Follow/subscriber system
-- [ ] Viewer count display
-- [ ] Emotes and badges
+- [ ] Enhanced viewer count tracking
+- [ ] Custom emotes and badges
+- [ ] User profiles with integration showcase
 
-### Phase 4: Analytics
+### Phase 5: Analytics & Discord Bot
 - [ ] Stream analytics dashboard
-- [ ] Viewer graphs
-- [ ] Peak concurrent viewers
-- [ ] Stream duration tracking
+- [ ] Viewer graphs and peak CCU tracking
 - [ ] Revenue analytics
+- [ ] Discord bot integration (100+ commands)
+  - Viewer interaction (VC queue, !pickviewer)
+  - Loyalty points system
+  - Mini-games and giveaways
+  - Game integration commands
+  - Moderation tools
 
-### Phase 5: Payment Integration
-- [ ] Stripe integration
-- [ ] Subscription upgrades/downgrades
-- [ ] Payment method management
-- [ ] Billing history
-- [ ] Webhook handlers (payment success/failure)
-- [ ] Trial periods
+### Phase 6: Tier 2-4 Integrations (42 remaining)
+- [ ] Epic Games, Xbox, PlayStation, TikTok, Instagram, Twitch, PayPal
+- [ ] Origin, Ubisoft, Rockstar, Patreon, Ko-fi, Nightbot
+- [ ] Nintendo, GOG, Apple Music, Mailchimp, and 20+ more
 
-### Phase 6: Advanced Features
-- [ ] Multi-bitrate streaming (adaptive)
-- [ ] WebRTC for low-latency
+### Phase 7: Advanced Features
+- [ ] WebRTC for ultra-low latency
 - [ ] CDN integration (CloudFlare/AWS)
-- [ ] Mobile app (React Native)
+- [ ] Clip creation and sharing
+- [ ] VOD highlight reels
 - [ ] Stream scheduling
-- [ ] Collaborative streaming
+- [ ] Multi-streaming (simulcast)
 
-## 📚 Learning Resources
+## 📚 Documentation
+
+### 📖 Complete Documentation Index
+**NEW:** See [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md) for a complete tree of all documentation, feature status, and quick links.
+
+**Key Documentation:**
+- [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md) - **START HERE** - Complete documentation hub
+- [PROJECT_CONTEXT.md](PROJECT_CONTEXT.md) - Complete technical overview (2000 lines)
+- [STREAMHUB_MASTER_PLAN.md](STREAMHUB_MASTER_PLAN.md) - 48 integration roadmap
+- [TODO.md](TODO.md) - Current task list & priorities
+- [OBS_STREAMING_GUIDE.md](OBS_STREAMING_GUIDE.md) - RTMP streaming setup
+- [OBS_OVERLAYS_GUIDE.md](OBS_OVERLAYS_GUIDE.md) - Browser source overlays
+- [STUDIO_SYSTEM_COMPLETE.md](STUDIO_SYSTEM_COMPLETE.md) - Complete studio architecture
+- [discord_bot/README.md](discord_bot/README.md) - Discord bot documentation
 
 ### Video Streaming Concepts
 - **RTMP (Real-Time Messaging Protocol):** Used for ingesting video from OBS

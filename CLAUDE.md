@@ -1,0 +1,1 @@
+- the idea of this project is to help the streamers write their story, we also will add business aids they can use and we want to make it an awesome experience for them. them wanting to stay is the goal.

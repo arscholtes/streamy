@@ -1,0 +1,53 @@
+<% content_for :title, "Edit Expense" %>
+
+<div class="container" style="max-width: 600px; margin-top: 3rem;">
+  <div class="glass-card">
+    <h2 style="margin-bottom: 2rem; font-size: 2rem; font-weight: 700;">
+      <span class="gradient-text">Edit Expense</span>
+    </h2>
+
+    <%= form_with(model: @expense, local: true) do |form| %>
+      <% if @expense.errors.any? %>
+        <div style="background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1.5rem;">
+          <ul style="margin: 0; padding-left: 1.5rem;">
+            <% @expense.errors.full_messages.each do |message| %>
+              <li style="color: var(--accent-red);"><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div style="margin-bottom: 1.5rem;">
+        <%= form.label :amount_cents, "Amount (USD)", style: "display: block; margin-bottom: 0.5rem; color: var(--text-secondary);" %>
+        <%= form.number_field :amount_cents, placeholder: "0.00", step: "0.01", class: "form-control", style: "width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-md); color: var(--text-primary);" %>
+      </div>
+
+      <div style="margin-bottom: 1.5rem;">
+        <%= form.label :category, style: "display: block; margin-bottom: 0.5rem; color: var(--text-secondary);" %>
+        <%= form.select :category, Expense::CATEGORIES.map { |c| [c.titleize, c] }, {}, class: "form-select", style: "width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-md); color: var(--text-primary);" %>
+      </div>
+
+      <div style="margin-bottom: 1.5rem;">
+        <%= form.label :description, style: "display: block; margin-bottom: 0.5rem; color: var(--text-secondary);" %>
+        <%= form.text_area :description, rows: 3, class: "form-control", style: "width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-md); color: var(--text-primary);" %>
+      </div>
+
+      <div style="margin-bottom: 1.5rem;">
+        <%= form.label :date, style: "display: block; margin-bottom: 0.5rem; color: var(--text-secondary);" %>
+        <%= form.date_field :date, class: "form-control", style: "width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-md); color: var(--text-primary);" %>
+      </div>
+
+      <div style="margin-bottom: 1.5rem;">
+        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+          <%= form.check_box :tax_deductible, style: "width: 20px; height: 20px;" %>
+          <span style="color: var(--text-secondary);">Tax Deductible</span>
+        </label>
+      </div>
+
+      <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+        <%= form.submit "Update Expense", class: "btn-gradient-primary", style: "flex: 1;" %>
+        <%= link_to "Cancel", expenses_path, class: "btn-outline-gradient", style: "flex: 1; text-align: center;" %>
+      </div>
+    <% end %>
+  </div>
+</div>

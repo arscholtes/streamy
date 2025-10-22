@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_06_001433) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_17_093710) do
   create_table "achievements", force: :cascade do |t|
     t.string "name", null: false
     t.text "description", null: false
@@ -23,6 +23,21 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_06_001433) do
     t.datetime "updated_at", null: false
     t.index ["category"], name: "index_achievements_on_category"
     t.index ["name"], name: "index_achievements_on_name", unique: true
+  end
+
+  create_table "analytics_events", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "stream_id"
+    t.string "event_type", null: false
+    t.text "event_data"
+    t.datetime "occurred_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_type"], name: "index_analytics_events_on_event_type"
+    t.index ["occurred_at"], name: "index_analytics_events_on_occurred_at"
+    t.index ["stream_id"], name: "index_analytics_events_on_stream_id"
+    t.index ["user_id", "occurred_at"], name: "index_analytics_events_on_user_id_and_occurred_at"
+    t.index ["user_id"], name: "index_analytics_events_on_user_id"
   end
 
   create_table "battlenet_accounts", force: :cascade do |t|
@@ -39,14 +54,93 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_06_001433) do
     t.index ["user_id"], name: "index_battlenet_accounts_on_user_id"
   end
 
+  create_table "categories", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "slug", null: false
+    t.string "image_url"
+    t.integer "live_count", default: 0
+    t.integer "viewer_count", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["live_count"], name: "index_categories_on_live_count"
+    t.index ["slug"], name: "index_categories_on_slug", unique: true
+    t.index ["viewer_count"], name: "index_categories_on_viewer_count"
+  end
+
+  create_table "chat_bans", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "stream_id", null: false
+    t.integer "banned_by_id", null: false
+    t.text "reason"
+    t.datetime "banned_at", null: false
+    t.datetime "expires_at"
+    t.boolean "permanent", default: false, null: false
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["banned_by_id"], name: "index_chat_bans_on_banned_by_id"
+    t.index ["expires_at"], name: "index_chat_bans_on_expires_at"
+    t.index ["stream_id"], name: "index_chat_bans_on_stream_id"
+    t.index ["user_id", "stream_id", "active"], name: "index_chat_bans_on_user_id_and_stream_id_and_active"
+    t.index ["user_id"], name: "index_chat_bans_on_user_id"
+  end
+
   create_table "chat_messages", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "stream_id", null: false
     t.text "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
+    t.integer "deleted_by_id"
+    t.text "deletion_reason"
+    t.index ["deleted_at"], name: "index_chat_messages_on_deleted_at"
+    t.index ["deleted_by_id"], name: "index_chat_messages_on_deleted_by_id"
     t.index ["stream_id"], name: "index_chat_messages_on_stream_id"
     t.index ["user_id"], name: "index_chat_messages_on_user_id"
+  end
+
+  create_table "chat_timeouts", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "stream_id", null: false
+    t.integer "timed_out_by_id", null: false
+    t.text "reason"
+    t.datetime "timed_out_at", null: false
+    t.datetime "expires_at", null: false
+    t.integer "duration_seconds", null: false
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["expires_at"], name: "index_chat_timeouts_on_expires_at"
+    t.index ["stream_id"], name: "index_chat_timeouts_on_stream_id"
+    t.index ["timed_out_by_id"], name: "index_chat_timeouts_on_timed_out_by_id"
+    t.index ["user_id", "stream_id", "active"], name: "index_chat_timeouts_on_user_id_and_stream_id_and_active"
+    t.index ["user_id"], name: "index_chat_timeouts_on_user_id"
+  end
+
+  create_table "daily_stream_summaries", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.date "summary_date", null: false
+    t.integer "total_stream_time_seconds", default: 0, null: false
+    t.integer "stream_count", default: 0, null: false
+    t.integer "peak_viewers", default: 0, null: false
+    t.integer "avg_viewers", default: 0, null: false
+    t.integer "unique_viewers", default: 0, null: false
+    t.integer "total_chat_messages", default: 0, null: false
+    t.integer "unique_chatters", default: 0, null: false
+    t.float "avg_chat_rate", default: 0.0, null: false
+    t.integer "follower_count", default: 0, null: false
+    t.integer "followers_gained", default: 0, null: false
+    t.integer "followers_lost", default: 0, null: false
+    t.integer "subscriptions_gained", default: 0, null: false
+    t.decimal "revenue_earned", precision: 10, scale: 2, default: "0.0"
+    t.json "top_games", null: false
+    t.json "metadata", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["summary_date"], name: "index_daily_stream_summaries_on_summary_date"
+    t.index ["user_id", "summary_date"], name: "index_daily_stream_summaries_on_user_id_and_summary_date", unique: true
+    t.index ["user_id"], name: "index_daily_stream_summaries_on_user_id"
   end
 
   create_table "discord_accounts", force: :cascade do |t|
@@ -82,6 +176,98 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_06_001433) do
     t.datetime "updated_at", null: false
     t.index ["epic_id"], name: "index_epic_accounts_on_epic_id", unique: true
     t.index ["user_id"], name: "index_epic_accounts_on_user_id"
+  end
+
+  create_table "expenses", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "amount_cents", null: false
+    t.string "category", null: false
+    t.text "description"
+    t.string "receipt_url"
+    t.date "date", null: false
+    t.boolean "tax_deductible", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category"], name: "index_expenses_on_category"
+    t.index ["tax_deductible"], name: "index_expenses_on_tax_deductible"
+    t.index ["user_id", "date"], name: "index_expenses_on_user_id_and_date"
+    t.index ["user_id"], name: "index_expenses_on_user_id"
+  end
+
+  create_table "follows", force: :cascade do |t|
+    t.integer "follower_id", null: false
+    t.integer "followee_id", null: false
+    t.boolean "notifications_enabled", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["followee_id"], name: "index_follows_on_followee_id"
+    t.index ["follower_id", "followee_id"], name: "index_follows_on_follower_id_and_followee_id", unique: true
+    t.index ["follower_id"], name: "index_follows_on_follower_id"
+  end
+
+  create_table "game_sessions", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "stream_id"
+    t.string "platform"
+    t.string "game_name"
+    t.string "game_id"
+    t.datetime "started_at", null: false
+    t.datetime "ended_at"
+    t.json "metadata"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["platform"], name: "index_game_sessions_on_platform"
+    t.index ["started_at"], name: "index_game_sessions_on_started_at"
+    t.index ["stream_id"], name: "index_game_sessions_on_stream_id"
+    t.index ["user_id", "started_at"], name: "index_game_sessions_on_user_id_and_started_at"
+    t.index ["user_id"], name: "index_game_sessions_on_user_id"
+  end
+
+  create_table "goal_steps", force: :cascade do |t|
+    t.integer "goal_id", null: false
+    t.string "title", null: false
+    t.integer "position", default: 0, null: false
+    t.boolean "completed", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["goal_id", "position"], name: "index_goal_steps_on_goal_id_and_position", unique: true
+    t.index ["goal_id"], name: "index_goal_steps_on_goal_id"
+  end
+
+  create_table "goal_updates", force: :cascade do |t|
+    t.integer "goal_id", null: false
+    t.integer "user_id", null: false
+    t.integer "update_type", default: 0, null: false
+    t.decimal "value_before", precision: 10, scale: 2
+    t.decimal "value_after", precision: 10, scale: 2
+    t.text "note"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_at"], name: "index_goal_updates_on_created_at"
+    t.index ["goal_id"], name: "index_goal_updates_on_goal_id"
+    t.index ["user_id"], name: "index_goal_updates_on_user_id"
+  end
+
+  create_table "goals", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "title", null: false
+    t.text "description"
+    t.integer "goal_type", default: 0, null: false
+    t.integer "status", default: 0, null: false
+    t.integer "progress_type", default: 0, null: false
+    t.decimal "current_value", precision: 10, scale: 2, default: "0.0"
+    t.decimal "target_value", precision: 10, scale: 2
+    t.datetime "deadline"
+    t.datetime "started_at"
+    t.datetime "completed_at"
+    t.integer "visibility", default: 0, null: false
+    t.text "metadata"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["deadline"], name: "index_goals_on_deadline"
+    t.index ["goal_type"], name: "index_goals_on_goal_type"
+    t.index ["status"], name: "index_goals_on_status"
+    t.index ["user_id"], name: "index_goals_on_user_id"
   end
 
   create_table "google_analytics_accounts", force: :cascade do |t|
@@ -186,6 +372,22 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_06_001433) do
     t.index ["performed_at"], name: "index_moderation_actions_on_performed_at"
     t.index ["target_discord_id"], name: "index_moderation_actions_on_target_discord_id"
     t.index ["user_id"], name: "index_moderation_actions_on_user_id"
+  end
+
+  create_table "moderator_roles", force: :cascade do |t|
+    t.integer "stream_id", null: false
+    t.string "name", null: false
+    t.boolean "can_timeout_users", default: false, null: false
+    t.boolean "can_ban_users", default: false, null: false
+    t.boolean "can_delete_messages", default: false, null: false
+    t.boolean "can_manage_slow_mode", default: false, null: false
+    t.boolean "can_manage_emote_only", default: false, null: false
+    t.boolean "can_manage_moderators", default: false, null: false
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["stream_id", "name"], name: "index_moderator_roles_on_stream_id_and_name", unique: true
+    t.index ["stream_id"], name: "index_moderator_roles_on_stream_id"
   end
 
   create_table "obs_connections", force: :cascade do |t|
@@ -331,6 +533,41 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_06_001433) do
     t.index ["user_id"], name: "index_steam_accounts_on_user_id"
   end
 
+  create_table "stream_metric_snapshots", force: :cascade do |t|
+    t.integer "stream_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "snapshot_at", null: false
+    t.integer "viewer_count", default: 0, null: false
+    t.integer "chat_messages_count", default: 0, null: false
+    t.float "chat_rate", default: 0.0, null: false
+    t.integer "peak_viewers", default: 0, null: false
+    t.integer "unique_chatters", default: 0, null: false
+    t.json "metadata", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["snapshot_at"], name: "index_stream_metric_snapshots_on_snapshot_at"
+    t.index ["stream_id", "snapshot_at"], name: "index_stream_metric_snapshots_on_stream_id_and_snapshot_at"
+    t.index ["stream_id"], name: "index_stream_metric_snapshots_on_stream_id"
+    t.index ["user_id", "snapshot_at"], name: "index_stream_metric_snapshots_on_user_id_and_snapshot_at"
+    t.index ["user_id"], name: "index_stream_metric_snapshots_on_user_id"
+  end
+
+  create_table "stream_moderators", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "stream_id", null: false
+    t.integer "moderator_role_id", null: false
+    t.datetime "appointed_at", null: false
+    t.integer "appointed_by_id"
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["appointed_by_id"], name: "index_stream_moderators_on_appointed_by_id"
+    t.index ["moderator_role_id"], name: "index_stream_moderators_on_moderator_role_id"
+    t.index ["stream_id"], name: "index_stream_moderators_on_stream_id"
+    t.index ["user_id", "stream_id"], name: "index_stream_moderators_on_user_id_and_stream_id", unique: true
+    t.index ["user_id"], name: "index_stream_moderators_on_user_id"
+  end
+
   create_table "streams", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "title"
@@ -339,8 +576,24 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_06_001433) do
     t.string "playback_path"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "started_at"
+    t.datetime "ended_at"
+    t.integer "duration_seconds", default: 0
+    t.integer "viewer_count", default: 0
+    t.string "category"
+    t.json "tags", default: []
+    t.string "thumbnail_url"
+    t.string "language", default: "en"
+    t.boolean "slow_mode", default: false, null: false
+    t.integer "slow_mode_seconds", default: 5
+    t.boolean "emote_only_mode", default: false, null: false
+    t.boolean "subscribers_only_mode", default: false, null: false
+    t.boolean "followers_only_mode", default: false, null: false
+    t.index ["category"], name: "index_streams_on_category"
+    t.index ["started_at"], name: "index_streams_on_started_at"
     t.index ["stream_key"], name: "index_streams_on_stream_key"
     t.index ["user_id"], name: "index_streams_on_user_id"
+    t.index ["viewer_count"], name: "index_streams_on_viewer_count"
   end
 
   create_table "stripe_accounts", force: :cascade do |t|
@@ -448,6 +701,22 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_06_001433) do
     t.index ["user_id"], name: "index_user_achievements_on_user_id"
   end
 
+  create_table "user_analytics_summaries", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "period_type", null: false
+    t.date "period_start", null: false
+    t.date "period_end", null: false
+    t.json "metrics", null: false
+    t.json "insights", null: false
+    t.json "metadata", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["period_start", "period_end"], name: "index_user_analytics_summaries_on_period_start_and_period_end"
+    t.index ["period_type"], name: "index_user_analytics_summaries_on_period_type"
+    t.index ["user_id", "period_type", "period_start"], name: "index_user_analytics_on_user_period_start", unique: true
+    t.index ["user_id"], name: "index_user_analytics_summaries_on_user_id"
+  end
+
   create_table "user_mutes", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "discord_id", null: false
@@ -496,6 +765,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_06_001433) do
     t.string "stripe_subscription_id"
     t.string "subscription_status"
     t.datetime "current_period_end"
+    t.string "content_mode", default: "streamer", null: false
+    t.index ["content_mode"], name: "index_users_on_content_mode"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["stream_key"], name: "index_users_on_stream_key", unique: true
     t.index ["stripe_customer_id"], name: "index_users_on_stripe_customer_id", unique: true
@@ -517,6 +788,32 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_06_001433) do
     t.index ["status", "priority", "joined_at"], name: "index_vc_queue_on_status_priority_joined"
     t.index ["status"], name: "index_vc_queue_entries_on_status"
     t.index ["user_id"], name: "index_vc_queue_entries_on_user_id"
+  end
+
+  create_table "videos", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "title", null: false
+    t.text "description"
+    t.string "video_url"
+    t.string "thumbnail_url"
+    t.integer "duration_seconds"
+    t.integer "view_count", default: 0
+    t.string "status", default: "processing"
+    t.json "metadata", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "youtube_video_id"
+    t.integer "youtube_account_id"
+    t.text "error_message"
+    t.string "privacy_status", default: "unlisted"
+    t.string "category_id", default: "20"
+    t.json "tags", default: []
+    t.index ["created_at"], name: "index_videos_on_created_at"
+    t.index ["status"], name: "index_videos_on_status"
+    t.index ["user_id"], name: "index_videos_on_user_id"
+    t.index ["view_count"], name: "index_videos_on_view_count"
+    t.index ["youtube_account_id"], name: "index_videos_on_youtube_account_id"
+    t.index ["youtube_video_id"], name: "index_videos_on_youtube_video_id", unique: true
   end
 
   create_table "xbox_accounts", force: :cascade do |t|
@@ -553,11 +850,30 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_06_001433) do
     t.index ["youtube_id"], name: "index_youtube_accounts_on_youtube_id", unique: true
   end
 
+  add_foreign_key "analytics_events", "streams"
+  add_foreign_key "analytics_events", "users"
   add_foreign_key "battlenet_accounts", "users"
+  add_foreign_key "chat_bans", "streams"
+  add_foreign_key "chat_bans", "users"
+  add_foreign_key "chat_bans", "users", column: "banned_by_id"
   add_foreign_key "chat_messages", "streams"
   add_foreign_key "chat_messages", "users"
+  add_foreign_key "chat_messages", "users", column: "deleted_by_id"
+  add_foreign_key "chat_timeouts", "streams"
+  add_foreign_key "chat_timeouts", "users"
+  add_foreign_key "chat_timeouts", "users", column: "timed_out_by_id"
+  add_foreign_key "daily_stream_summaries", "users"
   add_foreign_key "discord_accounts", "users"
   add_foreign_key "epic_accounts", "users"
+  add_foreign_key "expenses", "users"
+  add_foreign_key "follows", "users", column: "followee_id"
+  add_foreign_key "follows", "users", column: "follower_id"
+  add_foreign_key "game_sessions", "streams"
+  add_foreign_key "game_sessions", "users"
+  add_foreign_key "goal_steps", "goals"
+  add_foreign_key "goal_updates", "goals"
+  add_foreign_key "goal_updates", "users"
+  add_foreign_key "goals", "users"
   add_foreign_key "google_analytics_accounts", "users"
   add_foreign_key "instagram_accounts", "users"
   add_foreign_key "integration_privacy_settings", "users"
@@ -565,6 +881,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_06_001433) do
   add_foreign_key "loyalty_transactions", "users"
   add_foreign_key "mini_game_sessions", "users"
   add_foreign_key "moderation_actions", "users"
+  add_foreign_key "moderator_roles", "streams"
   add_foreign_key "obs_connections", "users"
   add_foreign_key "openai_integrations", "users"
   add_foreign_key "payments", "users"
@@ -574,6 +891,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_06_001433) do
   add_foreign_key "riot_accounts", "users"
   add_foreign_key "spotify_accounts", "users"
   add_foreign_key "steam_accounts", "users"
+  add_foreign_key "stream_metric_snapshots", "streams"
+  add_foreign_key "stream_metric_snapshots", "users"
+  add_foreign_key "stream_moderators", "moderator_roles"
+  add_foreign_key "stream_moderators", "streams"
+  add_foreign_key "stream_moderators", "users"
+  add_foreign_key "stream_moderators", "users", column: "appointed_by_id"
   add_foreign_key "streams", "users"
   add_foreign_key "stripe_accounts", "users"
   add_foreign_key "subscriptions", "users"
@@ -582,9 +905,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_06_001433) do
   add_foreign_key "twitter_accounts", "users"
   add_foreign_key "user_achievements", "achievements"
   add_foreign_key "user_achievements", "users"
+  add_foreign_key "user_analytics_summaries", "users"
   add_foreign_key "user_mutes", "users"
   add_foreign_key "user_warnings", "users"
   add_foreign_key "vc_queue_entries", "users"
+  add_foreign_key "videos", "users"
+  add_foreign_key "videos", "youtube_accounts"
   add_foreign_key "xbox_accounts", "users"
   add_foreign_key "youtube_accounts", "users"
 end

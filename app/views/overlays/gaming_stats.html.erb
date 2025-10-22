@@ -1,0 +1,218 @@
+<%# Gaming Stats Overlay - Shows Steam, Discord, Battle.net, Riot data %>
+
+<% content_for :styles do %>
+<style>
+  .gaming-stats-overlay {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 400px;
+  }
+
+  .stats-card {
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: all 0.3s ease;
+  }
+
+  .stats-card:hover {
+    background: rgba(0, 0, 0, 0.8);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateX(5px);
+  }
+
+  .platform-icon-large {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+
+  .stats-info {
+    flex: 1;
+  }
+
+  .stats-title {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+
+  .stats-value {
+    font-size: 18px;
+    font-weight: 600;
+    color: #ffffff;
+  }
+
+  .stats-sub {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 4px;
+  }
+
+  .current-game {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+    padding: 6px 12px;
+    background: rgba(16, 185, 129, 0.2);
+    border: 1px solid rgba(16, 185, 129, 0.4);
+    border-radius: 6px;
+  }
+
+  .game-indicator {
+    width: 6px;
+    height: 6px;
+    background: #10b981;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  .game-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: #10b981;
+  }
+
+  .no-data {
+    opacity: 0.5;
+    font-style: italic;
+  }
+</style>
+<% end %>
+
+<div class="gaming-stats-overlay">
+  <!-- Steam Card -->
+  <div id="steam-card" class="stats-card slide-in" style="display: none;">
+    <div class="platform-icon-large steam-icon">
+      🎮
+    </div>
+    <div class="stats-info">
+      <div class="stats-title">Steam</div>
+      <div class="stats-value" id="steam-name">Loading...</div>
+      <div class="stats-sub" id="steam-games">0 games</div>
+      <div id="steam-current-game" style="display: none;"></div>
+    </div>
+  </div>
+
+  <!-- Discord Card -->
+  <div id="discord-card" class="stats-card slide-in" style="display: none; animation-delay: 0.1s;">
+    <div class="platform-icon-large discord-icon">
+      💬
+    </div>
+    <div class="stats-info">
+      <div class="stats-title">Discord</div>
+      <div class="stats-value" id="discord-name">Loading...</div>
+      <div class="stats-sub">Connected</div>
+    </div>
+  </div>
+
+  <!-- Battle.net Card -->
+  <div id="battlenet-card" class="stats-card slide-in" style="display: none; animation-delay: 0.2s;">
+    <div class="platform-icon-large battlenet-icon">
+      ⚔️
+    </div>
+    <div class="stats-info">
+      <div class="stats-title">Battle.net</div>
+      <div class="stats-value" id="battlenet-name">Loading...</div>
+      <div class="stats-sub">BattleTag</div>
+    </div>
+  </div>
+
+  <!-- Riot Games Card -->
+  <div id="riot-card" class="stats-card slide-in" style="display: none; animation-delay: 0.3s;">
+    <div class="platform-icon-large riot-icon">
+      🎯
+    </div>
+    <div class="stats-info">
+      <div class="stats-title">Riot Games</div>
+      <div class="stats-value" id="riot-name">Loading...</div>
+      <div class="stats-sub">Riot ID</div>
+    </div>
+  </div>
+</div>
+
+<% content_for :scripts do %>
+<script>
+  let updateInterval;
+  let previousData = {};
+
+  async function updateGamingStats() {
+    const data = await fetchOverlayData();
+    if (!data) return;
+
+    // Steam
+    if (data.steam && data.steam.connected) {
+      document.getElementById('steam-card').style.display = 'flex';
+      document.getElementById('steam-name').textContent = data.steam.persona_name || 'Unknown';
+      document.getElementById('steam-games').textContent = `${data.steam.game_count || 0} games`;
+
+      // Current game indicator
+      const currentGameDiv = document.getElementById('steam-current-game');
+      if (data.steam.current_game) {
+        currentGameDiv.style.display = 'block';
+        currentGameDiv.className = 'current-game';
+        currentGameDiv.innerHTML = `
+          <div class="game-indicator"></div>
+          <div class="game-name">Playing: ${data.steam.current_game}</div>
+        `;
+      } else {
+        currentGameDiv.style.display = 'none';
+      }
+    }
+
+    // Discord
+    if (data.discord && data.discord.connected) {
+      document.getElementById('discord-card').style.display = 'flex';
+      const discordName = data.discord.discriminator
+        ? `${data.discord.username}#${data.discord.discriminator}`
+        : data.discord.username;
+      document.getElementById('discord-name').textContent = discordName;
+    }
+
+    // Battle.net
+    if (data.battlenet && data.battlenet.connected) {
+      document.getElementById('battlenet-card').style.display = 'flex';
+      document.getElementById('battlenet-name').textContent = data.battlenet.battletag || 'Unknown';
+    }
+
+    // Riot Games
+    if (data.riot && data.riot.connected) {
+      document.getElementById('riot-card').style.display = 'flex';
+      const riotName = data.riot.tag_line
+        ? `${data.riot.game_name}#${data.riot.tag_line}`
+        : data.riot.game_name || 'Unknown';
+      document.getElementById('riot-name').textContent = riotName;
+    }
+
+    previousData = data;
+  }
+
+  // Initial load
+  updateGamingStats();
+
+  // Update every 5 seconds
+  updateInterval = setInterval(updateGamingStats, 5000);
+
+  // Cleanup on page unload
+  window.addEventListener('beforeunload', () => {
+    if (updateInterval) clearInterval(updateInterval);
+  });
+</script>
+<% end %>

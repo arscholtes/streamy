@@ -4,6 +4,8 @@ class YoutubeAccount < ApplicationRecord
 
   alias_attribute :external_id, :youtube_id
 
+  has_many :videos, dependent: :nullify
+
   validates :youtube_id, presence: true, uniqueness: true
   validates :channel_title, presence: true
 
@@ -26,6 +28,16 @@ class YoutubeAccount < ApplicationRecord
         { key: 'show_recent_videos', label: 'Show recent videos', default: true },
         { key: 'auto_upload_highlights', label: 'Auto-upload stream highlights', default: false }
       ]
+    }
+  end
+
+  def default_privacy_settings
+    {
+      show_channel_link: true,
+      show_subscriber_count: true,
+      show_video_count: true,
+      show_recent_videos: true,
+      auto_upload_highlights: false
     }
   end
 end

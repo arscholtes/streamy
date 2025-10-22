@@ -81,6 +81,16 @@ module CredentialsHelper
       fetch_credentials(:openai)
     end
 
+    # YouTube credentials
+    def youtube
+      fetch_credentials(:youtube)
+    end
+
+    # Twitter/X credentials
+    def twitter
+      fetch_credentials(:twitter)
+    end
+
     # Generic integration method (for dynamic access)
     def integration(provider)
       fetch_credentials(provider.to_sym)

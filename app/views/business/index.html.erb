@@ -1,0 +1,452 @@
+<%# app/views/business/index.html.erb %>
+<%# StreamHub Business Dashboard - Revenue & Financial Management %>
+
+<% content_for :title, "Business Dashboard" %>
+
+<%# Hero Header Section %>
+<div style="background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%); padding: 3rem 0; margin-bottom: 2rem; position: relative; overflow: hidden;">
+  <div style="position: absolute; top: -50%; right: -10%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(16, 185, 129, 0.15), transparent); border-radius: 50%; filter: blur(80px);"></div>
+
+  <div class="container-fluid">
+    <div class="row align-items-center fade-in">
+      <div class="col-md-8">
+        <h1 style="font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; margin-bottom: 0.5rem;">
+          💼 <span class="gradient-text">Business Dashboard</span>
+        </h1>
+        <p style="font-size: 1.125rem; color: var(--text-muted); margin-bottom: 0;">
+          Track your revenue, manage expenses, and grow your streaming business
+        </p>
+      </div>
+      <div class="col-md-4 text-end">
+        <%= link_to new_expense_path, class: "btn-gradient-primary", style: "font-size: 1rem; padding: 0.75rem 2rem;" do %>
+          <i class="bi bi-plus-circle"></i> Add Expense
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <%# Key Metrics Cards %>
+  <div class="row mb-4 fade-in-delay-1">
+    <%# Total Revenue Card %>
+    <div class="col-xl-3 col-md-6 mb-3">
+      <div class="stat-card" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%); border: 1px solid rgba(16, 185, 129, 0.3);">
+        <div class="stat-card-icon">💰</div>
+        <div class="stat-card-value">$<%= number_with_precision(@total_revenue / 100.0, precision: 2, delimiter: ',') %></div>
+        <div class="stat-card-label">Total Revenue</div>
+        <div style="margin-top: 0.5rem; font-size: 0.875rem; color: var(--accent-green);">
+          <i class="bi bi-arrow-up"></i> All time earnings
+        </div>
+      </div>
+    </div>
+
+    <%# Monthly Revenue Card %>
+    <div class="col-xl-3 col-md-6 mb-3">
+      <div class="stat-card" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(37, 99, 235, 0.1) 100%); border: 1px solid rgba(59, 130, 246, 0.3);">
+        <div class="stat-card-icon">📊</div>
+        <div class="stat-card-value">$<%= number_with_precision(@monthly_revenue / 100.0, precision: 2, delimiter: ',') %></div>
+        <div class="stat-card-label">This Month</div>
+        <div style="margin-top: 0.5rem; font-size: 0.875rem; color: var(--text-muted);">
+          Revenue earned in <%= Date.today.strftime('%B') %>
+        </div>
+      </div>
+    </div>
+
+    <%# Total Expenses Card %>
+    <div class="col-xl-3 col-md-6 mb-3">
+      <div class="stat-card" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.1) 100%); border: 1px solid rgba(239, 68, 68, 0.3);">
+        <div class="stat-card-icon">💸</div>
+        <div class="stat-card-value">$<%= number_with_precision(@monthly_expenses / 100.0, precision: 2, delimiter: ',') %></div>
+        <div class="stat-card-label">Monthly Expenses</div>
+        <div style="margin-top: 0.5rem; font-size: 0.875rem; color: var(--text-muted);">
+          Spent in <%= Date.today.strftime('%B') %>
+        </div>
+      </div>
+    </div>
+
+    <%# Monthly Profit Card %>
+    <div class="col-xl-3 col-md-6 mb-3">
+      <div class="stat-card" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(124, 58, 237, 0.1) 100%); border: 1px solid rgba(139, 92, 246, 0.3);">
+        <div class="stat-card-icon"><%= @monthly_profit >= 0 ? '✨' : '⚠️' %></div>
+        <div class="stat-card-value" style="color: <%= @monthly_profit >= 0 ? 'var(--accent-green)' : 'var(--accent-red)' %>;">
+          $<%= number_with_precision(@monthly_profit / 100.0, precision: 2, delimiter: ',') %>
+        </div>
+        <div class="stat-card-label">Monthly Profit</div>
+        <div style="margin-top: 0.5rem; font-size: 0.875rem; color: var(--text-muted);">
+          <%= @monthly_profit >= 0 ? 'Revenue - Expenses' : 'Operating at loss' %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%# Main Content Row %>
+  <div class="row fade-in-delay-2">
+    <%# Revenue Analytics Column %>
+    <div class="col-lg-8 mb-4">
+      <%# Revenue Chart %>
+      <div class="glass-card mb-4">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem;">
+          <div style="display: flex; align-items: center; gap: 1rem;">
+            <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #10B981, #059669); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 2rem;">
+              📈
+            </div>
+            <div>
+              <h3 style="margin-bottom: 0.25rem; font-size: 1.75rem; font-weight: 700;">
+                <span class="gradient-text">Revenue Trends</span>
+              </h3>
+              <p style="color: var(--text-muted); margin: 0;">Last 12 months performance</p>
+            </div>
+          </div>
+          <%= link_to export_revenue_path(format: :csv), class: "btn-outline-gradient" do %>
+            <i class="bi bi-download"></i> Export CSV
+          <% end %>
+        </div>
+
+        <%# Chart Placeholder %>
+        <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-lg); padding: 2rem; height: 400px;">
+          <canvas id="revenueChart"></canvas>
+        </div>
+      </div>
+
+      <%# Revenue Breakdown %>
+      <div class="glass-card">
+        <h4 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem;">
+          <i class="bi bi-pie-chart gradient-text"></i>
+          <span class="gradient-text">Revenue by Type</span>
+        </h4>
+
+        <div class="row">
+          <% @revenue_by_type.each do |type, amount| %>
+            <div class="col-md-6 mb-3">
+              <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-md); padding: 1.5rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                  <span style="color: var(--text-secondary); font-weight: 600;"><%= type %></span>
+                  <span style="color: var(--accent-green); font-weight: 700; font-size: 1.25rem;">
+                    $<%= number_with_precision(amount, precision: 2, delimiter: ',') %>
+                  </span>
+                </div>
+                <div style="background: rgba(255, 255, 255, 0.1); height: 8px; border-radius: 4px; overflow: hidden;">
+                  <div style="background: var(--gradient-primary); height: 100%; width: <%= [@revenue_by_type.values.max > 0 ? (amount / @revenue_by_type.values.max * 100) : 0, 100].min %>%;"></div>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <%# Sidebar Column %>
+    <div class="col-lg-4 mb-4">
+      <%# Top Supporters %>
+      <div class="glass-card mb-4">
+        <h5 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem;">
+          <i class="bi bi-trophy gradient-text"></i>
+          <span class="gradient-text">Top Supporters</span>
+        </h5>
+
+        <% if @top_supporters.any? %>
+          <% @top_supporters.first(5).each_with_index do |supporter, index| %>
+            <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-md); padding: 1rem; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 1rem;">
+              <div style="width: 40px; height: 40px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.25rem;">
+                <%= index + 1 %>
+              </div>
+              <div style="flex: 1;">
+                <div style="font-weight: 600; margin-bottom: 0.25rem;"><%= supporter[:user].username %></div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);"><%= supporter[:payment_count] %> payments</div>
+              </div>
+              <div style="color: var(--accent-green); font-weight: 700;">
+                $<%= number_with_precision(supporter[:total_amount], precision: 2) %>
+              </div>
+            </div>
+          <% end %>
+        <% else %>
+          <div style="background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: var(--radius-md); padding: 1.5rem; text-align: center;">
+            <i class="bi bi-heart" style="font-size: 2.5rem; color: var(--accent-purple); margin-bottom: 0.5rem; display: block;"></i>
+            <p style="color: var(--text-muted); margin: 0; font-size: 0.875rem;">
+              No supporters yet. Share your stream to start receiving donations!
+            </p>
+          </div>
+        <% end %>
+      </div>
+
+      <%# Subscription Stats %>
+      <div class="glass-card mb-4">
+        <h5 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem;">
+          <i class="bi bi-people gradient-text"></i>
+          <span class="gradient-text">Subscription Stats</span>
+        </h5>
+
+        <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 1rem;">
+          <div style="text-align: center;">
+            <div style="font-size: 2.5rem; font-weight: 800; color: var(--accent-blue); margin-bottom: 0.5rem;">
+              <%= @active_subscriptions %>
+            </div>
+            <div style="color: var(--text-muted); font-size: 0.875rem;">Active Subscribers</div>
+          </div>
+        </div>
+
+        <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-md); padding: 1.5rem;">
+          <div style="text-align: center;">
+            <div style="font-size: 2rem; font-weight: 800; color: var(--accent-green); margin-bottom: 0.5rem;">
+              $<%= number_with_precision(@subscription_mrr / 100.0, precision: 2, delimiter: ',') %>
+            </div>
+            <div style="color: var(--text-muted); font-size: 0.875rem;">Monthly Recurring Revenue</div>
+          </div>
+        </div>
+      </div>
+
+      <%# Recent Expenses %>
+      <div class="glass-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+          <h5 style="font-size: 1.25rem; font-weight: 700; margin: 0;">
+            <i class="bi bi-receipt gradient-text"></i>
+            <span class="gradient-text">Recent Expenses</span>
+          </h5>
+          <%= link_to expenses_path, class: "btn-outline-gradient btn-sm" do %>
+            View All
+          <% end %>
+        </div>
+
+        <% if @recent_expenses.any? %>
+          <% @recent_expenses.each do |expense| %>
+            <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-md); padding: 1rem; margin-bottom: 0.75rem;">
+              <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                <div>
+                  <div style="font-weight: 600; margin-bottom: 0.25rem;"><%= expense.category_label %></div>
+                  <div style="font-size: 0.75rem; color: var(--text-muted);"><%= expense.date.strftime('%b %d, %Y') %></div>
+                </div>
+                <div style="color: var(--accent-red); font-weight: 700;">
+                  -$<%= number_with_precision(expense.amount_dollars, precision: 2) %>
+                </div>
+              </div>
+              <% if expense.description.present? %>
+                <div style="font-size: 0.875rem; color: var(--text-muted); margin-top: 0.5rem;">
+                  <%= truncate(expense.description, length: 50) %>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        <% else %>
+          <div style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: var(--radius-md); padding: 1.5rem; text-align: center;">
+            <i class="bi bi-receipt-cutoff" style="font-size: 2.5rem; color: var(--accent-yellow); margin-bottom: 0.5rem; display: block;"></i>
+            <p style="color: var(--text-muted); margin-bottom: 1rem; font-size: 0.875rem;">
+              No expenses tracked yet
+            </p>
+            <%= link_to new_expense_path, class: "btn-gradient-primary btn-sm" do %>
+              <i class="bi bi-plus-circle"></i> Add Expense
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%# Chart.js Script %>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+// Revenue & Expense Trend Chart
+document.addEventListener('DOMContentLoaded', function() {
+  const ctx = document.getElementById('revenueChart');
+
+  const revenueData = <%= raw @monthly_chart_data.to_json %>;
+  const expenseData = <%= raw @monthly_expense_data.to_json %>;
+
+  const labels = Object.keys(revenueData);
+  const revenueValues = Object.values(revenueData);
+  const expenseValues = Object.values(expenseData);
+
+  // Calculate profit for each month
+  const profitValues = revenueValues.map((rev, idx) => rev - expenseValues[idx]);
+
+  // Calculate max value for better scaling
+  const maxRevenue = Math.max(...revenueValues);
+  const maxExpense = Math.max(...expenseValues);
+  const maxValue = Math.max(maxRevenue, maxExpense);
+
+  // Dynamic Y-axis max (add 20% padding)
+  const yMax = maxValue * 1.2;
+
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Revenue',
+          data: revenueValues,
+          borderColor: 'rgb(16, 185, 129)',
+          backgroundColor: 'rgba(16, 185, 129, 0.15)',
+          borderWidth: 3,
+          fill: true,
+          tension: 0.4,
+          pointRadius: 6,
+          pointHoverRadius: 9,
+          pointBackgroundColor: 'rgb(16, 185, 129)',
+          pointBorderColor: '#fff',
+          pointBorderWidth: 2,
+          pointHoverBorderWidth: 3,
+          order: 2
+        },
+        {
+          label: 'Expenses',
+          data: expenseValues,
+          borderColor: 'rgb(239, 68, 68)',
+          backgroundColor: 'rgba(239, 68, 68, 0.15)',
+          borderWidth: 3,
+          fill: true,
+          tension: 0.4,
+          pointRadius: 6,
+          pointHoverRadius: 9,
+          pointBackgroundColor: 'rgb(239, 68, 68)',
+          pointBorderColor: '#fff',
+          pointBorderWidth: 2,
+          pointHoverBorderWidth: 3,
+          order: 3
+        },
+        {
+          label: 'Profit',
+          data: profitValues,
+          borderColor: 'rgb(139, 92, 246)',
+          backgroundColor: function(context) {
+            const chart = context.chart;
+            const {ctx, chartArea} = chart;
+            if (!chartArea) return null;
+
+            const gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
+            gradient.addColorStop(0, 'rgba(139, 92, 246, 0.05)');
+            gradient.addColorStop(1, 'rgba(139, 92, 246, 0.3)');
+            return gradient;
+          },
+          borderWidth: 2,
+          borderDash: [5, 5],
+          fill: true,
+          tension: 0.4,
+          pointRadius: 5,
+          pointHoverRadius: 8,
+          pointBackgroundColor: 'rgb(139, 92, 246)',
+          pointBorderColor: '#fff',
+          pointBorderWidth: 2,
+          order: 1
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: {
+        mode: 'index',
+        intersect: false,
+      },
+      plugins: {
+        legend: {
+          display: true,
+          position: 'top',
+          labels: {
+            color: 'rgba(255, 255, 255, 0.9)',
+            font: {
+              size: 13,
+              weight: 'bold'
+            },
+            padding: 20,
+            usePointStyle: true,
+            pointStyle: 'circle'
+          }
+        },
+        tooltip: {
+          backgroundColor: 'rgba(0, 0, 0, 0.9)',
+          titleColor: '#fff',
+          bodyColor: '#fff',
+          padding: 16,
+          cornerRadius: 12,
+          displayColors: true,
+          borderColor: 'rgba(255, 255, 255, 0.1)',
+          borderWidth: 1,
+          callbacks: {
+            title: function(context) {
+              return context[0].label;
+            },
+            label: function(context) {
+              let label = context.dataset.label || '';
+              if (label) {
+                label += ': ';
+              }
+              const value = context.parsed.y;
+              if (value >= 0) {
+                label += '$' + value.toFixed(2);
+              } else {
+                label += '-$' + Math.abs(value).toFixed(2);
+              }
+              return label;
+            },
+            afterLabel: function(context) {
+              if (context.datasetIndex === 2) { // Profit line
+                const value = context.parsed.y;
+                if (value > 0) {
+                  const percentMargin = ((value / revenueValues[context.dataIndex]) * 100).toFixed(1);
+                  return `(${percentMargin}% margin)`;
+                }
+              }
+              return '';
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: yMax > 0 ? yMax : 100,
+          grid: {
+            color: 'rgba(255, 255, 255, 0.08)',
+            drawBorder: false
+          },
+          border: {
+            display: false
+          },
+          ticks: {
+            color: 'rgba(255, 255, 255, 0.7)',
+            font: {
+              size: 12
+            },
+            padding: 10,
+            callback: function(value) {
+              if (value >= 1000) {
+                return '$' + (value / 1000).toFixed(1) + 'k';
+              }
+              return '$' + value.toFixed(0);
+            }
+          }
+        },
+        x: {
+          grid: {
+            color: 'rgba(255, 255, 255, 0.04)',
+            drawBorder: false
+          },
+          border: {
+            display: false
+          },
+          ticks: {
+            color: 'rgba(255, 255, 255, 0.7)',
+            font: {
+              size: 11
+            },
+            maxRotation: 45,
+            minRotation: 0,
+            autoSkip: true,
+            maxTicksLimit: 12
+          }
+        }
+      },
+      animations: {
+        tension: {
+          duration: 1000,
+          easing: 'easeInOutCubic',
+          from: 0.3,
+          to: 0.4
+        }
+      }
+    }
+  });
+});
+</script>
